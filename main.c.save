@@ -17,12 +17,25 @@
 
 //Struct BOOK containing attributes of the book:
 typedef struct book{
-    char title[51], author[51], year[5], ISBN[14], material[16], category[31];
+    char title[51], author[51], year[5], refNum[14], material[16], category[31];
     int shelfNo, totalStock, borrower, currentStock;
     struct book *nxt;
 }BOOK;
 
-BOOK *head, info;   //declaring head node and info struct variable where to store the initial info before storing in linked list.
+//Struct BORROWER containing attributes of the borrower
+typedef struct borrower{
+    char name[31], TUP_ID[7], password[14], yearSection[15], contactNum[12], email [51];
+}BORROWER;
+
+//Struct TRANSACTION containing attributes of the transaction
+typedef struct transaction{
+    char title[51], author[31], refNum[14], borrower[31], TUP_ID[7];
+    char date_borrowed[11], dateToReturn[11], librarian[31], status[12];
+}TRANSACTION;
+
+BOOK *headBook, infoBook;   //declaring head node and info struct variable where to store the initial info before storing in linked list.
+BORROWER *headBorrower, infoBorrower;
+TRANSACTION *headTransaction, infoTransaction;
 
 HWND WINAPI GetConsoleWindowNT(void);
 void getInfo();
@@ -31,7 +44,7 @@ void update();
 void del();
 void search();
 void display(struct book *p, int start, int end);
-struct book *locate(char ISBN[]);
+struct book *locate(char refNum[]);
 void save();
 void retrieve();
 char* encrypt(char text[]);
@@ -45,9 +58,8 @@ MoveWindow(hWnd,900,900,1200,900,TRUE);
 int choice;
 BOOK *p;
 
-    head=NULL;                   //initializing linked list.
+    headBook=NULL;                   //initializing linked list.
     retrieve();                  //retrieve all previous records.
-    save();
     while(1){
         system("cls");
         switch(menu(choice)){
@@ -70,7 +82,7 @@ BOOK *p;
                 break;
             case 5: system("cls");
                 printf("\n\t\t\t\t\t\tDISPLAYING ALL RECORDS...\n");
-                display(p=head, 0, NULL);
+                display(p=headBook, 0, NULL);
                 break;
             case 6: exit(0);
 
@@ -83,31 +95,31 @@ BOOK *p;
 void getInfo(){
     fflush stdin;
     printf("ENTER BOOK TITLE: ");
-    scanf("%[^\n]", info.title);
+    scanf("%[^\n]", infoBook.title);
     fflush stdin;
     printf("ENTER AUTHOR: ");
-    scanf("%[^\n]", info.author);
+    scanf("%[^\n]", infoBook.author);
     fflush stdin;
     printf("ENTER YEAR PUBLISHED: ");
-    scanf("%s", info.year);
+    scanf("%s", infoBook.year);
     fflush stdin;
-    printf("ENTER ISBN: ");
-    scanf("%s", info.ISBN);
+    printf("ENTER REFERENCE NUMBER: ");
+    scanf("%s", infoBook.refNum);
     fflush stdin;
     printf("ENTER MATERIAL: ");
-    scanf("%s", info.material);
+    scanf("%s", infoBook.material);
     fflush stdin;
     printf("ENTER BOOK CATEGORY: ");
-    scanf("%[^\n]", info.category);
+    scanf("%[^\n]", infoBook.category);
     fflush stdin;
     printf("ENTER SHELF NO.: ");
-    scanf("%d", &info.shelfNo);
+    scanf("%d", &infoBook.shelfNo);
     fflush stdin;
     printf("ENTER TOTAL NO. STOCK: ");
-    scanf("%d", &info.totalStock);
+    scanf("%d", &infoBook.totalStock);
     fflush stdin;
     printf("ENTER TOTAL NO. OF BORROWER: ");
-    scanf("%d", &info.borrower);
+    scanf("%d", &infoBook.borrower);
 }
 
 //The add() function adds a new node to the linked list in alphabetical order, with the info struct as its data.
@@ -115,16 +127,16 @@ int add(){
 BOOK *q, *p, *n;
 
     n= (BOOK*) malloc(sizeof(BOOK));    //allocates memory to n.
-    *n= info;                           //copy info of the book to n.
+    *n= infoBook;                           //copy info of the book to n.
 
-    p=q=head;                           //point all pointers to head.
-    while(p!=NULL && strcmp(info.title, p->title)>=0){
+    p=q=headBook;                           //point all pointers to head.
+    while(p!=NULL && strcmp(infoBook.title, p->title)>=0){
         q=p;
         p=p->nxt;
     }
 
-    if(p==head){    //if to insert at the head.
-        head=n;
+    if(p==headBook){    //if to insert at the head.
+        headBook=n;
     }
     else{           //if to insert in between or at the end.
         q->nxt=n;
@@ -137,13 +149,13 @@ BOOK *q, *p, *n;
 void update() {
 BOOK *p;
 int choice,info;
-char ISBN[11];
+char refNum[14];
 char update[51];
 int updateInt;
 
-    printf("ENTER ISBN OF THE BOOK: ");
-    scanf("%s", ISBN);
-    p = locate(ISBN);
+    printf("ENTER REFERENCE NUMBER OF THE BOOK: ");
+    scanf("%s", refNum);
+    p = locate(refNum);
 
     if(p==NULL){
         printf("\nRECORD NOT FOUND!\n"); system("pause");
@@ -154,7 +166,7 @@ int updateInt;
         printf("\n[1] BOOK TITLE");
         printf("\n[2] AUTHOR");
         printf("\n[3] YEAR PUBLISHED");
-        printf("\n[4] ISBN");
+        printf("\n[4] Reference Number");
         printf("\n[5] MATERIAL");
         printf("\n[6] CATEGORY");
         printf("\n[7] SHELF NO.");
@@ -175,7 +187,7 @@ int updateInt;
                 case 1: strcpy(p->title, update); break;
                 case 2: strcpy(p->author, update); break;
                 case 3: strcpy(p->year, update); break;
-                case 4: strcpy(p->ISBN, update); break;
+                case 4: strcpy(p->refNum, update); break;
                 case 5: strcpy(p->material, update); break;
                 case 6: strcpy(p->category, update); break;
                 case 7: p->shelfNo= updateInt; break;
@@ -190,12 +202,12 @@ int updateInt;
 void del(){
 BOOK *p, *q;
 int choice;
-char ISBN[11];
+char refNum[14];
 
-    printf("ENTER THE ISBN OF THE BOOK: ");
-    scanf("%s", ISBN);
-    p=head;
-    while(p!=NULL && strcmp(ISBN, p->ISBN)!=0){
+    printf("ENTER THE REFERENCE NUMBER OF THE BOOK: ");
+    scanf("%s", refNum);
+    p=headBook;
+    while(p!=NULL && strcmp(refNum, p->refNum)!=0){
         q=p;
         p=p->nxt;
     }
@@ -210,8 +222,8 @@ char ISBN[11];
         fflush stdin;
         scanf("%d", &choice);
         if(choice==1){
-            if(p==head){
-                head=p->nxt;
+            if(p==headBook){
+                headBook=p->nxt;
             }
 
             else{
@@ -225,11 +237,11 @@ char ISBN[11];
 }
 
 //The locate() function searches for the book node with a given ISBN, and returns a pointer to that node if it is found.
-struct book *locate(char ISBN[]){
+struct book *locate(char refNum[]){
 BOOK *p;
 
-    p=head;
-    while(p!=NULL && strcmp(ISBN, p->ISBN)!=0){
+    p=headBook;
+    while(p!=NULL && strcmp(refNum, p->refNum)!=0){
         p=p->nxt;
     }
 
@@ -259,12 +271,12 @@ char* categoryPointer;
 
     system("cls");
     gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("YEAR");
-    gotoxy(60,3); printf("ISBN");  gotoxy(80,3); printf("MATERIAL"); gotoxy(95,3); printf("CATEGORY");
-    gotoxy(110,3); printf("SHELF NO."); gotoxy(125,3); printf("TOTAL STOCK"); gotoxy(135,3); printf("BORROWER");
+    gotoxy(60,3); printf("REFERENCE NUMBER");  gotoxy(80,3); printf("MATERIAL"); gotoxy(95,3); printf("CATEGORY");
+    gotoxy(110,3); printf("SHELF NO."); gotoxy(120,3); printf("TOTAL STOCK"); gotoxy(135,3); printf("BORROWER");
     gotoxy(145,3); printf("CURRENT STOCK");
     gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
 
-    p=head;
+    p=headBook;
     for(i=-1; p!=NULL;){
         switch(searchCategory){ //ipo-point si pointer kung saang search category.
         case 1: categoryPointer= p->title; break;
@@ -280,7 +292,7 @@ char* categoryPointer;
             gotoxy(10,6+i); printf("%s", p->title);
             gotoxy(30,6+i); printf("%s", p->author);
             gotoxy(50,6+i); printf("%s", p->year);
-            gotoxy(60,6+i); printf("%s", p->ISBN);
+            gotoxy(60,6+i); printf("%s", p->refNum);
             gotoxy(80,6+i); printf("%s", p->material);
             gotoxy(95,6+i); printf("%s", p->category);
             gotoxy(110,6+i); printf("%d", p->shelfNo);
@@ -299,7 +311,7 @@ void display(struct book *p, int start, int end){
 int i;
 
     gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("YEAR");
-    gotoxy(60,3); printf("ISBN");  gotoxy(80,3); printf("MATERIAL"); gotoxy(95,3); printf("CATEGORY");
+    gotoxy(60,3); printf("REFERENCE NUMBER");  gotoxy(80,3); printf("MATERIAL"); gotoxy(95,3); printf("CATEGORY");
     gotoxy(110,3); printf("SHELF NO."); gotoxy(120,3); printf("TOTAL STOCK"); gotoxy(135,3); printf("BORROWER");
     gotoxy(145,3); printf("CURRENT STOCK");
     gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
@@ -309,17 +321,17 @@ int i;
         gotoxy(10,6+i); printf("%s", p->title);
         gotoxy(30,6+i); printf("%s", p->author);
         gotoxy(50,6+i); printf("%s", p->year);
-        gotoxy(60,6+i); printf("%s", p->ISBN);
+        gotoxy(60,6+i); printf("%s", p->refNum);
         gotoxy(80,6+i); printf("%s", p->material);
         gotoxy(95,6+i); printf("%s", p->category);
         gotoxy(110,6+i); printf("%d", p->shelfNo);
-        gotoxy(125,6+i); printf("%d", p->totalStock);
+        gotoxy(120,6+i); printf("%d", p->totalStock);
         gotoxy(135,6+i); printf("%d", p->borrower);
         gotoxy(145,6+i); printf("%d", p->totalStock-p->borrower);
         p=p->nxt;
     }
 
-    gotoxy(5,6+i+1); printf("___________________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,6+i+1); printf("_______________________________________________________________________________________________________________________________________________\n");
     gotoxy(5,6+i+3); system("pause");
 }
 
@@ -334,9 +346,9 @@ BOOK *p;
     }
 
     else{
-        p=head;
+        p=headBook;
         while(p!=NULL){
-            fprintf(fp, "%s\n%s\n%s\n%s %s %s %d %d %d\n\n", p->title, p->author, p->category, p->material, p->year, p->ISBN, p->shelfNo, p->totalStock, p->borrower);
+            fprintf(fp, "%s\n%s\n%s\n%s %s %s %d %d %d\n\n", p->title, p->author, p->category, p->material, p->year, p->refNum, p->shelfNo, p->totalStock, p->borrower);
             p=p->nxt;
         }
         fclose(fp);
@@ -356,14 +368,14 @@ BOOK *p;
     else{
         while(1){
             fflush stdin;
-            fscanf(fp, "\n%[^\n]\n", &info.title);
+            fscanf(fp, "\n%[^\n]\n", &infoBook.title);
             fflush stdin;
-            fscanf(fp, "%[^\n]\n", &info.author);
+            fscanf(fp, "%[^\n]\n", &infoBook.author);
             fflush stdin;
             fscanf(fp, "%[^\n]\n", &info.category);
             fflush stdin;
                   //\n%[^\n]\n%[^\n]\n", &info.title, &info.author, &info.category);;
-            fscanf(fp, "%s %s %s %d %d %d", &info.material, &info.year, &info.ISBN, &info.shelfNo, &info.totalStock, &info.borrower);
+            fscanf(fp, "%s %s %s %d %d %d", &info.material, &info.year, &info.refNum, &info.shelfNo, &info.totalStock, &info.borrower);
 
             //decrypting the retrieved info.
             //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
