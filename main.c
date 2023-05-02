@@ -287,7 +287,7 @@ int i;
 
 //The save() function prints the information of all the book node in a text file.
 void saveBook(){
-FILE *fp= fopen("libraryCatalog.txt", "w+");
+FILE *fp= fopen("bookDetails.txt", "w+");
 BOOK *p;
 
     if(fp==NULL){
@@ -307,7 +307,7 @@ BOOK *p;
 
 //retrieve() function retrieves all info from the text file and save each book in the linked list.
 void retrieveBook(){
-FILE *fp= fopen("LibraryCatalog.txt", "r+");
+FILE *fp= fopen("bookDetails.txt", "r+");
 BOOK *p;
 
     if(fp==NULL){

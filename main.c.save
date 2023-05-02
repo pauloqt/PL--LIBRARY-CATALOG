@@ -95,6 +95,18 @@ BOOK *q, *p, *n;
     n->nxt=p;  //insert p at the end which contains next node or NULL.
 }
 
+//The locate() function searches for the book node with a given ISBN, and returns a pointer to that node if it is found.
+struct book *locateBook(char refNum[]){
+BOOK *p;
+
+    p=headBook;
+    while(p!=NULL && strcmp(refNum, p->refNum)!=0){
+        p=p->nxt;
+    }
+
+    return p;
+}
+
 //The update() function prompts the user to enter an ISBN, and then searches for the corresponding book node in the linked list. If found, it displays information about the book and prompts the user to choose which information to update. It then updates the chosen information if the user confirms the update.
 void updateBook() {
 BOOK *p;
@@ -186,18 +198,6 @@ char refNum[14];
     }
 }
 
-//The locate() function searches for the book node with a given ISBN, and returns a pointer to that node if it is found.
-struct book *locateBook(char refNum[]){
-BOOK *p;
-
-    p=headBook;
-    while(p!=NULL && strcmp(refNum, p->refNum)!=0){
-        p=p->nxt;
-    }
-
-    return p;
-}
-
 //The search() function prompts the user to enter a search term, and then searches the linked list for any books whose title, author, or category matches the search term. It displays information about any matching books.
 void searchBook(){
 BOOK *p;
@@ -287,7 +287,7 @@ int i;
 
 //The save() function prints the information of all the book node in a text file.
 void saveBook(){
-FILE *fp= fopen("libraryCatalog.txt", "w+");
+FILE *fp= fopen("bookDetails.txt", "w+");
 BOOK *p;
 
     if(fp==NULL){
