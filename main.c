@@ -38,61 +38,11 @@ BORROWER *headBorrower, infoBorrower;
 TRANSACTION *headTransaction, infoTransaction;
 
 HWND WINAPI GetConsoleWindowNT(void);
-void getInfo();
-int add();
-void update();
-void del();
-void search();
-void display(struct book *p, int start, int end);
-struct book *locate(char refNum[]);
-void save();
-void retrieve();
-char* encrypt(char text[]);
-char* decrypt(char text[]);
-int menu(int choice);
-void gotoxy(int x,int y);
 
-int main(){
-HWND hWnd=GetConsoleWindowNT();
-MoveWindow(hWnd,900,900,1200,900,TRUE);
-int choice;
-BOOK *p;
 
-    headBook=NULL;                   //initializing linked list.
-    retrieve();                  //retrieve all previous records.
-    while(1){
-        system("cls");
-        switch(menu(choice)){
-            case 1: system("cls");
-                printf("\nADD A RECORD\n");
-                getInfo();
-                add();
-                break;
-            case 2: system("cls");
-                printf("\nUPDATE RECORD\n");
-                update();
-                break;
-            case 3: system("cls");
-                printf("\nDELETE RECORD\n");
-                del();
-                break;
-            case 4: system("cls");
-                printf("\nSEARCH RECORD\n");
-                search();
-                break;
-            case 5: system("cls");
-                printf("\n\t\t\t\t\t\tDISPLAYING ALL RECORDS...\n");
-                display(p=headBook, 0, NULL);
-                break;
-            case 6: exit(0);
-
-        }
-        save();
-    }
-}
-
+//BOOK FUNCTIONS
 //The getInfo() function prompts the user to enter information about a book, including its title, author, year published, ISBN, category, total number of stock, and number of borrowers. It stores this information in the info struct variable.
-void getInfo(){
+void getInfoBook(){
     fflush stdin;
     printf("ENTER BOOK TITLE: ");
     scanf("%[^\n]", infoBook.title);
@@ -123,7 +73,7 @@ void getInfo(){
 }
 
 //The add() function adds a new node to the linked list in alphabetical order, with the info struct as its data.
-int add(){
+int addBook(){
 BOOK *q, *p, *n;
 
     n= (BOOK*) malloc(sizeof(BOOK));    //allocates memory to n.
@@ -145,8 +95,20 @@ BOOK *q, *p, *n;
     n->nxt=p;  //insert p at the end which contains next node or NULL.
 }
 
+//The locate() function searches for the book node with a given ISBN, and returns a pointer to that node if it is found.
+struct book *locateBook(char refNum[]){
+BOOK *p;
+
+    p=headBook;
+    while(p!=NULL && strcmp(refNum, p->refNum)!=0){
+        p=p->nxt;
+    }
+
+    return p;
+}
+
 //The update() function prompts the user to enter an ISBN, and then searches for the corresponding book node in the linked list. If found, it displays information about the book and prompts the user to choose which information to update. It then updates the chosen information if the user confirms the update.
-void update() {
+void updateBook() {
 BOOK *p;
 int choice,info;
 char refNum[14];
@@ -155,14 +117,14 @@ int updateInt;
 
     printf("ENTER REFERENCE NUMBER OF THE BOOK: ");
     scanf("%s", refNum);
-    p = locate(refNum);
+    p = locateBook(refNum);
 
     if(p==NULL){
         printf("\nRECORD NOT FOUND!\n"); system("pause");
     }
 
     else{
-        display(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
+        displayBook(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
         printf("\n[1] BOOK TITLE");
         printf("\n[2] AUTHOR");
         printf("\n[3] YEAR PUBLISHED");
@@ -199,7 +161,7 @@ int updateInt;
 }
 
 //The del() function prompts the user to enter an ISBN, and then searches for the corresponding book node in the linked list. If found, it removes the node from the linked list.
-void del(){
+void delBook(){
 BOOK *p, *q;
 int choice;
 char refNum[14];
@@ -217,7 +179,7 @@ char refNum[14];
     }
 
     else{
-        display(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
+        displayBook(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
         printf("\nARE YOU SURE TO DELETE THE RECORD OF %s?\n[1]YES [2]NO : ", p->title);
         fflush stdin;
         scanf("%d", &choice);
@@ -236,20 +198,8 @@ char refNum[14];
     }
 }
 
-//The locate() function searches for the book node with a given ISBN, and returns a pointer to that node if it is found.
-struct book *locate(char refNum[]){
-BOOK *p;
-
-    p=headBook;
-    while(p!=NULL && strcmp(refNum, p->refNum)!=0){
-        p=p->nxt;
-    }
-
-    return p;
-}
-
 //The search() function prompts the user to enter a search term, and then searches the linked list for any books whose title, author, or category matches the search term. It displays information about any matching books.
-void search(){
+void searchBook(){
 BOOK *p;
 char toSearch[51];
 char text[51];
@@ -307,7 +257,7 @@ char* categoryPointer;
 }
 
 //The display() function displays information about all the books in the linked list.
-void display(struct book *p, int start, int end){
+void displayBook(struct book *p, int start, int end){
 int i;
 
     gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("YEAR");
@@ -336,7 +286,7 @@ int i;
 }
 
 //The save() function prints the information of all the book node in a text file.
-void save(){
+void saveBook(){
 FILE *fp= fopen("libraryCatalog.txt", "w+");
 BOOK *p;
 
@@ -356,7 +306,7 @@ BOOK *p;
 }
 
 //retrieve() function retrieves all info from the text file and save each book in the linked list.
-void retrieve(){
+void retrieveBook(){
 FILE *fp= fopen("LibraryCatalog.txt", "r+");
 BOOK *p;
 
@@ -382,7 +332,7 @@ BOOK *p;
             //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
 
             if(!feof(fp)){
-                add();
+                addBook();
                 fflush stdin;
             }
             else{break;}
@@ -392,7 +342,7 @@ BOOK *p;
 }
 
 //encrypt() creates a copy of the original string, encrypts the copy, and returns the encrypted copy.
-char* encrypt(char text[]){                     //char* - return type for string
+char* encryptBook(char text[]){                     //char* - return type for string
 int i=0;
 
     char* encrypted= malloc(strlen(text)+1);    //creates a new char pointer variable that is a copy of the text string, which can be modified without changing the original input string.
@@ -406,7 +356,7 @@ int i=0;
 }
 
 //decrypt() decodes the encrypted text by subtracting the key which is 29 then it returns the text.
-char* decrypt(char text[]){                //char* - return type for string
+char* decryptBook(char text[]){                //char* - return type for string
 int i=0;
 
     for(i=0; text[i]!='\0'; i++){          //loop through each character of encrypted
@@ -417,7 +367,7 @@ int i=0;
 }
 
 //The menu() function displays the main menu of the library catalog program and prompts the user to enter a choice. It returns the user's choice.
-int menu(int choice){
+int menuBook(int choice){
     while(choice<1 || choice>6){
         printf("LIBRARY CATALOG");
         printf("\nMENU");
@@ -436,6 +386,29 @@ int menu(int choice){
     }
     return choice;
 }
+
+
+
+//FOR BORROWER FUNCTIONS
+
+
+
+
+
+
+//FOR TRANSACTIONS FUNCTIONS
+
+
+
+
+
+
+
+
+
+
+
+//PARA SA LAHAT
 
 //The gotoxy() function is used to position the console cursor to a specified location, with the x-coordinate and y-coordinate specified as arguments.
 void gotoxy(int x,int y){   //A function that Sets the fixed place of displays
@@ -464,6 +437,45 @@ HWND WINAPI GetConsoleWindowNT(void)
     }
     //call the undocumented function
     return GetConsoleWindow();
+}
+
+int main(){
+HWND hWnd=GetConsoleWindowNT();
+MoveWindow(hWnd,900,900,1200,900,TRUE);
+int choice;
+BOOK *p;
+
+    headBook=NULL;                   //initializing linked list.
+    retrieveBook();                  //retrieve all previous records.
+    while(1){
+        system("cls");
+        switch(menuBook(choice)){
+            case 1: system("cls");
+                printf("\nADD A RECORD\n");
+                getInfoBook();
+                addBook();
+                break;
+            case 2: system("cls");
+                printf("\nUPDATE RECORD\n");
+                updateBook();
+                break;
+            case 3: system("cls");
+                printf("\nDELETE RECORD\n");
+                delBook();
+                break;
+            case 4: system("cls");
+                printf("\nSEARCH RECORD\n");
+                searchBook();
+                break;
+            case 5: system("cls");
+                printf("\n\t\t\t\t\t\tDISPLAYING ALL RECORDS...\n");
+                displayBook(p=headBook, 0, NULL);
+                break;
+            case 6: exit(0);
+
+        }
+        saveBook();
+    }
 }
 
 
