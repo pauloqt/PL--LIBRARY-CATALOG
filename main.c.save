@@ -47,6 +47,7 @@ BOOK *p;
 
     head=NULL;                   //initializing linked list.
     retrieve();                  //retrieve all previous records.
+    save();
     while(1){
         system("cls");
         switch(menu(choice)){
@@ -259,7 +260,7 @@ char* categoryPointer;
     system("cls");
     gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("YEAR");
     gotoxy(60,3); printf("ISBN");  gotoxy(80,3); printf("MATERIAL"); gotoxy(95,3); printf("CATEGORY");
-    gotoxy(110,3); printf("SHELF NO."); gotoxy(120,3); printf("TOTAL STOCK"); gotoxy(135,3); printf("BORROWER");
+    gotoxy(110,3); printf("SHELF NO."); gotoxy(125,3); printf("TOTAL STOCK"); gotoxy(135,3); printf("BORROWER");
     gotoxy(145,3); printf("CURRENT STOCK");
     gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
 
@@ -312,13 +313,13 @@ int i;
         gotoxy(80,6+i); printf("%s", p->material);
         gotoxy(95,6+i); printf("%s", p->category);
         gotoxy(110,6+i); printf("%d", p->shelfNo);
-        gotoxy(120,6+i); printf("%d", p->totalStock);
+        gotoxy(125,6+i); printf("%d", p->totalStock);
         gotoxy(135,6+i); printf("%d", p->borrower);
         gotoxy(145,6+i); printf("%d", p->totalStock-p->borrower);
         p=p->nxt;
     }
 
-    gotoxy(5,6+i+1); printf("_______________________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,6+i+1); printf("___________________________________________________________________________________________________________________________________________\n");
     gotoxy(5,6+i+3); system("pause");
 }
 
