@@ -128,7 +128,7 @@ int updateInt;
         printf("\n[1] BOOK TITLE");
         printf("\n[2] AUTHOR");
         printf("\n[3] YEAR PUBLISHED");
-        printf("\n[4] Reference Number");
+        printf("\n[4] BOOK REFERENCE NUMBER");
         printf("\n[5] MATERIAL");
         printf("\n[6] CATEGORY");
         printf("\n[7] SHELF NO.");
@@ -307,7 +307,7 @@ BOOK *p;
 
 //retrieve() function retrieves all info from the text file and save each book in the linked list.
 void retrieveBook(){
-FILE *fp= fopen("LibraryCatalog.txt", "r+");
+FILE *fp= fopen("bookDetails.txt", "r+");
 BOOK *p;
 
     if(fp==NULL){
@@ -376,11 +376,11 @@ int menuBook(int choice){
         printf("\n[3] DELETE RECORD");
         printf("\n[4] SEARCH RECORD");
         printf("\n[5] DISPLAY ALL RECORDS");
-        printf("\n[6] EXIT");
+        printf("\n[6] GO BACK");
         printf("\nENTER OPTION: ");
         scanf("%d", &choice);
         if(choice<1 || choice>6){
-            printf("\nENTER 1-6 ONLY!");
+            printf("\nSELECT 1-6 ONLY!");
             system("pause");
         }
     }
@@ -439,43 +439,125 @@ HWND WINAPI GetConsoleWindowNT(void)
     return GetConsoleWindow();
 }
 
+void studentPortal(int optionStudent){
+BOOK *p;
+
+    system("cls");
+    if(optionStudent==1){
+        displayBook(p=headBook, 0, NULL);
+    }
+    else if(optionStudent==2){
+        searchBook();
+    }
+    else if(optionStudent==3){
+        //BORROW
+    }
+    else if(optionStudent==2){
+        //CHANGE PASS
+    }
+    else if(optionStudent==5){
+        return;
+    }
+    else{printf("\nSELECT 1-5 ONLY!");}
+
+}
+
+void adminPortal(int optionAdmin){
+BOOK *p;
+int bookFunctionChoice;
+
+    system("cls");
+    if(optionAdmin==1){
+        while(1){
+            system("cls");
+            switch(menuBook(bookFunctionChoice)){
+                case 1: system("cls");
+                    printf("\nADD A RECORD\n");
+                    getInfoBook();
+                    addBook();
+                    break;
+                case 2: system("cls");
+                    printf("\nUPDATE RECORD\n");
+                    updateBook();
+                    break;
+                case 3: system("cls");
+                    printf("\nDELETE RECORD\n");
+                    delBook();
+                    break;
+                case 4: system("cls");
+                    printf("\nSEARCH RECORD\n");
+                    searchBook();
+                    break;
+                case 5: system("cls");
+                    printf("\n\t\t\t\t\t\tDISPLAYING ALL RECORDS...\n");
+                    displayBook(p=headBook, 0, NULL);
+                    break;
+                case 6: return;
+
+            }
+            saveBook();
+        }
+    }
+
+    else if(optionAdmin==2){
+        //BORROWING RECORD SWITCH CASE
+    }
+
+    else if(optionAdmin==3){
+        return;
+    }
+    else{printf("\nSELECT 1-5 ONLY!");}
+}
+
 int main(){
 HWND hWnd=GetConsoleWindowNT();
 MoveWindow(hWnd,900,900,1200,900,TRUE);
-int choice;
-BOOK *p;
+int optionPortal, optionAdmin, optionStudent;
 
     headBook=NULL;                   //initializing linked list.
     retrieveBook();                  //retrieve all previous records.
-    while(1){
-        system("cls");
-        switch(menuBook(choice)){
-            case 1: system("cls");
-                printf("\nADD A RECORD\n");
-                getInfoBook();
-                addBook();
-                break;
-            case 2: system("cls");
-                printf("\nUPDATE RECORD\n");
-                updateBook();
-                break;
-            case 3: system("cls");
-                printf("\nDELETE RECORD\n");
-                delBook();
-                break;
-            case 4: system("cls");
-                printf("\nSEARCH RECORD\n");
-                searchBook();
-                break;
-            case 5: system("cls");
-                printf("\n\t\t\t\t\t\tDISPLAYING ALL RECORDS...\n");
-                displayBook(p=headBook, 0, NULL);
-                break;
-            case 6: exit(0);
+        while(optionPortal!=3){
+            system("cls");
+            printf("\n[1] STUDENT PORTAL");
+            printf("\n[2] ADMIN PORTAL");
+            printf("\n[3] EXIT PROGRAM");
+            printf("\nSELECT OPTION [1-3]: ");
+            scanf("%d", &optionPortal);
+            switch(optionPortal){
+                case 1:
+                    optionStudent=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
+                    while(optionStudent!=5){
+                        system("cls");
+                        printf("\n[1] DISPLAY ALL BOOKS");
+                        printf("\n[2] SEARCH");
+                        printf("\n[3] BORROW");
+                        printf("\n[4] CHANGE PASSWORD");
+                        printf("\n[5] GO BACK");
+                        printf("\nSELECT OPTION [1-5]: ");
+                        scanf("%d", &optionStudent);
+                        studentPortal(optionStudent);
+                    }
+                    break;
 
+                case 2:
+                    optionAdmin=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
+                    while(optionAdmin!=3){
+                        system("cls");
+                        printf("\n[1] MANAGE BOOK RECORD");
+                        printf("\n[2] MANAGE BORROWING RECORD");
+                        printf("\n[3] GO BACK");
+                        printf("\nSELECT OPTION [1-3]: ");
+                        scanf("%d", &optionAdmin);
+                        adminPortal(optionAdmin);
+
+                    }
+                    break;
+
+                case 3: exit(0); break;
+
+                default: printf("\nCHOOSE 1-2 ONLY!"); break;
+            }
         }
-        saveBook();
-    }
 }
 
 
