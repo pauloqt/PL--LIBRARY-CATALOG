@@ -54,22 +54,17 @@ void getInfoBook(){
     fflush stdin;
     printf("ENTER YEAR PUBLISHED: ");
     scanf("%s", infoBook.year);
-    fflush stdin;
     printf("ENTER REFERENCE NUMBER: ");
     scanf("%s", infoBook.refNum);
-    fflush stdin;
     printf("ENTER MATERIAL: ");
     scanf("%s", infoBook.material);
     fflush stdin;
     printf("ENTER BOOK CATEGORY: ");
     scanf("%[^\n]", infoBook.category);
-    fflush stdin;
     printf("ENTER SHELF NO.: ");
     scanf("%d", &infoBook.shelfNo);
-    fflush stdin;
     printf("ENTER TOTAL NO. STOCK: ");
     scanf("%d", &infoBook.totalStock);
-    fflush stdin;
     printf("ENTER TOTAL NO. OF BORROWER: ");
     scanf("%d", &infoBook.borrower);
 }
@@ -390,31 +385,28 @@ int menuBook(int choice){
     return choice;
 }
 
-
-
 //FOR BORROWER FUNCTIONS
 
 void getInfoBorrower(){
     system("cls");
-    printf("Please fill up the form\n\n");
+    printf("COMPLETE THE INFORMATION BELOW\n\n");
     printf("TUP ID (Ex. 123456): TUP-M ");
     scanf("%s", &infoBorrower.TUP_ID);
-    printf("Password: ");
+    printf("PASSWORD: ");
     scanf("%s", &infoBorrower.password);
-    printf("Name (Ex. Juan A. Dela Cruz): ");
+    printf("NAME (EX. JUAN A. DELA CRUZ): ");
     fflush stdin;
     scanf("%[^\n]", &infoBorrower.name);
-    printf("Year and section (Ex. BSCSNS2A): ");
+    printf("COURSE AND SECTION (EX: BSCS-NS2A: ");
     scanf("%s", &infoBorrower.yearSection);
-    printf("Contact Number (Ex. 09123456789): ");
+    printf("CONTACT NUMBER (Ex. 09123456789): ");
     scanf("%s", &infoBorrower.contactNum);
-    printf("Email (Ex. juandelacruz@tup.edu.ph): ");
+    printf("EMAIL ADDRESS (Ex. juandelacruz@tup.edu.ph): ");
     scanf("%s", &infoBorrower.email);
 }
 
 int addBorrower(){
-
-    BORROWER *q, *p, *n;
+BORROWER *q, *p, *n;
 
      n= (BORROWER*)malloc(sizeof(BORROWER));    //allocates memory to n.
     *n= infoBorrower;                           //copy info of the book to n.
@@ -431,7 +423,6 @@ int addBorrower(){
     else{           //if to insert in between or at the end.
         q->nxt=n;
     }
-
     n->nxt=p;  //insert p at the end which contains next node or NULL.
 }
 
@@ -445,15 +436,14 @@ BORROWER *p;
         system("pause");
     }
     else{
-        printf("dumaan");
         p=headBorrower;
         while(p!=NULL){
             fprintf(fp, "%s\n%s %s %s %s %s\n\n", p->name, p->TUP_ID, p->password, p->yearSection, p->contactNum, p->email);
             p=p->nxt;
         }
         fclose(fp);
-        printf("Successfully Registered\n");
-
+        printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
+        system("pause");
     }
 }
 
@@ -494,8 +484,9 @@ void loginBorrower(){
     char enteredID[7], enteredPass[7];
     int flag = 0, tries = 3;
 
-
+    
     while (tries > 0 && flag == 0) {
+        system("cls");
         printf("Please enter your TUP ID: ");
         scanf("%s", enteredID);
         printf("Please enter your password: ");
@@ -527,10 +518,7 @@ void loginBorrower(){
 void borrowBook(){
 
 
-
 }
-
-
 
 //FOR TRANSACTIONS FUNCTIONS
 
@@ -576,14 +564,15 @@ int logInOrRegister;
     if(optionStudent==1){
         displayBook(p=headBook, 0, NULL);
     }
+
     else if(optionStudent==2){
         searchBook();
     }
     else if(optionStudent==3){
-
         system("cls");
-        printf("Borrow books\n\n");
-        printf("[1] LOGIN\n [2] REGISTER\n");
+        printf("BORROW BOOK");
+        printf("\n[1] LOGIN\n[2] REGISTER");
+        printf("\nSELECT OPTION (1-2): ");
         scanf("%d",&logInOrRegister);
         if (logInOrRegister ==1){
             loginBorrower();
@@ -594,14 +583,13 @@ int logInOrRegister;
             loginBorrower();
         }
     }
-    else if(optionStudent==2){
+    else if(optionStudent==4){
         //CHANGE PASS
     }
     else if(optionStudent==5){
         return;
     }
     else{printf("\nSELECT 1-5 ONLY!");}
-
 }
 
 void adminPortal(int optionAdmin){
