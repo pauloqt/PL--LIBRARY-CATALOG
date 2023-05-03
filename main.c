@@ -32,7 +32,7 @@ typedef struct borrower{
 typedef struct transaction{
     char title[51], author[31], refNum[14], borrower[31], TUP_ID[7];
     char date_borrowed[11], dateToReturn[11], librarian[31], status[12];
-    struct borrower *nxt;
+    struct transaction *nxt;
 }TRANSACTION;
 
 BOOK *headBook, infoBook;   //declaring head node and info struct variable where to store the initial info before storing in linked list.
@@ -387,22 +387,38 @@ int menuBook(int choice){
 
 //FOR BORROWER FUNCTIONS
 
+BORROWER *locateTUP_ID(){
+BORROWER *p;
+
+    p=headBorrower;
+        while(p!=NULL && strcmp(p->TUP_ID, infoBorrower.TUP_ID)!=0){
+        p=p->nxt;
+    }
+    return p;
+}
+
 void getInfoBorrower(){
     system("cls");
     printf("COMPLETE THE INFORMATION BELOW\n\n");
     printf("TUP ID (Ex. 123456): TUP-M ");
     scanf("%s", &infoBorrower.TUP_ID);
-    printf("PASSWORD: ");
-    scanf("%s", &infoBorrower.password);
-    printf("NAME (EX. JUAN A. DELA CRUZ): ");
-    fflush stdin;
-    scanf("%[^\n]", &infoBorrower.name);
-    printf("COURSE AND SECTION (EX: BSCS-NS2A: ");
-    scanf("%s", &infoBorrower.yearSection);
-    printf("CONTACT NUMBER (Ex. 09123456789): ");
-    scanf("%s", &infoBorrower.contactNum);
-    printf("EMAIL ADDRESS (Ex. juandelacruz@tup.edu.ph): ");
-    scanf("%s", &infoBorrower.email);
+    if(locateTUP_ID()!=NULL){
+        printf("\nYOUR TUP ID IS ALREADY REGISTERED!\n"); system("pause");
+    }
+    else{
+        printf("PASSWORD: ");
+        scanf("%s", &infoBorrower.password);
+        printf("NAME (EX. JUAN A. DELA CRUZ): ");
+        fflush stdin;
+        scanf("%[^\n]", &infoBorrower.name);
+        printf("COURSE AND SECTION (EX: BSCS-NS2A: ");
+        scanf("%s", &infoBorrower.yearSection);
+        printf("CONTACT NUMBER (Ex. 09123456789): ");
+        scanf("%s", &infoBorrower.contactNum);
+        printf("EMAIL ADDRESS (Ex. juandelacruz@tup.edu.ph): ");
+        scanf("%s", &infoBorrower.email);
+        printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
+    }
 }
 
 int addBorrower(){
@@ -442,7 +458,6 @@ BORROWER *p;
             p=p->nxt;
         }
         fclose(fp);
-        printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
         system("pause");
     }
 }
