@@ -408,6 +408,8 @@ void getInfoBorrower(){
     scanf("%s", &infoBorrower.yearSection);
     printf("Contact Number (Ex. 09123456789): ");
     scanf("%s", &infoBorrower.contactNum);
+    printf("Email (Ex. juandelacruz@tup.edu.ph): ");
+    scanf("%s", &infoBorrower.email);
 }
 
 int addBorrower(){
@@ -446,13 +448,43 @@ BORROWER *p;
         printf("dumaan");
         p=headBorrower;
         while(p!=NULL){
-            fprintf(fp, "%s\n%s\n%s\n%s\n%s ", p->name, p->TUP_ID, p->password, p->yearSection, p->contactNum);
+            fprintf(fp, "%s\n%s %s %s %s %s\n\n", p->name, p->TUP_ID, p->password, p->yearSection, p->contactNum, p->email);
             p=p->nxt;
         }
         fclose(fp);
         printf("Successfully Registered\n");
 
     }
+}
+
+//retrieve() function retrieves all info from the text file and save each book in the linked list.
+void retrieveBorrower(){
+FILE *fp= fopen("borrowerDetails.txt", "r+");
+BOOK *p;
+
+    if(fp==NULL){
+        printf("THE FILE ""borrowerDetails.txt"" DOES NOT EXIST\n");
+        system("pause");
+    }
+
+    else{
+        while(1){
+            fflush stdin;
+            fscanf(fp, "\n%[^\n]\n", &infoBorrower.name);
+            fflush stdin;
+            fscanf(fp, "%s %s %s %s\n\n", infoBorrower.TUP_ID, infoBorrower.password, infoBorrower.yearSection, infoBorrower.contactNum);
+            //decrypting the retrieved info.
+            //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
+            //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
+
+            if(!feof(fp)){
+                addBorrower();
+                fflush stdin;
+            }
+            else{break;}
+        }
+    }
+    fclose(fp);
 }
 
 void loginBorrower(){
@@ -469,9 +501,10 @@ void loginBorrower(){
         printf("Please enter your password: ");
         scanf("%s", enteredPass);
 
+        p=headBorrower;
         while (p != NULL) {
             if (strcmp(p->TUP_ID, enteredID) == 0 && strcmp(p->password, enteredPass) == 0) {
-                printf("Login successful!\n");
+                printf("Login successful!\n"); system("pause");
                 flag = 1;
                 break;
             }
@@ -481,14 +514,22 @@ void loginBorrower(){
         if (flag == 0) {
             printf("Invalid TUP ID or password. ");
             tries--;
-            printf("You have %d tries left.\n", tries);
+            printf("\nYou have %d tries left.\n", tries);
         }
+        system("pause");
     }
 
     if (tries == 0) {
         printf("You have exceeded the maximum number of tries.\n");
         }
 }
+
+void borrowBook(){
+
+
+
+}
+
 
 
 //FOR TRANSACTIONS FUNCTIONS
@@ -529,7 +570,7 @@ HWND WINAPI GetConsoleWindowNT(void)
 
 void studentPortal(int optionStudent){
 BOOK *p;
-int logInOrRegister
+int logInOrRegister;
 
     system("cls");
     if(optionStudent==1){
@@ -545,12 +586,12 @@ int logInOrRegister
         printf("[1] LOGIN\n [2] REGISTER\n");
         scanf("%d",&logInOrRegister);
         if (logInOrRegister ==1){
-            loginUser();
+            loginBorrower();
         }else{
             getInfoBorrower();
             addBorrower();
             saveInfoBorrower();
-            loginBorrowe();
+            loginBorrower();
         }
     }
     else if(optionStudent==2){
@@ -617,6 +658,7 @@ int optionPortal, optionAdmin, optionStudent;
 
     headBook=NULL;                   //initializing linked list.
     retrieveBook();                  //retrieve all previous records.
+    retrieveBorrower();
         while(optionPortal!=3){
             system("cls");
             printf("\n[1] STUDENT PORTAL");
