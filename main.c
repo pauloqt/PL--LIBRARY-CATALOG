@@ -41,7 +41,6 @@ TRANSACTION *headTransaction, infoTransaction;
 
 HWND WINAPI GetConsoleWindowNT(void);
 
-
 //BOOK FUNCTIONS
 //The getInfo() function prompts the user to enter information about a book, including its title, author, year published, ISBN, category, total number of stock, and number of borrowers. It stores this information in the info struct variable.
 void getInfoBook(){
@@ -387,11 +386,11 @@ int menuBook(int choice){
 
 //FOR BORROWER FUNCTIONS
 
-BORROWER *locateTUP_ID(){
+BORROWER *locateTUP_ID(char TUP_ID[]){
 BORROWER *p;
 
     p=headBorrower;
-        while(p!=NULL && strcmp(p->TUP_ID, infoBorrower.TUP_ID)!=0){
+        while(p!=NULL && strcmp(p->TUP_ID, TUP_ID)!=0){
         p=p->nxt;
     }
     return p;
@@ -402,7 +401,7 @@ void getInfoBorrower(){
     printf("COMPLETE THE INFORMATION BELOW\n\n");
     printf("TUP ID (Ex. 123456): TUP-M ");
     scanf("%s", &infoBorrower.TUP_ID);
-    if(locateTUP_ID()!=NULL){
+    if(locateTUP_ID(infoBorrower.TUP_ID)!=NULL){
         printf("\nYOUR TUP ID IS ALREADY REGISTERED!\n"); system("pause");
     }
     else{
@@ -494,30 +493,25 @@ BOOK *p;
 
 void loginBorrower(){
 
-    BORROWER *p = headBorrower;
+BORROWER *p;
+char enteredID[7], enteredPass[7];
+int tries=3, flag=0;
 
-    char enteredID[7], enteredPass[7];
-    int flag = 0, tries = 3;
 
-
-    while (tries > 0 && flag == 0) {
+    while (tries > 0 && flag==0) {
         system("cls");
         printf("Please enter your TUP ID: ");
         scanf("%s", enteredID);
         printf("Please enter your password: ");
         scanf("%s", enteredPass);
 
-        p=headBorrower;
-        while (p != NULL) {
-            if (strcmp(p->TUP_ID, enteredID) == 0 && strcmp(p->password, enteredPass) == 0) {
-                printf("Login successful!\n"); system("pause");
-                flag = 1;
-                break;
-            }
-            p = p->nxt;
+        p=locateTUP_ID(enteredID);
+        if(p!=NULL && strcmp(enteredPass, p->password)==0){     //para di need i-compare lahat ng pass, ID lang.
+            printf("Login successful!\n"); system("pause");
+            flag=1;
         }
 
-        if (flag == 0) {
+        else{
             printf("Invalid TUP ID or password. ");
             tries--;
             printf("\nYou have %d tries left.\n", tries);
@@ -525,7 +519,6 @@ void loginBorrower(){
             system("cls");
         }
     }
-
     if (tries == 0) {
         printf("You have exceeded the maximum number of tries.\n");
         system("pause");
