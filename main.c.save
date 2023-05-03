@@ -25,12 +25,14 @@ typedef struct book{
 //Struct BORROWER containing attributes of the borrower
 typedef struct borrower{
     char name[31], TUP_ID[7], password[14], yearSection[15], contactNum[12], email [51];
+    struct borrower *nxt;
 }BORROWER;
 
 //Struct TRANSACTION containing attributes of the transaction
 typedef struct transaction{
     char title[51], author[31], refNum[14], borrower[31], TUP_ID[7];
     char date_borrowed[11], dateToReturn[11], librarian[31], status[12];
+    struct borrower *nxt;
 }TRANSACTION;
 
 BOOK *headBook, infoBook;   //declaring head node and info struct variable where to store the initial info before storing in linked list.
@@ -369,6 +371,7 @@ int i=0;
 //The menu() function displays the main menu of the library catalog program and prompts the user to enter a choice. It returns the user's choice.
 int menuBook(int choice){
     while(choice<1 || choice>6){
+        system("cls");
         printf("LIBRARY CATALOG");
         printf("\nMENU");
         printf("\n[1] ADD RECORD");
@@ -380,7 +383,7 @@ int menuBook(int choice){
         printf("\nENTER OPTION: ");
         scanf("%d", &choice);
         if(choice<1 || choice>6){
-            printf("\nSELECT 1-6 ONLY!");
+            printf("\nSELECT 1-6 ONLY!\n");
             system("pause");
         }
     }
@@ -391,19 +394,104 @@ int menuBook(int choice){
 
 //FOR BORROWER FUNCTIONS
 
+void getInfoBorrower(){
+    system("cls");
+    printf("Please fill up the form\n\n");
+    printf("TUP ID (Ex. 123456): TUP-M ");
+    scanf("%s", &infoBorrower.TUP_ID);
+    printf("Password: ");
+    scanf("%s", &infoBorrower.password);
+    printf("Name (Ex. Juan A. Dela Cruz): ");
+    fflush stdin;
+    scanf("%[^\n]", &infoBorrower.name);
+    printf("Year and section (Ex. BSCSNS2A): ");
+    scanf("%s", &infoBorrower.yearSection);
+    printf("Contact Number (Ex. 09123456789): ");
+    scanf("%s", &infoBorrower.contactNum);
+}
+
+int addBorrower(){
+
+    BORROWER *q, *p, *n;
+
+     n= (BORROWER*)malloc(sizeof(BORROWER));    //allocates memory to n.
+    *n= infoBorrower;                           //copy info of the book to n.
+
+    p=q=headBorrower;                           //point all pointers to head.
+    while(p!=NULL && strcmp(infoBorrower.name, p->name)>=0){
+        q=p;
+        p=p->nxt;
+    }
+
+    if(p==headBorrower){    //if to insert at the head.
+        headBorrower=n;
+    }
+    else{           //if to insert in between or at the end.
+        q->nxt=n;
+    }
+
+    n->nxt=p;  //insert p at the end which contains next node or NULL.
+}
+
+void saveInfoBorrower(){//"borrowerDetails.txt"
+
+FILE *fp= fopen("borrowerDetails.txt", "w+");
+BORROWER *p;
+
+    if(fp==NULL){
+        printf("\nTHE FILE ""borrowerDetails.txt"" DOES NOT EXIST\n");
+        system("pause");
+    }
+    else{
+        printf("dumaan");
+        p=headBorrower;
+        while(p!=NULL){
+            fprintf(fp, "%s\n%s\n%s\n%s\n%s ", p->name, p->TUP_ID, p->password, p->yearSection, p->contactNum);
+            p=p->nxt;
+        }
+        fclose(fp);
+        printf("Successfully Registered\n");
+
+    }
+}
+
+void loginBorrower(){
+
+    BORROWER *p = headBorrower;
+
+    char enteredID[7], enteredPass[7];
+    int flag = 0, tries = 3;
 
 
+    while (tries > 0 && flag == 0) {
+        printf("Please enter your TUP ID: ");
+        scanf("%s", enteredID);
+        printf("Please enter your password: ");
+        scanf("%s", enteredPass);
 
+        while (p != NULL) {
+            if (strcmp(p->TUP_ID, enteredID) == 0 && strcmp(p->password, enteredPass) == 0) {
+                printf("Login successful!\n");
+                flag = 1;
+                break;
+            }
+            p = p->nxt;
+        }
+
+        if (flag == 0) {
+            printf("Invalid TUP ID or password. ");
+            tries--;
+            printf("You have %d tries left.\n", tries);
+        }
+    }
+
+    if (tries == 0) {
+        printf("You have exceeded the maximum number of tries.\n");
+        }
+}
 
 
 //FOR TRANSACTIONS FUNCTIONS
-
-
-
-
-
-
-
 
 
 
@@ -441,6 +529,7 @@ HWND WINAPI GetConsoleWindowNT(void)
 
 void studentPortal(int optionStudent){
 BOOK *p;
+int logInOrRegister
 
     system("cls");
     if(optionStudent==1){
@@ -450,7 +539,19 @@ BOOK *p;
         searchBook();
     }
     else if(optionStudent==3){
-        //BORROW
+
+        system("cls");
+        printf("Borrow books\n\n");
+        printf("[1] LOGIN\n [2] REGISTER\n");
+        scanf("%d",&logInOrRegister);
+        if (logInOrRegister ==1){
+            loginUser();
+        }else{
+            getInfoBorrower();
+            addBorrower();
+            saveInfoBorrower();
+            loginBorrowe();
+        }
     }
     else if(optionStudent==2){
         //CHANGE PASS
@@ -559,7 +660,6 @@ int optionPortal, optionAdmin, optionStudent;
             }
         }
 }
-
 
 
 
