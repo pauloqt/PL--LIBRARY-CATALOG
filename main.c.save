@@ -556,6 +556,7 @@ int tries=3, flag=0;
         if(p!=NULL && strcmp(enteredPass, p->password)==0){     //para di need i-compare lahat ng pass, ID lang.
             printf("\nLOGIN SUCCESSFUL!\n"); system("pause");
             flag=1;
+            return p->TUP_ID;
         }
 
         else{
@@ -569,9 +570,7 @@ int tries=3, flag=0;
     if (tries == 0) {
         printf("YOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
         system("pause");
-        return;
     }
-    return p->TUP_ID;
 }
 
 void borrowBook(char ID[7]){
