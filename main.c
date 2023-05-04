@@ -569,16 +569,13 @@ HWND WINAPI GetConsoleWindowNT(void)
 void studentPortal(int optionStudent){
 BOOK *p;
 int logInOrRegister;
+    switch(optionStudent){
 
-    system("cls");
-    if(optionStudent==1){
-        displayBook(p=headBook, 0, NULL);
-    }
-
-    else if(optionStudent==2){
-        searchBook();
-    }
-    else if(optionStudent==3){
+    case 1:
+        system("cls");  displayBook(p=headBook, 0, NULL); break;
+    case 2:
+        system("cls"); searchBook(); break;
+    case 3:
         system("cls");
         printf("BORROW BOOK");
         printf("\n[1] LOGIN\n[2] REGISTER");
@@ -586,20 +583,22 @@ int logInOrRegister;
         scanf("%d",&logInOrRegister);
         if (logInOrRegister ==1){
             loginBorrower();
-        }else{
+        }
+        else if(logInOrRegister==2){
             getInfoBorrower();
             addBorrower();
             saveInfoBorrower();
             loginBorrower();
         }
-    }
-    else if(optionStudent==4){
-        //CHANGE PASS
-    }
-    else if(optionStudent==5){
+        else{printf("\nSELECT 1-2 ONLY!\n"); system("pause");}
+        break;
+    case 4:
+        system("cls"); break; //CHANGE PASS
+    case 5:
         return;
+    default:
+        printf("\nSELECT 1-5 ONLY!\n"); system("pause"); break;
     }
-    else{printf("\nSELECT 1-5 ONLY!");}
 }
 
 void adminPortal(int optionAdmin){
@@ -607,22 +606,23 @@ BOOK *p;
 int bookFunctionChoice;
 
     system("cls");
-    if(optionAdmin==1){
+    switch(optionAdmin){
+    case 1:
         while(1){
             system("cls");
             switch(menuBook(bookFunctionChoice)){
                 case 1: system("cls");
                     printf("\nADD A RECORD\n");
                     getInfoBook();
-                    addBook();
+                    addBook(); saveBook();
                     break;
                 case 2: system("cls");
                     printf("\nUPDATE RECORD\n");
-                    updateBook();
+                    updateBook(); saveBook();
                     break;
                 case 3: system("cls");
                     printf("\nDELETE RECORD\n");
-                    delBook();
+                    delBook(); saveBook();
                     break;
                 case 4: system("cls");
                     printf("\nSEARCH RECORD\n");
@@ -635,18 +635,16 @@ int bookFunctionChoice;
                 case 6: return;
 
             }
-            saveBook();
         }
-    }
-
-    else if(optionAdmin==2){
+    case 2:
         //BORROWING RECORD SWITCH CASE
-    }
-
-    else if(optionAdmin==3){
+        break;
+    case 3:
         return;
+    default:
+        printf("\nSELECT 1-5 ONLY!\n"); system("pause"); break;
+
     }
-    else{printf("\nSELECT 1-5 ONLY!");}
 }
 
 int main(){
@@ -696,11 +694,8 @@ int optionPortal, optionAdmin, optionStudent;
 
                 case 3: exit(0); break;
 
-                default: printf("\nCHOOSE 1-2 ONLY!"); break;
+                default: printf("\nCHOOSE 1-3 ONLY!\n"); system("pause"); break;
             }
         }
 }
-
-
-
 
