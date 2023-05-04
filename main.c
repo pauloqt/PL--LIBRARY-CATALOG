@@ -519,7 +519,7 @@ BOOK *p;
     fclose(fp);
 }
 
-void loginBorrower(){
+BORROWER* loginBorrower(){
 
 BORROWER *p;
 char enteredID[7], enteredPass[7];
@@ -552,14 +552,87 @@ int tries=3, flag=0;
         printf("YOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
         system("pause");
     }
+    return p->TUP_ID;
 }
 
-void borrowBook(){
+void borrowBook(char ID[7]){
+BOOK *pBook;
+BORROWER *pBorrower;
+TRANSACTION *pTransaction;
+char enteredBookRef[14];
+int ch;
 
+    pBorrower=locateTUP_ID(ID);
+    pTransaction=headTransaction;
 
+    system("cls");
+    printf("\nWELCOME, %s\n", pBorrower->name);
+    printf("\nENTER THE BOOK REFERENCE NO. : ");
+    scanf("%s", enteredBookRef);
+
+    pBook= locateBook(enteredBookRef);
+
+    if(pBook==NULL){
+       printf("\nBOOK NOT FOUND!\n"); system("pause");
+    }
+
+    else{
+        system("cls");
+        displayBook(pBook,0,pBook->nxt);
+        system("cls");
+        printf("\nSTUDENT NAME: %s", pBorrower->name);
+        strcpy(infoTransaction.borrower, pBorrower->name);
+        printf("\nTUP ID NO.: %s", pBorrower->TUP_ID);
+        strcpy(infoTransaction.TUP_ID, pBorrower->TUP_ID);
+        printf("\nBOOK TO BORROW: %s", pBook->title);
+        strcpy(infoTransaction.title, pBook->title);
+        printf("\nBOOK AUTHOR: %s", pBook->author);
+        strcpy(infoTransaction.author, pBook->author);
+        strcpy(infoTransaction.refNum, pBook->refNum);
+        printf("\nENTER DATE BORROWED [MM/DD/YY]: ");
+        scanf("%s", infoTransaction.dateBorrowed);
+        printf("\nENTER DATE TO RETURN [MM/DD/YY]: ");
+        scanf("%s", infoTransaction.dateToReturn);
+        printf("\nLIBRARIAN IN CHARGE: (EDIT)");
+        scanf("%s", infoTransaction.librarian);
+        strcpy(infoTransaction.status, "TO RETURN");
+        printf("\nDO YOU WANT TO PROCEED WITH THE TRANSACTION?\n[1] YES [2] NO\n");
+        scanf("%d", &ch);
+        if(ch==1){
+            addTransaction();
+            pBook->borrower+=1;
+            saveTransaction();
+            saveBook();
+        }
+        else{
+            return;
+        }
+
+    }
 }
 
 //FOR TRANSACTIONS FUNCTIONS
+
+int addTransaction(){
+TRANSACTION *q, *p, *n;
+
+    n= (TRANSACTION*) malloc(sizeof(TRANSACTION));    //allocates memory to n.
+    *n= infoTransaction;                           //copy info of the book to n.
+
+    p=q=headTransaction;                           //point all pointers to head.
+    while(p!=NULL){
+        q=p;
+        p=p->nxt;
+    }
+
+    if(p==headTransaction){    //if to insert at the head.
+        headTransaction=n;
+    }
+    else{           //if to insert in between or at the end.
+        q->nxt=n;
+    }
+    n->nxt=p;  //insert p at the end which contains next node or NULL.
+}
 
 void saveTransaction(){
 FILE *fp= fopen("transactionDetails.txt", "w+");
@@ -574,6 +647,7 @@ TRANSACTION *p;
         p=headTransaction;
         while(p!=NULL){
             fprintf(fp, "%s\n%s\n%s\n%s\n%s %s %s %s %s\n\n", p->title, p->author, p->refNum, p->borrower, p->TUP_ID, p->dateBorrowed, p->dateToReturn, p->librarian, p->status);
+            p=p->nxt;
         }
         fclose(fp);
     }
@@ -654,6 +728,8 @@ HWND WINAPI GetConsoleWindowNT(void)
 void studentPortal(int optionStudent){
 BOOK *p;
 int logInOrRegister;
+char ID[7];
+
     switch(optionStudent){
 
     case 1:
@@ -661,19 +737,23 @@ int logInOrRegister;
     case 2:
         system("cls"); searchBook(); break;
     case 3:
+        retrieveTransaction();
         system("cls");
         printf("BORROW BOOK");
         printf("\n[1] LOGIN\n[2] REGISTER\n[3] GO BACK");
         printf("\nSELECT OPTION (1-2): ");
         scanf("%d",&logInOrRegister);
         if (logInOrRegister ==1){
-            loginBorrower();
+            strcpy(ID, loginBorrower());
+            borrowBook(ID);
         }
+
         else if(logInOrRegister==2){
             getInfoBorrower();
             addBorrower();
             saveInfoBorrower();
-            loginBorrower();
+            strcpy(ID, loginBorrower());
+            borrowBook(ID);
         }
         else if(logInOrRegister==3){
             return;
@@ -743,6 +823,9 @@ MoveWindow(hWnd,900,900,1200,900,TRUE);
 int optionPortal, optionAdmin, optionStudent;
 
     headBook=NULL;                   //initializing linked list.
+    headBorrower=NULL;
+    headTransaction=NULL;
+
     retrieveBook();                  //retrieve all previous records.
     retrieveBorrower();
         while(optionPortal!=3){
