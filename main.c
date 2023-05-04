@@ -341,6 +341,12 @@ BOOK *p;
     fclose(fp);
 }
 
+
+
+
+
+
+
 //encrypt() creates a copy of the original string, encrypts the copy, and returns the encrypted copy.
 char* encryptBook(char text[]){                     //char* - return type for string
 int i=0;
@@ -387,17 +393,297 @@ int menuBook(int choice){
     return choice;
 }
 
+int menuTransaction(int choice){
+    while(choice<1 || choice>4){
+        system("cls");
+        printf("TRANSACTION RECORD");
+        printf("\nMENU");
+        printf("\n[1] EDIT STATUS");
+        printf("\n[2] SEARCH BORROWING RECORD");
+        printf("\n[3] DISPLAY ALL BORROWING RECORD");
+        printf("\n[4] GO BACK");
+        printf("\nENTER OPTION: ");
+        scanf("%d", &choice);
+        if(choice<1 || choice>4){
+            printf("\nSELECT 1-4 ONLY!\n");
+            system("pause");
+        }
+    }
+    return choice;
+}
+
 
 
 //FOR BORROWER FUNCTIONS
 
+BORROWER *locateTUP_ID(char TUP_ID[]){
+BORROWER *p;
+
+    p=headBorrower;
+        while(p!=NULL && strcmp(p->TUP_ID, TUP_ID)!=0){
+        p=p->nxt;
+    }
+    return p;
+}
+
+void getInfoBorrower(){
+    system("cls");
+    printf("COMPLETE THE INFORMATION BELOW\n\n");
+    printf("TUP ID (Ex. 123456): TUP-M ");
+    scanf("%s", &infoBorrower.TUP_ID);
+    if(locateTUP_ID(infoBorrower.TUP_ID)!=NULL){
+        printf("\nYOUR TUP ID IS ALREADY REGISTERED!\n"); system("pause");
+    }
+    else{
+        printf("PASSWORD: ");
+        scanf("%s", &infoBorrower.password);
+        printf("NAME (EX. JUAN A. DELA CRUZ): ");
+        fflush stdin;
+        scanf("%[^\n]", &infoBorrower.name);
+        printf("COURSE AND SECTION (EX: BSCS-NS2A: ");
+        scanf("%s", &infoBorrower.yearSection);
+        printf("CONTACT NUMBER (Ex. 09123456789): ");
+        scanf("%s", &infoBorrower.contactNum);
+        printf("EMAIL ADDRESS (Ex. juandelacruz@tup.edu.ph): ");
+        scanf("%s", &infoBorrower.email);
+        printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
+    }
+}
+
+int addBorrower(){
+BORROWER *q, *p, *n;
+
+     n= (BORROWER*)malloc(sizeof(BORROWER));    //allocates memory to n.
+    *n= infoBorrower;                           //copy info of the book to n.
+
+    p=q=headBorrower;                           //point all pointers to head.
+    while(p!=NULL && strcmp(infoBorrower.name, p->name)>=0){
+        q=p;
+        p=p->nxt;
+    }
+
+    if(p==headBorrower){    //if to insert at the head.
+        headBorrower=n;
+    }
+    else{           //if to insert in between or at the end.
+        q->nxt=n;
+    }
+    n->nxt=p;  //insert p at the end which contains next node or NULL.
+}
+
+void saveInfoBorrower(){//"borrowerDetails.txt"
+
+FILE *fp= fopen("borrowerDetails.txt", "w+");
+BORROWER *p;
+
+    if(fp==NULL){
+        printf("\nTHE FILE ""borrowerDetails.txt"" DOES NOT EXIST\n");
+        system("pause");
+    }
+    else{
+        p=headBorrower;
+        while(p!=NULL){
+            fprintf(fp, "%s\n%s %s %s %s %s\n\n", p->name, p->TUP_ID, p->password, p->yearSection, p->contactNum, p->email);
+            p=p->nxt;
+        }
+        fclose(fp);
+        system("pause");
+    }
+}
+
+//retrieve() function retrieves all info from the text file and save each book in the linked list.
+void retrieveBorrower(){
+FILE *fp= fopen("borrowerDetails.txt", "r+");
+BOOK *p;
+
+    if(fp==NULL){
+        printf("THE FILE ""borrowerDetails.txt"" DOES NOT EXIST\n");
+        system("pause");
+    }
+
+    else{
+        while(1){
+            fflush stdin;
+            fscanf(fp, "\n%[^\n]\n", &infoBorrower.name);
+            fflush stdin;
+            fscanf(fp, "%s %s %s %s\n\n", infoBorrower.TUP_ID, infoBorrower.password, infoBorrower.yearSection, infoBorrower.contactNum);
+            //decrypting the retrieved info.
+            //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
+            //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
+
+            if(!feof(fp)){
+                addBorrower();
+                fflush stdin;
+            }
+            else{break;}
+        }
+    }
+    fclose(fp);
+}
+
+
+
+
+void loginBorrower(){
+
+BORROWER *p;
+char enteredID[7], enteredPass[7];
+int tries=3, flag=0;
+>>>>>>> Stashed changes
 
 
 
 
 
 //FOR TRANSACTIONS FUNCTIONS
+void searchBorrower(){
+TRANSACTION *p;
+char toSearchBorrower[51];
+char textBorrower[51];
+int i, searchBorrowerCategory;
+char* categoryBorrowerPointer;
 
+    printf("\nSEARCH BY CATEGORY");
+    printf("\n[1] Book Title");
+    printf("\n[2] Author");
+    printf("\n[3] Reference Number");
+    printf("\n[4] Borrower");
+    printf("\n[5] TUP ID");
+    printf("\n[6] Date Borrowed");
+    printf("\n[7] Date Return");
+    printf("\n[8] Librarian In-Charged");
+    printf("\n[9] Status");
+    printf("\nENTER SEARCH CATEGORY [1-8]: ");
+    scanf("%d", &searchBorrowerCategory);
+
+    fflush stdin;
+    printf("ENTER THE TEXT TO SEARCH: ");
+    scanf("%[^\n]", toSearchBorrower);
+
+    system("cls");
+    gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("REFERENCE NUMBER");
+    gotoxy(60,3); printf("BORROWER");gotoxy(75,3); printf("TUP ID");  gotoxy(85,3); printf("DATE BORROWED");
+    gotoxy(102,3); printf("DATE RETURNED");gotoxy(125,3); printf("LIBRARIAN IN-CHARGED"); gotoxy(145,3); printf("STATUS");
+    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+
+    p=headTransaction;
+    for(i=-1; p!=NULL;){
+        switch(searchBorrowerCategory){ //ipo-point si pointer kung saang search category.
+        case 1: categoryBorrowerPointer= p->title; break;
+        case 2: categoryBorrowerPointer= p->author; break;
+        case 3: categoryBorrowerPointer= p->refNum; break;
+        case 4: categoryBorrowerPointer= p->borrower; break;
+        case 5: categoryBorrowerPointer= p->TUP_ID; break;
+        case 6: categoryBorrowerPointer= p->date_borrowed; break;
+        case 7: categoryBorrowerPointer= p->dateToReturn; break;
+        case 8: categoryBorrowerPointer= p->librarian; break;
+        case 9: categoryBorrowerPointer= p->status; break;
+
+        }
+
+        if(strstr(categoryBorrowerPointer, toSearchBorrower)!=NULL){  //if ang pino-point ni categoryPointer ay may ganitong "substring", print, else next.
+            i++;
+            gotoxy(5, 6+i); printf("%d.) ", i+1);
+            gotoxy(10,6+i); printf("%s", p->title);
+            gotoxy(30,6+i); printf("%s", p->author);
+            gotoxy(50,6+i); printf("%s", p->refNum);
+            gotoxy(60,6+i); printf("%s", p->borrower);
+            gotoxy(80,6+i); printf("%s", p->TUP_ID);
+            gotoxy(95,6+i); printf("%s", p->date_borrowed);
+            gotoxy(110,6+i); printf("%s", p->dateToReturn);
+            gotoxy(125,6+i); printf("%s", p->librarian);
+            gotoxy(135,6+i); printf("%s", p->status);
+        }
+        p=p->nxt;
+    }
+    gotoxy(5,10+i+1); printf("_______________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,10+i+3); system("pause");
+}
+
+void displayAllTransaction(struct transaction *p, struct transaction *end) {
+    int i = 0;
+
+    gotoxy(10, 3); printf("TITLE"); gotoxy(30, 3); printf("AUTHOR"); gotoxy(50, 3); printf("REFERENCE NUMBER");
+    gotoxy(60, 3); printf("BORROWER");gotoxy(75, 3); printf("TUP ID");  gotoxy(85, 3); printf("DATE BORROWED");
+    gotoxy(102, 3); printf("DATE RETURNED");gotoxy(125, 3); printf("LIBRARIAN IN-CHARGED"); gotoxy(145, 3); printf("STATUS");
+    gotoxy(5, 5); printf("_______________________________________________________________________________________________________________________________________________\n");
+
+    while (p != end) {
+        i++;
+        gotoxy(5, 6 + i); printf("%d.) ", i);
+        gotoxy(10, 6 + i); printf("%s", p->title);
+        gotoxy(30, 6 + i); printf("%s", p->author);
+        gotoxy(50, 6 + i); printf("%s", p->refNum);
+        gotoxy(60, 6 + i); printf("%s", p->borrower);
+        gotoxy(80, 6 + i); printf("%s", p->TUP_ID);
+        gotoxy(95, 6 + i); printf("%s", p->date_borrowed);
+        gotoxy(110, 6 + i); printf("%s", p->dateToReturn);
+        gotoxy(125, 6 + i); printf("%s", p->librarian);
+        gotoxy(145, 6 + i); printf("%s", p->status);
+
+        p = p->nxt;
+    }
+
+    gotoxy(5, 6 + i + 1); printf("_______________________________________________________________________________________________________________________________________________\n");
+    gotoxy(5, 6 + i + 3); system("pause");
+}
+
+void saveTranscaction(){//"borrowerDetails.txt"
+
+FILE *fp= fopen("transactionDetails.txt", "w+");
+TRANSACTION *p;
+
+    if(fp==NULL){
+        printf("\nTHE FILE ""transactionDetails.txt"" DOES NOT EXIST\n");
+        system("pause");
+    }
+    else{
+        p=headTransaction;
+        while(p!=NULL){
+             fprintf(fp, "%s\n%s\n%s\n%s %s %s %s %s %s\n\n", p->title, p->author, p->refNum, p->borrower, p->TUP_ID, p->date_borrowed, p->dateToReturn, p->librarian, p->status);
+            p=p->nxt;
+
+        }
+        fclose(fp);
+        system("pause");
+    }
+}
+
+//retrieve() function retrieves all info from the text file and save each book in the linked list.
+void retrieveTransaction(){
+FILE *fp= fopen("transactionDetails.txt", "r+");
+TRANSACTION *p;
+
+    if(fp==NULL){
+        printf("THE FILE ""transactionDetails.txt"" DOES NOT EXIST\n");
+        system("pause");
+    }
+
+    else{
+        while(1){
+            fflush stdin;
+            fscanf(fp, "\n%[^\n]\n", &infoTransaction.title);
+            fflush stdin;
+            fscanf(fp, "%[^\n]\n", &infoTransaction.author);
+            fflush stdin;
+            fscanf(fp, "%[^\n]\n", &infoTransaction.refNum);
+            fflush stdin;
+                  //\n%[^\n]\n%[^\n]\n", &info.title, &info.author, &info.category);;
+            fscanf(fp, "%s %s %s %s %s %s", &infoTransaction.borrower, &infoTransaction.TUP_ID, &infoTransaction.date_borrowed, &infoTransaction.dateToReturn, &infoTransaction.librarian, &infoTransaction.status);
+
+            //decrypting the retrieved info.
+            //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
+            //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
+
+
+            if(!feof(fp)){
+                fflush stdin;
+            }
+            else{break;}
+        }
+    }
+    fclose(fp);
+}
 
 
 
@@ -439,6 +725,110 @@ HWND WINAPI GetConsoleWindowNT(void)
     return GetConsoleWindow();
 }
 
+<<<<<<< Updated upstream
+=======
+void studentPortal(int optionStudent){
+BOOK *p;
+int logInOrRegister;
+    switch(optionStudent){
+
+    case 1:
+        system("cls");  displayBook(p=headBook, 0, NULL); break;
+    case 2:
+        system("cls"); searchBook(); break;
+    case 3:
+        system("cls");
+        printf("BORROW BOOK");
+        printf("\n[1] LOGIN\n[2] REGISTER");
+        printf("\nSELECT OPTION (1-2): ");
+        scanf("%d",&logInOrRegister);
+        if (logInOrRegister ==1){
+            loginBorrower();
+        }
+        else if(logInOrRegister==2){
+            getInfoBorrower();
+            addBorrower();
+            saveInfoBorrower();
+            loginBorrower();
+        }
+        else{printf("\nSELECT 1-2 ONLY!\n"); system("pause");}
+        break;
+    case 4:
+        system("cls"); break; //CHANGE PASS
+    case 5:
+        return;
+    default:
+        printf("\nSELECT 1-5 ONLY!\n"); system("pause"); break;
+    }
+}
+
+void adminPortal(int optionAdmin){
+BOOK *p;
+TRANSACTION *q;
+int bookFunctionChoice;
+int transactionChoice;
+
+    system("cls");
+    switch(optionAdmin){
+    case 1:
+        while(1){
+            system("cls");
+            switch(menuBook(bookFunctionChoice)){
+                case 1: system("cls");
+                    printf("\nADD A RECORD\n");
+                    getInfoBook();
+                    addBook(); saveBook();
+                    break;
+                case 2: system("cls");
+                    printf("\nUPDATE RECORD\n");
+                    updateBook(); saveBook();
+                    break;
+                case 3: system("cls");
+                    printf("\nDELETE RECORD\n");
+                    delBook(); saveBook();
+                    break;
+                case 4: system("cls");
+                    printf("\nSEARCH RECORD\n");
+                    searchBook();
+                    break;
+                case 5: system("cls");
+                    printf("\n\t\t\t\t\t\tDISPLAYING ALL RECORDS...\n");
+                    displayBook(p=headBook, 0, NULL);
+                    break;
+                case 6: return;
+
+            }
+        }
+    case 2:
+        //BORROWING RECORD SWITCH CASE
+         while(1){
+            system("cls");
+            switch(menuTransaction(transactionChoice)){
+                case 1: system("cls");
+                    printf("\nEDIT STATUS\n");
+                    break;
+                case 2: system("cls");
+                    printf("\nSEARCH BORROWING RECORD\n");
+                    searchBorrower();
+                    break;
+                case 3: system("cls");
+                    //displayAllTransaction(q=headTransaction, NULL);
+                    break;
+                case 4:
+                    return;
+            }
+         }
+        break;
+
+    case 3:
+        return;
+    default:
+        printf("\nSELECT 1-3 ONLY!\n"); system("pause"); break;
+
+    }
+}
+
+>>>>>>> Stashed changes
 int main(){
 HWND hWnd=GetConsoleWindowNT();
 MoveWindow(hWnd,900,900,1200,900,TRUE);
@@ -447,6 +837,7 @@ BOOK *p;
 
     headBook=NULL;                   //initializing linked list.
     retrieveBook();                  //retrieve all previous records.
+<<<<<<< Updated upstream
     while(1){
         system("cls");
         switch(menuBook(choice)){
@@ -472,6 +863,32 @@ BOOK *p;
                 displayBook(p=headBook, 0, NULL);
                 break;
             case 6: exit(0);
+=======
+    retrieveBorrower();
+    retrieveTransaction();
+        while(optionPortal!=3){
+            system("cls");
+            printf("\n[1] STUDENT PORTAL");
+            printf("\n[2] ADMIN PORTAL");
+            printf("\n[3] EXIT PROGRAM");
+            printf("\nSELECT OPTION [1-3]: ");
+            scanf("%d", &optionPortal);
+            switch(optionPortal){
+                case 1:
+                    optionStudent=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
+                    while(optionStudent!=5){
+                        system("cls");
+                        printf("\n[1] DISPLAY ALL BOOKS");
+                        printf("\n[2] SEARCH");
+                        printf("\n[3] BORROW");
+                        printf("\n[4] CHANGE PASSWORD");
+                        printf("\n[5] GO BACK");
+                        printf("\nSELECT OPTION [1-5]: ");
+                        scanf("%d", &optionStudent);
+                        studentPortal(optionStudent);
+                    }
+                    break;
+>>>>>>> Stashed changes
 
         }
         saveBook();
