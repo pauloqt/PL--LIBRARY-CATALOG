@@ -31,7 +31,7 @@ typedef struct borrower{
 //Struct TRANSACTION containing attributes of the transaction
 typedef struct transaction{
     char title[51], author[31], refNum[14], borrower[31], TUP_ID[7];
-    char date_borrowed[11], dateToReturn[11], librarian[31], status[12];
+    char dateBorrowed[11], dateToReturn[11], librarian[31], status[12];
     struct transaction *nxt;
 }TRANSACTION;
 
@@ -532,8 +532,61 @@ void borrowBook(){
 
 //FOR TRANSACTIONS FUNCTIONS
 
+void saveTransaction(){
+FILE *fp= fopen("transactionDetails.txt", "w+");
+TRANSACTION *p;
 
+    if(fp==NULL){
+        printf("\nTHE FILE ""transactionDetails.txt"" DOES NOT EXIST\n");
+        system("pause");
+    }
 
+    else{
+        p=headTransaction;
+        while(p!=NULL){
+            fprintf(fp, "%s\n%s\n%s\n%s\n%s %s %s %s %s\n\n", p->title, p->author, p->refNum, p->borrower, p->TUP_ID, p->dateBorrowed, p->dateToReturn, p->librarian, p->status);
+        }
+        fclose(fp);
+    }
+}
+
+void retrieveTransaction(){
+FILE *fp= fopen("transactionDetails.txt", "r+");
+TRANSACTION *p;
+
+    if(fp==NULL){
+        printf("THE FILE ""transactionDetails.txt"" DOES NOT EXIST\n");
+        system("pause");
+    }
+
+    else{
+        while(1){
+            fflush stdin;
+            fscanf(fp, "\n%[^\n]\n", &infoTransaction.title);
+            fflush stdin;
+            fscanf(fp, "%[^\n]\n", &infoTransaction.author);
+            fflush stdin;
+            fscanf(fp, "%[^\n]\n", &infoTransaction.refNum);
+            fflush stdin;
+            fscanf(fp, "%[^\n]\n", &infoTransaction.borrower);
+            fflush stdin;
+            fscanf(fp, "%[^\n]\n", &infoTransaction.TUP_ID);
+            fflush stdin;
+            fscanf(fp, "%s %s %s %s %s", &infoTransaction.dateBorrowed, &infoTransaction.dateToReturn, &infoTransaction.librarian, &infoTransaction.dateBorrowed, &infoTransaction.status);
+
+            //decrypting the retrieved info.
+            //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
+            //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
+
+            if(!feof(fp)){
+                addBook();
+                fflush stdin;
+            }
+            else{break;}
+        }
+    }
+    fclose(fp);
+}
 
 //PARA SA LAHAT
 
@@ -605,11 +658,9 @@ void adminPortal(int optionAdmin){
 BOOK *p;
 int bookFunctionChoice;
 
-    system("cls");
     switch(optionAdmin){
     case 1:
         while(1){
-            system("cls");
             switch(menuBook(bookFunctionChoice)){
                 case 1: system("cls");
                     printf("\nADD A RECORD\n");
@@ -698,4 +749,3 @@ int optionPortal, optionAdmin, optionStudent;
             }
         }
 }
-
