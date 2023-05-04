@@ -38,6 +38,7 @@ typedef struct transaction{
 BOOK *headBook, infoBook;   //declaring head node and info struct variable where to store the initial info before storing in linked list.
 BORROWER *headBorrower, infoBorrower;
 TRANSACTION *headTransaction, infoTransaction;
+char encryptedPass[7];
 
 HWND WINAPI GetConsoleWindowNT(void);
 
@@ -396,6 +397,31 @@ BORROWER *p;
     return p;
 }
 
+void passDisp(){
+
+    int index = 0;
+    char ch;
+
+    while((ch=getch())!=13 && index<7){
+        if (index<0)
+            index=0;
+        if(ch==8){//backspace ascii is 8
+            putch('\b');
+            putch(' ');
+            putch('\b');
+            index--;
+         continue;
+        }
+        if(isdigit(ch)){
+         encryptedPass[index++]=ch;
+         putchar('*');
+        }
+    }
+    if (index==7)
+        encryptedPass[index++]=ch;
+    encryptedPass[index]='\0';
+}
+
 void getInfoBorrower(){
     system("cls");
     printf("COMPLETE THE INFORMATION BELOW\n\n");
@@ -406,11 +432,13 @@ void getInfoBorrower(){
     }
     else{
         printf("PASSWORD: ");
-        scanf("%s", &infoBorrower.password);
-        printf("NAME (EX. JUAN A. DELA CRUZ): ");
+        passDisp();
+        strcpy(infoBorrower.password, encryptedPass);
+        printf("\nNAME (EX. JUAN A. DELA CRUZ): ");
         fflush stdin;
         scanf("%[^\n]", &infoBorrower.name);
-        printf("COURSE AND SECTION (EX: BSCS-NS2A: ");
+        fflush stdin;
+        printf("COURSE AND SECTION (EX: BSCS-NS2A): ");
         scanf("%s", &infoBorrower.yearSection);
         printf("CONTACT NUMBER (Ex. 09123456789): ");
         scanf("%s", &infoBorrower.contactNum);
@@ -500,27 +528,28 @@ int tries=3, flag=0;
 
     while (tries > 0 && flag==0) {
         system("cls");
-        printf("Please enter your TUP ID: ");
+        printf("TUP ID (Ex. 123456): TUP-M ");
         scanf("%s", enteredID);
-        printf("Please enter your password: ");
-        scanf("%s", enteredPass);
+        printf("PASSWORD: ");
+        passDisp();
+        strcpy(enteredPass, encryptedPass);
 
         p=locateTUP_ID(enteredID);
         if(p!=NULL && strcmp(enteredPass, p->password)==0){     //para di need i-compare lahat ng pass, ID lang.
-            printf("Login successful!\n"); system("pause");
+            printf("\nLOGIN SUCCESSFUL!\n"); system("pause");
             flag=1;
         }
 
         else{
-            printf("Invalid TUP ID or password. ");
+            printf("\nINVALID TUP ID OR PASSWORD. ");
             tries--;
-            printf("\nYou have %d tries left.\n", tries);
+            printf("\nYOU HAVE %d TRIES LEFT.\n", tries);
             system("pause");
             system("cls");
         }
     }
     if (tries == 0) {
-        printf("You have exceeded the maximum number of tries.\n");
+        printf("YOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
         system("pause");
     }
 }
