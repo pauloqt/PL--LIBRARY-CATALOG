@@ -489,7 +489,6 @@ BORROWER *p;
     }
 }
 
-//retrieve() function retrieves all info from the text file and save each book in the linked list.
 void retrieveBorrower(){
 FILE *fp= fopen("borrowerDetails.txt", "r+");
 BOOK *p;
@@ -504,7 +503,7 @@ BOOK *p;
             fflush stdin;
             fscanf(fp, "\n%[^\n]\n", &infoBorrower.name);
             fflush stdin;
-            fscanf(fp, "%s %s %s %s\n\n", infoBorrower.TUP_ID, infoBorrower.password, infoBorrower.yearSection, infoBorrower.contactNum);
+            fscanf(fp, "%s %s %s %s %s\n\n", infoBorrower.TUP_ID, infoBorrower.password, infoBorrower.yearSection, infoBorrower.contactNum, infoBorrower.email);
             //decrypting the retrieved info.
             //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
             //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
