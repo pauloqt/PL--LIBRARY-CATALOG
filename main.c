@@ -588,6 +588,9 @@ TRANSACTION *p;
     fclose(fp);
 }
 
+
+
+
 //PARA SA LAHAT
 
 //The gotoxy() function is used to position the console cursor to a specified location, with the x-coordinate and y-coordinate specified as arguments.
@@ -631,7 +634,7 @@ int logInOrRegister;
     case 3:
         system("cls");
         printf("BORROW BOOK");
-        printf("\n[1] LOGIN\n[2] REGISTER");
+        printf("\n[1] LOGIN\n[2] REGISTER\n[3] GO BACK");
         printf("\nSELECT OPTION (1-2): ");
         scanf("%d",&logInOrRegister);
         if (logInOrRegister ==1){
@@ -643,7 +646,10 @@ int logInOrRegister;
             saveInfoBorrower();
             loginBorrower();
         }
-        else{printf("\nSELECT 1-2 ONLY!\n"); system("pause");}
+        else if(logInOrRegister==3){
+            return;
+        }
+        else{printf("\nSELECT 1-3 ONLY!\n"); system("pause");}
         break;
     case 4:
         system("cls"); break; //CHANGE PASS
@@ -661,6 +667,7 @@ int bookFunctionChoice;
     switch(optionAdmin){
     case 1:
         while(1){
+            system("cls");
             switch(menuBook(bookFunctionChoice)){
                 case 1: system("cls");
                     printf("\nADD A RECORD\n");
@@ -685,6 +692,9 @@ int bookFunctionChoice;
                     break;
                 case 6: return;
 
+                default: printf("SELCT 1-6 ONLY!"); system("pause");
+                    break;
+
             }
         }
     case 2:
@@ -693,7 +703,7 @@ int bookFunctionChoice;
     case 3:
         return;
     default:
-        printf("\nSELECT 1-5 ONLY!\n"); system("pause"); break;
+        printf("\nSELECT 1-3 ONLY!\n"); system("pause"); break;
 
     }
 }
@@ -749,3 +759,4 @@ int optionPortal, optionAdmin, optionStudent;
             }
         }
 }
+
