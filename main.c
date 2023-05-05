@@ -642,43 +642,53 @@ int tries1=3, tries2=3, flag1=0, flag2=0;
         printf("\nEnter your TUP ID: TUP-M ");
         scanf("%s", TUP_ID);
         p=locateTUP_ID(TUP_ID);
+        if(p==NULL){
+            printf("\nYOU ARE NOT REGISTERED! GO TO BORROW OPTION TO REGISTER.\n"); system("pause");
+        }
 
-        //FOR CURRENT PASS
-        while(tries1>0 && flag1==0){
-            system("cls");
-            printf("\nENTER CURRENT PASSWORD: ");
-            passDisp();
-            if(strcmp(encryptedPass, p->password)==0){
-                flag1=1;
+        else{
+            //FOR CURRENT PASS
+            while(tries1>0 && flag1==0){
+                system("cls");
+                printf("\nENTER CURRENT PASSWORD: ");
+                passDisp();
+                if(strcmp(encryptedPass, p->password)==0){
+                    flag1=1;
 
-                //FOR NEW PASS
-                while(tries2 && flag2==0){
-                    system("cls");
-                    printf("\nENTER NEW PASSWORD: ");
-                    passDisp();
-                    strcpy(newPass, encryptedPass);
-                    printf("\nRE-ENTER NEW PASSWORD: ");
-                    passDisp();
-                    strcpy(rePass, encryptedPass);
+                    //FOR NEW PASS
+                    while(tries2 && flag2==0){
+                        system("cls");
+                        printf("\nENTER NEW PASSWORD: ");
+                        passDisp();
+                        strcpy(newPass, encryptedPass);
+                        printf("\nRE-ENTER NEW PASSWORD: ");
+                        passDisp();
+                        strcpy(rePass, encryptedPass);
 
-                    if(strcmp(rePass, newPass)==0){
-                        printf("\nPASSWORD SUCCESSFULLY CHANGED!\n");
-                        system("pause");
-                        strcpy(p->password, newPass);
-                        saveInfoBorrower();
-                        return;
-                    }
-                    else{
-                        printf("\nNEW PASSWORD DIDN'T MATCH\n"); system("pause");
-                        tries2--;
+                        if(strcmp(rePass, newPass)==0){
+                            printf("\nPASSWORD SUCCESSFULLY CHANGED!\n");
+                            system("pause");
+                            strcpy(p->password, newPass);
+                            saveInfoBorrower();
+                            return;
+                        }
+                        else{
+                            printf("\nNEW PASSWORD DIDN'T MATCH\n"); system("pause");
+                            tries2--;
+                        }
                     }
                 }
+                else{
+                    printf("\nCURRENT PASSWORD DIDN'T MATCH\n"); system("pause");
+                    tries1--;
+                }
             }
-            else{
-                printf("\nCURRENT PASSWORD DIDN'T MATCH\n"); system("pause");
-                tries1--;
-            }
+
+            //If tries ay equal 0
+            printf("\nYOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
+            system("pause");
         }
+
 }
 
 //FOR TRANSACTIONS FUNCTIONS
