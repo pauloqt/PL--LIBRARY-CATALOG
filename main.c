@@ -634,6 +634,53 @@ int ch;
     }
 }
 
+void changePass(){
+BORROWER *p;
+char currPass[14], newPass[14], rePass[14], TUP_ID[7];
+int tries1=3, tries2=3, flag1=0, flag2=0;
+
+        printf("\nEnter your TUP ID: TUP-M ");
+        scanf("%s", TUP_ID);
+        p=locateTUP_ID(TUP_ID);
+
+        //FOR CURRENT PASS
+        while(tries1>0 && flag1==0){
+            system("cls");
+            printf("\nENTER CURRENT PASSWORD: ");
+            passDisp();
+            if(strcmp(encryptedPass, p->password)==0){
+                flag1=1;
+
+                //FOR NEW PASS
+                while(tries2 && flag2==0){
+                    system("cls");
+                    printf("\nENTER NEW PASSWORD: ");
+                    passDisp();
+                    strcpy(newPass, encryptedPass);
+                    printf("\nRE-ENTER NEW PASSWORD: ");
+                    passDisp();
+                    strcpy(rePass, encryptedPass);
+
+                    if(strcmp(rePass, newPass)==0){
+                        printf("\nPASSWORD SUCCESSFULLY CHANGED!\n");
+                        system("pause");
+                        strcpy(p->password, newPass);
+                        saveInfoBorrower();
+                        return;
+                    }
+                    else{
+                        printf("\nNEW PASSWORD DIDN'T MATCH\n"); system("pause");
+                        tries2--;
+                    }
+                }
+            }
+            else{
+                printf("\nCURRENT PASSWORD DIDN'T MATCH\n"); system("pause");
+                tries1--;
+            }
+        }
+}
+
 //FOR TRANSACTIONS FUNCTIONS
 
 int addTransaction(){
@@ -867,9 +914,12 @@ char ID[7];
         }
         else{printf("\nSELECT 1-3 ONLY!\n"); system("pause");}
         break;
-    case 4:
 
-        system("cls"); break; //CHANGE PASS
+    case 4:
+        system("cls");
+        changePass();
+        break; //CHANGE PASS
+
     case 5:
         return;
     default:
