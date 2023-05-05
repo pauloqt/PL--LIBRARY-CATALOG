@@ -42,6 +42,8 @@ char encryptedPass[7];
 
 HWND WINAPI GetConsoleWindowNT(void);
 
+void getInfoBook();
+
 //BOOK FUNCTIONS
 //The getInfo() function prompts the user to enter information about a book, including its title, author, year published, ISBN, category, total number of stock, and number of borrowers. It stores this information in the info struct variable.
 void getInfoBook(){
@@ -800,7 +802,6 @@ TRANSACTION *p;
     fclose(fp);
 }
 
-
 //PARA SA LAHAT
 
 //The gotoxy() function is used to position the console cursor to a specified location, with the x-coordinate and y-coordinate specified as arguments.
@@ -867,6 +868,7 @@ char ID[7];
         else{printf("\nSELECT 1-3 ONLY!\n"); system("pause");}
         break;
     case 4:
+
         system("cls"); break; //CHANGE PASS
     case 5:
         return;
@@ -883,7 +885,7 @@ int transactionChoice;
 
 
     switch(optionAdmin){
-    case 1:
+    case 1: //MANAGE BOOK
         while(1){
             system("cls");
             switch(menuBook(bookFunctionChoice)){
@@ -916,7 +918,7 @@ int transactionChoice;
             }
         }
     case 2:
-        //BORROWING RECORD SWITCH CASE
+        //MANAGE TRANSACTIONS
         while(1){
             system("cls");
             switch(menuTransaction(transactionChoice)){
@@ -936,7 +938,11 @@ int transactionChoice;
          }
         break;
 
-    case 3:
+    case 3: //MANAGE BORROWER RECORDS
+
+        break;
+
+    case 4:
         return;
     default:
         printf("\nSELECT 1-3 ONLY!\n"); system("pause"); break;
@@ -986,8 +992,9 @@ int optionPortal, optionAdmin, optionStudent;
                         system("cls");
                         printf("\n[1] MANAGE BOOK RECORD");
                         printf("\n[2] MANAGE BORROWING RECORD");
-                        printf("\n[3] GO BACK");
-                        printf("\nSELECT OPTION [1-3]: ");
+                        printf("\n[3] MANAGE BORROWING RECORD");
+                        printf("\n[4] GO BACK");
+                        printf("\nSELECT OPTION [1-4]: ");
                         scanf("%d", &optionAdmin);
                         adminPortal(optionAdmin);
 
