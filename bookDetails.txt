@@ -1,12 +1,12 @@
 Criddles tomb
 Jane Comps
 Fiction
-Book 1994 1234567790 3 5 4
+Book 1994 1234567790 3 5 5
 
 Harry Potter
 J. K. Rowling
 Fiction
-Book 1992 345678901 3 5 4
+Book 1992 345678901 3 5 5
 
 The Basket
 Paulo Alcantara

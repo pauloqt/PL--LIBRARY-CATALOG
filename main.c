@@ -42,6 +42,8 @@ char encryptedPass[7];
 
 HWND WINAPI GetConsoleWindowNT(void);
 
+void getInfoBook();
+
 //BOOK FUNCTIONS
 //The getInfo() function prompts the user to enter information about a book, including its title, author, year published, ISBN, category, total number of stock, and number of borrowers. It stores this information in the info struct variable.
 void getInfoBook(){
@@ -365,7 +367,7 @@ int i=0;
 
 //The menu() function displays the main menu of the library catalog program and prompts the user to enter a choice. It returns the user's choice.
 int menuBook(int choice){
-    while(choice<1 || choice>6){
+    while(choice<1 || choice>7){
         system("cls");
         printf("LIBRARY CATALOG");
         printf("\nMENU");
@@ -375,17 +377,18 @@ int menuBook(int choice){
         printf("\n[4] SEARCH RECORD");
         printf("\n[5] DISPLAY ALL RECORDS");
         printf("\n[6] GO BACK");
+        printf("\n[7] EXIT");
         printf("\nENTER OPTION: ");
         scanf("%d", &choice);
-        if(choice<1 || choice>6){
-            printf("\nSELECT 1-6 ONLY!\n");
+        if(choice<1 || choice>7){
+            printf("\nSELECT 1-7 ONLY!\n");
             system("pause");
         }
     }
     return choice;
 }
 int menuTransaction(int choice){
-    while(choice<1 || choice>4){
+    while(choice<1 || choice>5){
         system("cls");
         printf("TRANSACTION RECORD");
         printf("\nMENU");
@@ -393,10 +396,29 @@ int menuTransaction(int choice){
         printf("\n[2] SEARCH BORROWING RECORD");
         printf("\n[3] DISPLAY ALL BORROWING RECORD");
         printf("\n[4] GO BACK");
+        printf("\n[5] EXIT");
         printf("\nENTER OPTION: ");
         scanf("%d", &choice);
-        if(choice<1 || choice>4){
-            printf("\nSELECT 1-4 ONLY!\n");
+        if(choice<1 || choice>5){
+            printf("\nSELECT 1-5 ONLY!\n");
+            system("pause");
+        }
+    }
+    return choice;
+}
+int menuBorrower(int choice){
+    while(choice<1 || choice>5){
+        system("cls");
+        printf("BORROWER RECORD");
+        printf("\nMENU");
+        printf("\n[1] DISPLAY ALL BORROWER RECORDS");
+        printf("\n[2] SEARCH BORROWING RECORD");
+        printf("\n[3] UPDATE BORROWER RECORD");
+        printf("\n[4] GO BACK");
+        printf("\nENTER OPTION: ");
+        scanf("%d", &choice);
+        if(choice<1 || choice>5){
+            printf("\nSELECT 1-5 ONLY!\n");
             system("pause");
         }
     }
@@ -414,6 +436,48 @@ BORROWER *p;
     }
     return p;
 }
+
+void updateBorrower(){
+BORROWER *p;
+int choice,info;
+char TUP_ID[14];
+char update[51];
+int updateInt;
+
+    printf("ENTER YOUR TUP ID: ");
+    scanf("%s", TUP_ID);
+    p = locateTUP_ID(TUP_ID);
+
+    if(p==NULL){
+        printf("\nRECORD NOT FOUND!\n"); system("pause");
+    }
+
+    else{
+        displayAllBorrower(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
+        printf("\n[1] Name");
+        printf("\n[2] TUP ID");
+        printf("\n[3] Year and Section");
+        printf("\n[4] Contact Number");
+        printf("\n[5] Email");
+        printf("\nCHOOSE THE INFORMATION YOU WISH TO UPDATE (1-5): ");
+        scanf("%d", &info);
+        fflush stdin;
+        printf("\nENTER THE UPDATED INFORMATION: ");
+        scanf("%[^\n]", update);}
+
+        printf("\nARE YOU SURE TO UPDATE THE RECORD OF %s?\n[1]YES [2]NO : ", p->name);
+        scanf("%d", &choice);
+        if(choice==1){
+            switch(info){
+                case 1: strcpy(p->name, update); break;
+                case 2: strcpy(p->TUP_ID, update); break;
+                case 3: strcpy(p->yearSection, update); break;
+                case 4: strcpy(p->contactNum, update); break;
+                case 5: strcpy(p->email, update); break;
+        }
+    }
+}
+
 
 void passDisp(){
 
@@ -488,6 +552,81 @@ BORROWER *q, *p, *n;
     }
     n->nxt=p;  //insert p at the end which contains next node or NULL.
 }
+
+void searchBorrower(){
+    BORROWER *p;
+    char toSearch[51];
+    int i, searchCategory;
+    char* categoryPointer;
+
+    printf("\nSEARCH BY CATEGORY");
+    printf("\n[1] Name");
+    printf("\n[2] TUP ID");
+    printf("\n[3] Year and Section");
+    printf("\n[4] Contact Number");
+    printf("\n[5] Email");
+    printf("\nENTER SEARCH CATEGORY [1-5]: ");
+    scanf("%d", &searchCategory);
+
+    fflush stdin;
+    printf("ENTER THE TEXT TO SEARCH: ");
+    scanf("%[^\n]", toSearch);
+
+    system("cls");
+    gotoxy(10,3); printf("NAME"); gotoxy(30,3); printf("TUP ID"); gotoxy(50,3); printf("YEAR AND SECTION");
+    gotoxy(70,3); printf("CONTACT NUMBER");gotoxy(100,3); printf("EMAIL");
+    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+
+
+    p=headBorrower;
+    for(i=-1; p!=NULL;){
+        switch(searchCategory){ // point the pointer to the appropriate search category.
+            case 1: categoryPointer= p->name; break;
+            case 2: categoryPointer= p->TUP_ID; break;
+            case 3: categoryPointer= p->yearSection; break;
+            case 4: categoryPointer= p->contactNum; break;
+            case 5: categoryPointer= p->email; break;
+        }
+        if(strstr(categoryPointer, toSearch)!=NULL){  // if the pointed categoryBorrowerPointer contains the substring, print the transaction.
+            i++;
+            gotoxy(5, 6+i); printf("%d.) ", i+1);
+            gotoxy(10,6+i); printf("%s", p->name);
+            gotoxy(30,6+i); printf("%s", p->TUP_ID);
+            gotoxy(50,6+i); printf("%s", p->yearSection);
+            gotoxy(70,6+i); printf("%s", p->contactNum);
+            gotoxy(90,6+i); printf("%s", p->email);
+        }
+		p=p->nxt;
+	}
+	gotoxy(5,10+i+1); printf("_______________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,10+i+3);
+
+    if (i==-1) printf("\nNo transactions found.\n");
+    system("pause");
+}
+
+void displayAllBorrower(struct borrower *p, int start, int end){
+int i;
+
+    gotoxy(10,3); printf("NAME"); gotoxy(30,3); printf("TUP ID"); gotoxy(50,3); printf("YEAR AND SECTION");
+    gotoxy(70,3); printf("CONTACT NUMBER");gotoxy(100,3); printf("EMAIL");
+    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+
+    for(i=start; p!=end; i++){
+         gotoxy(5, 6+i); printf("%d.) ", i+1);
+            gotoxy(10,6+i); printf("%s", p->name);
+            gotoxy(30,6+i); printf("%s", p->TUP_ID);
+            gotoxy(50,6+i); printf("%s", p->yearSection);
+            gotoxy(70,6+i); printf("%s", p->contactNum);
+            gotoxy(90,6+i); printf("%s", p->email);
+
+        p=p->nxt;
+    }
+
+    gotoxy(5,6+i+1); printf("_______________________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,6+i+3); system("pause");
+}
+
 
 void saveInfoBorrower(){//"borrowerDetails.txt"
 
@@ -800,7 +939,6 @@ TRANSACTION *p;
     fclose(fp);
 }
 
-
 //PARA SA LAHAT
 
 //The gotoxy() function is used to position the console cursor to a specified location, with the x-coordinate and y-coordinate specified as arguments.
@@ -867,6 +1005,7 @@ char ID[7];
         else{printf("\nSELECT 1-3 ONLY!\n"); system("pause");}
         break;
     case 4:
+
         system("cls"); break; //CHANGE PASS
     case 5:
         return;
@@ -878,12 +1017,13 @@ char ID[7];
 void adminPortal(int optionAdmin){
 BOOK *p;
 TRANSACTION *q;
+BORROWER *r;
 int bookFunctionChoice;
 int transactionChoice;
-
+int borrowerChoice;
 
     switch(optionAdmin){
-    case 1:
+    case 1: //MANAGE BOOK
         while(1){
             system("cls");
             switch(menuBook(bookFunctionChoice)){
@@ -909,14 +1049,15 @@ int transactionChoice;
                     displayBook(p=headBook, 0, NULL);
                     break;
                 case 6: return;
+                case 7: exit(0); break;
 
-                default: printf("SELCT 1-6 ONLY!"); system("pause");
+                default: printf("SELCT 1-7 ONLY!"); system("pause");
                     break;
 
             }
         }
     case 2:
-        //BORROWING RECORD SWITCH CASE
+        //MANAGE TRANSACTIONS
         while(1){
             system("cls");
             switch(menuTransaction(transactionChoice)){
@@ -932,14 +1073,40 @@ int transactionChoice;
                     break;
                 case 4:
                     return;
+                case 5:
+                    exit(0); break;
             }
          }
         break;
 
-    case 3:
+    case 3: //MANAGE BORROWER RECORDS
+        while(1){
+            system("cls");
+            switch(menuBorrower(borrowerChoice)){
+                case 1: system("cls");
+                    printf("\nDISPLAY ALL BORROWER RECORDS\n");
+                    displayAllBorrower(r=headBorrower, 0, NULL);
+                    break;
+                case 2: system("cls");
+                    printf("\nSEARCH BORROWING RECORD\n");
+                    searchBorrower();
+                    break;
+                case 3: system("cls");
+                    printf("\nUPDATE BORROWING RECORD\n");
+                    updateBorrower();
+                    break;
+                case 4:
+                    return;
+                case 5:
+                    exit(0); break;
+            }
+         }
+        break;
+    case 4:
         return;
+
     default:
-        printf("\nSELECT 1-3 ONLY!\n"); system("pause"); break;
+        printf("\nSELECT 1-5 ONLY!\n"); system("pause"); break;
 
     }
 }
@@ -982,21 +1149,23 @@ int optionPortal, optionAdmin, optionStudent;
 
                 case 2:
                     optionAdmin=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
-                    while(optionAdmin!=3){
+                    while(optionAdmin!=4){
                         system("cls");
                         printf("\n[1] MANAGE BOOK RECORD");
                         printf("\n[2] MANAGE BORROWING RECORD");
-                        printf("\n[3] GO BACK");
-                        printf("\nSELECT OPTION [1-3]: ");
+                        printf("\n[3] MANAGE BORROWER RECORD");
+                        printf("\n[4] GO BACK");
+                        printf("\nSELECT OPTION [1-4]: ");
                         scanf("%d", &optionAdmin);
                         adminPortal(optionAdmin);
+
 
                     }
                     break;
 
                 case 3: exit(0); break;
 
-                default: printf("\nCHOOSE 1-3 ONLY!\n"); system("pause"); break;
+                default: printf("\nCHOOSE 1-5 ONLY!\n"); system("pause"); break;
             }
         }
 }
