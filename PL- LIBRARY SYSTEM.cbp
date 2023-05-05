@@ -31,9 +31,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="bookDetails.txt" />
+		<Unit filename="borrowerDetails.txt" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="transactionDetails.txt" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
