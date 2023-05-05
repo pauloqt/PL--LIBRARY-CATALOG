@@ -42,6 +42,8 @@ char encryptedPass[7];
 
 HWND WINAPI GetConsoleWindowNT(void);
 
+void getInfoBook();
+
 //BOOK FUNCTIONS
 //The getInfo() function prompts the user to enter information about a book, including its title, author, year published, ISBN, category, total number of stock, and number of borrowers. It stores this information in the info struct variable.
 void getInfoBook(){
@@ -632,6 +634,53 @@ int ch;
     }
 }
 
+void changePass(){
+BORROWER *p;
+char currPass[14], newPass[14], rePass[14], TUP_ID[7];
+int tries1=3, tries2=3, flag1=0, flag2=0;
+
+        printf("\nEnter your TUP ID: TUP-M ");
+        scanf("%s", TUP_ID);
+        p=locateTUP_ID(TUP_ID);
+
+        //FOR CURRENT PASS
+        while(tries1>0 && flag1==0){
+            system("cls");
+            printf("\nENTER CURRENT PASSWORD: ");
+            passDisp();
+            if(strcmp(encryptedPass, p->password)==0){
+                flag1=1;
+
+                //FOR NEW PASS
+                while(tries2 && flag2==0){
+                    system("cls");
+                    printf("\nENTER NEW PASSWORD: ");
+                    passDisp();
+                    strcpy(newPass, encryptedPass);
+                    printf("\nRE-ENTER NEW PASSWORD: ");
+                    passDisp();
+                    strcpy(rePass, encryptedPass);
+
+                    if(strcmp(rePass, newPass)==0){
+                        printf("\nPASSWORD SUCCESSFULLY CHANGED!\n");
+                        system("pause");
+                        strcpy(p->password, newPass);
+                        saveInfoBorrower();
+                        return;
+                    }
+                    else{
+                        printf("\nNEW PASSWORD DIDN'T MATCH\n"); system("pause");
+                        tries2--;
+                    }
+                }
+            }
+            else{
+                printf("\nCURRENT PASSWORD DIDN'T MATCH\n"); system("pause");
+                tries1--;
+            }
+        }
+}
+
 //FOR TRANSACTIONS FUNCTIONS
 
 int addTransaction(){
@@ -800,7 +849,6 @@ TRANSACTION *p;
     fclose(fp);
 }
 
-
 //PARA SA LAHAT
 
 //The gotoxy() function is used to position the console cursor to a specified location, with the x-coordinate and y-coordinate specified as arguments.
@@ -866,8 +914,12 @@ char ID[7];
         }
         else{printf("\nSELECT 1-3 ONLY!\n"); system("pause");}
         break;
+
     case 4:
-        system("cls"); break; //CHANGE PASS
+        system("cls");
+        changePass();
+        break; //CHANGE PASS
+
     case 5:
         return;
     default:
@@ -883,7 +935,7 @@ int transactionChoice;
 
 
     switch(optionAdmin){
-    case 1:
+    case 1: //MANAGE BOOK
         while(1){
             system("cls");
             switch(menuBook(bookFunctionChoice)){
@@ -916,7 +968,7 @@ int transactionChoice;
             }
         }
     case 2:
-        //BORROWING RECORD SWITCH CASE
+        //MANAGE TRANSACTIONS
         while(1){
             system("cls");
             switch(menuTransaction(transactionChoice)){
@@ -936,7 +988,11 @@ int transactionChoice;
          }
         break;
 
-    case 3:
+    case 3: //MANAGE BORROWER RECORDS
+
+        break;
+
+    case 4:
         return;
     default:
         printf("\nSELECT 1-3 ONLY!\n"); system("pause"); break;
@@ -986,8 +1042,9 @@ int optionPortal, optionAdmin, optionStudent;
                         system("cls");
                         printf("\n[1] MANAGE BOOK RECORD");
                         printf("\n[2] MANAGE BORROWING RECORD");
-                        printf("\n[3] GO BACK");
-                        printf("\nSELECT OPTION [1-3]: ");
+                        printf("\n[3] MANAGE BORROWING RECORD");
+                        printf("\n[4] GO BACK");
+                        printf("\nSELECT OPTION [1-4]: ");
                         scanf("%d", &optionAdmin);
                         adminPortal(optionAdmin);
 
