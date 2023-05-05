@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <string.h>
+#include "bookFunctions.c"
+#include "borrowerFunctions.c"
+#include "transactionFunction.c"
 
 //ACTIVITY 1: C PROGRAM WITH FILE HANDLING.
 //ALCANTARA, JOHN PAULO C. BSCS-NS-2AB
@@ -14,20 +17,23 @@
         [5] DISPLAY ALL RECORDS"
         [6] EXIT"
 */
-
+/*
 //Struct BOOK containing attributes of the book:
 typedef struct book{
     char title[51], author[51], year[5], refNum[14], material[16], category[31];
     int shelfNo, totalStock, borrower, currentStock;
     struct book *nxt;
 }BOOK;
+*/
 
+/*
 //Struct BORROWER containing attributes of the borrower
 typedef struct borrower{
     char name[31], TUP_ID[7], password[14], yearSection[15], contactNum[12], email [51];
     struct borrower *nxt;
 }BORROWER;
-
+*/
+/*
 //Struct TRANSACTION containing attributes of the transaction
 typedef struct transaction{
     char title[51], author[31], refNum[14], borrower[31], TUP_ID[7];
@@ -35,15 +41,16 @@ typedef struct transaction{
     struct transaction *nxt;
 }TRANSACTION;
 
-BOOK *headBook, infoBook;   //declaring head node and info struct variable where to store the initial info before storing in linked list.
-BORROWER *headBorrower, infoBorrower;
+//BOOK *headBook, infoBook;   //declaring head node and info struct variable where to store the initial info before storing in linked list.
+//BORROWER *headBorrower, infoBorrower;
 TRANSACTION *headTransaction, infoTransaction;
-char encryptedPass[7];
-
+//char encryptedPass[7];
+*/
 HWND WINAPI GetConsoleWindowNT(void);
 
 //BOOK FUNCTIONS
 //The getInfo() function prompts the user to enter information about a book, including its title, author, year published, ISBN, category, total number of stock, and number of borrowers. It stores this information in the info struct variable.
+/*
 void getInfoBook(){
     fflush stdin;
     printf("ENTER BOOK TITLE: ");
@@ -68,6 +75,7 @@ void getInfoBook(){
     printf("ENTER TOTAL NO. OF BORROWER: ");
     scanf("%d", &infoBook.borrower);
 }
+
 
 //The add() function adds a new node to the linked list in alphabetical order, with the info struct as its data.
 int addBook(){
@@ -384,6 +392,8 @@ int menuBook(int choice){
     }
     return choice;
 }
+*/
+/*
 int menuTransaction(int choice){
     while(choice<1 || choice>4){
         system("cls");
@@ -402,9 +412,9 @@ int menuTransaction(int choice){
     }
     return choice;
 }
-
+*/
 //FOR BORROWER FUNCTIONS
-
+/*
 BORROWER *locateTUP_ID(char TUP_ID[]){
 BORROWER *p;
 
@@ -572,7 +582,8 @@ int tries=3, flag=0;
         system("pause");
     }
 }
-
+*/
+/*
 void borrowBook(char ID[7]){
 BOOK *pBook;
 BORROWER *pBorrower;
@@ -799,7 +810,7 @@ TRANSACTION *p;
     }
     fclose(fp);
 }
-
+*/
 
 //PARA SA LAHAT
 
