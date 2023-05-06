@@ -49,7 +49,7 @@ void getInfoBorrower(){
         printf("\nYOUR TUP ID IS ALREADY REGISTERED!\n"); system("pause");
     }
     else{
-        HERE:
+        PASS:
         printf("PASSWORD: ");
         passDisp();
         strcpy(infoBorrower.password, encryptedPass);
@@ -74,7 +74,7 @@ void getInfoBorrower(){
         else{
             printf("\nPASSWORD DIDN'T MATCH\n");
             system("cls");
-            goto HERE;
+            goto PASS;
         }
     }
 }
