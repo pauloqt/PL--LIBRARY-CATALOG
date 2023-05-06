@@ -22,6 +22,6 @@ int menuBorrower(int choice);
 void searchBorrower();
 void updateBorrower();
 void displayAllBorrower(struct borrower *p, int start, int end);
-
+void loginAdmin();
 
 #endif // BORROWERFUNCTIONS_H_INCLUDED

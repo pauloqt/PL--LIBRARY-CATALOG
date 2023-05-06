@@ -132,7 +132,6 @@ int borrowerChoice;
 
                 default: printf("SELCT 1-6 ONLY!"); system("pause");
                     break;
-
             }
         }
         break;
@@ -143,6 +142,9 @@ int borrowerChoice;
             switch(menuTransaction(transactionChoice)){
                 case 1: system("cls");
                     printf("\nEDIT STATUS\n");
+                    editStatus();
+                    saveBook();
+                    saveTransaction();
                     break;
                 case 2: system("cls");
                     printf("\nSEARCH BORROWING RECORD\n");
