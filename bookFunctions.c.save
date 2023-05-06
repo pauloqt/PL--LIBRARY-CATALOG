@@ -298,36 +298,11 @@ BOOK *p;
     fclose(fp);
 }
 
-//encrypt() creates a copy of the original string, encrypts the copy, and returns the encrypted copy.
-char* encryptBook(char text[]){                     //char* - return type for string
-int i=0;
-
-    char* encrypted= malloc(strlen(text)+1);    //creates a new char pointer variable that is a copy of the text string, which can be modified without changing the original input string.
-    strcpy(encrypted, text);                    //copy value of text to new string
-
-    for(i=0; encrypted[i]!='\0'; i++){          //loop through each character of encrypted
-        encrypted[i]+=29;                        //add key to each character
-    }
-
-    return encrypted;
-}
-
-//decrypt() decodes the encrypted text by subtracting the key which is 29 then it returns the text.
-char* decryptBook(char text[]){                //char* - return type for string
-int i=0;
-
-    for(i=0; text[i]!='\0'; i++){          //loop through each character of encrypted
-        text[i]-=29;                       //subtract key to each character
-    }
-
-    return text;
-}
-
 //The menu() function displays the main menu of the library catalog program and prompts the user to enter a choice. It returns the user's choice.
 int menuBook(int choice){
     while(choice<1 || choice>6){
         system("cls");
-        printf("\tMANA");
+        printf("\tMANAGE BOOK RECORD\n");
         printf("\nMENU");
         printf("\n[1] ADD RECORD");
         printf("\n[2] UPDATE RECORD");

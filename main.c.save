@@ -132,8 +132,6 @@ int borrowerChoice;
 
                 default: printf("SELCT 1-6 ONLY!"); system("pause");
                     break;
-                    
-
             }
         }
         break;
@@ -199,7 +197,7 @@ int borrowerChoice;
 
 int main(){
 HWND hWnd=GetConsoleWindowNT();
-MoveWindow(hWnd,900,900,1200,900,TRUE);
+MoveWindow(hWnd,2000,2000,2000,,TRUE);
 int optionPortal, optionAdmin, optionStudent;
 
     headBook=NULL;                   //initializing linked list.
