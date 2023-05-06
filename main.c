@@ -40,7 +40,7 @@ HWND WINAPI GetConsoleWindowNT(void)
 
 void studentPortal(int optionStudent){
 BOOK *p;
-int logInOrRegister;
+int logInOrRegister, borrowOrBack;
 char ID[7];
 
     switch(optionStudent){
@@ -64,8 +64,13 @@ char ID[7];
             getInfoBorrower();
             addBorrower();
             saveInfoBorrower();
-            strcpy(ID, loginBorrower());
-            borrowBook(ID);
+            printf("\n[1] BORROW [2] GO BACK");
+            printf("\nSELECT OPTION(1-2): ");
+            scanf("%d", &borrowOrBack);
+            if(borrowOrBack==1){
+                strcpy(ID, loginBorrower());
+                borrowBook(ID);
+            }
         }
         else if(logInOrRegister==3){
             return;
@@ -203,6 +208,7 @@ int optionPortal, optionAdmin, optionStudent;
 
         while(optionPortal!=3){
             system("cls");
+            printf("\tTUP LIBRARY\n\n");
             printf("\n[1] STUDENT PORTAL");
             printf("\n[2] ADMIN PORTAL");
             printf("\n[3] EXIT PROGRAM");
@@ -227,6 +233,7 @@ int optionPortal, optionAdmin, optionStudent;
                     break;
 
                 case 2:
+                    loginAdmin();
                     optionAdmin=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
                     while(optionAdmin!=4){
                         system("cls");

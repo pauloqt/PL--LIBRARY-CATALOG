@@ -40,6 +40,8 @@ int ch;
     if(pBook==NULL){
        printf("\nBOOK NOT FOUND!\n"); system("pause");
     }
+    
+    else if(pBook->totalStock-)
 
     else{
         system("cls");

@@ -39,6 +39,7 @@ void passDisp(){
 }
 
 void getInfoBorrower(){
+    char rePass[14];
     system("cls");
     printf("\nREGISTER\n\n");
     printf("COMPLETE THE INFORMATION BELOW\n\n");
@@ -48,21 +49,33 @@ void getInfoBorrower(){
         printf("\nYOUR TUP ID IS ALREADY REGISTERED!\n"); system("pause");
     }
     else{
+        PASS:
         printf("PASSWORD: ");
         passDisp();
         strcpy(infoBorrower.password, encryptedPass);
-        printf("\nNAME (EX. JUAN A. DELA CRUZ): ");
-        fflush stdin;
-        scanf("%[^\n]", &infoBorrower.name);
-        fflush stdin;
-        printf("COURSE AND SECTION (EX: BSCS-NS2A): ");
-        scanf("%s", &infoBorrower.yearSection);
-        printf("CONTACT NUMBER (Ex. 09123456789): ");
-        scanf("%s", &infoBorrower.contactNum);
-        printf("EMAIL ADDRESS (Ex. juandelacruz@tup.edu.ph): ");
-        scanf("%s", &infoBorrower.email);
-        printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
-        system("pause");
+        printf("\nRE-ENTER PASSWORD: ");
+        passDisp();
+        strcpy(rePass, encryptedPass);
+        if(strcmp(rePass, infoBorrower.password)==0){
+                printf("\nNAME (EX. JUAN A. DELA CRUZ): ");
+                fflush stdin;
+                scanf("%[^\n]", &infoBorrower.name);
+                fflush stdin;
+                printf("COURSE AND SECTION (EX: BSCS-NS2A): ");
+                scanf("%s", &infoBorrower.yearSection);
+                printf("CONTACT NUMBER (Ex. 09123456789): ");
+                scanf("%s", &infoBorrower.contactNum);
+                printf("EMAIL ADDRESS (Ex. juandelacruz@tup.edu.ph): ");
+                scanf("%s", &infoBorrower.email);
+                printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
+                system("pause");
+                return;
+        }
+        else{
+            printf("\nPASSWORD DIDN'T MATCH\n");
+            system("pause"); system("cls");
+            goto PASS;
+        }
     }
 }
 
@@ -362,4 +375,35 @@ int menuBorrower(int choice){
         }
     }
     return choice;
+}
+
+void loginAdmin(){
+    char defaultPass[] = "1234";
+    char enteredPass[12];
+    int tries= 3, flag = 0;
+
+    while (tries > 0 && flag == 0) {
+        system("cls");
+        printf("\nLOG IN\n\n");
+        printf("ENTER ADMIN PASSWORD: ");
+        passDisp();
+        strcpy(enteredPass, encryptedPass);
+
+        if (strcmp(enteredPass, defaultPass) == 0) {
+            printf("\nLOGIN SUCCESSFUL!\n");
+            system("pause");
+            flag = 1;
+        } else {
+            printf("\n\nINVALID ADMIN PASSWORD. ");
+            tries--;
+            printf("\nYOU HAVE %d TRIES LEFT.\n", tries);
+            system("pause");
+            system("cls");
+        }
+    }
+
+    if (tries == 0){
+        printf("YOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
+        system("pause");
+    }
 }
