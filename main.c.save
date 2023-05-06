@@ -80,7 +80,7 @@ char ID[7];
 
     case 5:
         return;
-
+        
     case 6: exit(0);
 
     default:
@@ -177,7 +177,7 @@ int borrowerChoice;
     break;
 
     case 4:
-        return;
+        return; break;
 
     case 5:
         exit(0); break;
@@ -213,7 +213,6 @@ int optionPortal, optionAdmin, optionStudent;
                     optionStudent=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
                     while(optionStudent!=5){
                         system("cls");
-                        printf("\t\tSTUDENT PORTAL\n\n");
                         printf("\n[1] DISPLAY ALL BOOKS");
                         printf("\n[2] SEARCH");
                         printf("\n[3] BORROW");
@@ -228,9 +227,8 @@ int optionPortal, optionAdmin, optionStudent;
 
                 case 2:
                     optionAdmin=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
-                    while(optionAdmin!=4){
+                    while(optionAdmin!=5){
                         system("cls");
-                        printf("\t\tADMIN PORTAL\n\n");
                         printf("\n[1] MANAGE BOOK RECORD");
                         printf("\n[2] MANAGE BORROWING RECORD");
                         printf("\n[3] MANAGE BORROWER RECORD");
