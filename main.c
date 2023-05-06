@@ -143,6 +143,9 @@ int borrowerChoice;
             switch(menuTransaction(transactionChoice)){
                 case 1: system("cls");
                     printf("\nEDIT STATUS\n");
+                    editStatus();
+                    saveBook();
+                    saveTransaction();
                     break;
                 case 2: system("cls");
                     printf("\nSEARCH BORROWING RECORD\n");
