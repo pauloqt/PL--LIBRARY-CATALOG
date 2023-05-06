@@ -363,3 +363,34 @@ int menuBorrower(int choice){
     }
     return choice;
 }
+
+void loginAdmin(){
+    char defaultPass[] = "1234";
+    char enteredPass[12];
+    int tries= 3, flag = 0;
+
+    while (tries > 0 && flag == 0) {
+        system("cls");
+        printf("\nLOG IN\n\n");
+        printf("ENTER ADMIN PASSWORD: ");
+        passDisp();
+        strcpy(enteredPass, encryptedPass);
+
+        if (strcmp(enteredPass, defaultPass) == 0) {
+            printf("\nLOGIN SUCCESSFUL!\n");
+            system("pause");
+            flag = 1;
+        } else {
+            printf("\n\nINVALID ADMIN PASSWORD. ");
+            tries--;
+            printf("\nYOU HAVE %d TRIES LEFT.\n", tries);
+            system("pause");
+            system("cls");
+        }
+    }
+
+    if (tries == 0){
+        printf("YOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
+        system("pause");
+    }
+}

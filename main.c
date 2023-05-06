@@ -203,6 +203,7 @@ int optionPortal, optionAdmin, optionStudent;
 
         while(optionPortal!=3){
             system("cls");
+            printf("\tTUP LIBRARY\n\n");
             printf("\n[1] STUDENT PORTAL");
             printf("\n[2] ADMIN PORTAL");
             printf("\n[3] EXIT PROGRAM");
@@ -227,6 +228,7 @@ int optionPortal, optionAdmin, optionStudent;
                     break;
 
                 case 2:
+                    loginAdmin();
                     optionAdmin=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
                     while(optionAdmin!=4){
                         system("cls");

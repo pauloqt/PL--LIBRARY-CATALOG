@@ -38,7 +38,11 @@ int ch;
     pBook= locateBook(enteredBookRef);
 
     if(pBook==NULL){
-       printf("\nBOOK NOT FOUND!\n"); system("pause");
+       printf("\nSELECTED BOOK IS NOT AVAILABLE\n"); system("pause");
+    }
+
+    else if(pBook->totalStock - pBook->borrower <=0){
+        printf("\nSELECTED BOOK IS OUT OF STOCK!\n"); system("pause");
     }
 
     else{

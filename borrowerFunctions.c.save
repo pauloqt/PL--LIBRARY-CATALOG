@@ -38,7 +38,9 @@ void passDisp(){
     encryptedPass[index]='\0';
 }
 
+
 void getInfoBorrower(){
+    char rePass[14];
     system("cls");
     printf("\nREGISTER\n\n");
     printf("COMPLETE THE INFORMATION BELOW\n\n");
@@ -48,21 +50,33 @@ void getInfoBorrower(){
         printf("\nYOUR TUP ID IS ALREADY REGISTERED!\n"); system("pause");
     }
     else{
+        PASS:
         printf("PASSWORD: ");
         passDisp();
         strcpy(infoBorrower.password, encryptedPass);
-        printf("\nNAME (EX. JUAN A. DELA CRUZ): ");
-        fflush stdin;
-        scanf("%[^\n]", &infoBorrower.name);
-        fflush stdin;
-        printf("COURSE AND SECTION (EX: BSCS-NS2A): ");
-        scanf("%s", &infoBorrower.yearSection);
-        printf("CONTACT NUMBER (Ex. 09123456789): ");
-        scanf("%s", &infoBorrower.contactNum);
-        printf("EMAIL ADDRESS (Ex. juandelacruz@tup.edu.ph): ");
-        scanf("%s", &infoBorrower.email);
-        printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
-        system("pause");
+        printf("\nRE-ENTER PASSWORD: ");
+        passDisp();
+        strcpy(rePass, encryptedPass);
+        if(strcmp(rePass, infoBorrower.password)==0){
+                printf("\nNAME (EX. JUAN A. DELA CRUZ): ");
+                fflush stdin;
+                scanf("%[^\n]", &infoBorrower.name);
+                fflush stdin;
+                printf("COURSE AND SECTION (EX: BSCS-NS2A): ");
+                scanf("%s", &infoBorrower.yearSection);
+                printf("CONTACT NUMBER (Ex. 09123456789): ");
+                scanf("%s", &infoBorrower.contactNum);
+                printf("EMAIL ADDRESS (Ex. juandelacruz@tup.edu.ph): ");
+                scanf("%s", &infoBorrower.email);
+                printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
+                system("pause");
+                return;
+                        }
+        else{
+            printf("\nPASSWORD DIDN'T MATCH\n");
+            system("cls");
+            goto PASS;
+        }
     }
 }
 
@@ -279,6 +293,47 @@ void searchBorrower(){
 
     if (i==-1) printf("\nNo transactions found.\n");
     system("pause");
+}
+
+void updateBorrower(){
+BORROWER *p;
+int choice,info;
+char TUP_ID[14];
+char update[51];
+int updateInt;
+
+    printf("ENTER YOUR TUP ID: ");
+    scanf("%s", TUP_ID);
+    p = locateTUP_ID(TUP_ID);
+
+    if(p==NULL){
+        printf("\nRECORD NOT FOUND!\n"); system("pause");
+    }
+
+    else{
+        displayAllBorrower(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
+        printf("\n[1] Name");
+        printf("\n[2] TUP ID");
+        printf("\n[3] Year and Section");
+        printf("\n[4] Contact Number");
+        printf("\n[5] Email");
+        printf("\nCHOOSE THE INFORMATION YOU WISH TO UPDATE (1-5): ");
+        scanf("%d", &info);
+        fflush stdin;
+        printf("\nENTER THE UPDATED INFORMATION: ");
+        scanf("%[^\n]", update);}
+
+        printf("\nARE YOU SURE TO UPDATE THE RECORD OF %s?\n[1]YES [2]NO : ", p->name);
+        scanf("%d", &choice);
+        if(choice==1){
+            switch(info){
+                case 1: strcpy(p->name, update); break;
+                case 2: strcpy(p->TUP_ID, update); break;
+                case 3: strcpy(p->yearSection, update); break;
+                case 4: strcpy(p->contactNum, update); break;
+                case 5: strcpy(p->email, update); break;
+        }
+    }
 }
 
 void displayAllBorrower(struct borrower *p, int start, int end){

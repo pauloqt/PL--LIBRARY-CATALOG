@@ -327,7 +327,7 @@ int i=0;
 int menuBook(int choice){
     while(choice<1 || choice>6){
         system("cls");
-        printf("\tMANAGE BOOK RECORD\n");
+        printf("\tMANA");
         printf("\nMENU");
         printf("\n[1] ADD RECORD");
         printf("\n[2] UPDATE RECORD");
