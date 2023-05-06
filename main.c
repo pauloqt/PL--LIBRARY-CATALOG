@@ -1231,7 +1231,7 @@ int optionPortal, optionAdmin, optionStudent;
 
                 case 3: exit(0); break;
 
-                default: printf("\nCHOOSE 1-5 ONLY!\n"); system("pause"); break;
+                default: printf("\nCHOOSE 1-3 ONLY!\n"); system("pause"); break;
             }
         }
 }
