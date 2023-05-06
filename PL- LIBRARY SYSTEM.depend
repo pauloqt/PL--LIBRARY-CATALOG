@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1683367633 source:c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\main.c
+1683370178 source:c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
@@ -13,7 +13,7 @@
 1683368842 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\bookfunctions.c
 	"bookFunctions.h"
 
-1683366572 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\borrowerfunctions.c
+1683370621 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\borrowerfunctions.c
 	"borrowerFunctions.h"
 
 1683366110 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\borrowerfunctions.h
