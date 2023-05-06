@@ -714,6 +714,39 @@ int tries=3, flag=0;
     }
 }
 
+
+void loginAdmin() {
+    char defaultPass[] = "1234";
+    char enteredPass[12];
+    int tries= 3, flag = 0;
+
+    while (tries > 0 && flag == 0) {
+        system("cls");
+        printf("\nLOG IN\n\n");
+        printf("ENTER ADMIN PASSWORD: ");
+        passDisp();
+        strcpy(enteredPass, encryptedPass);
+
+        if (strcmp(enteredPass, defaultPass) == 0) {
+            printf("\nLOGIN SUCCESSFUL!\n");
+            system("pause");
+            flag = 1;
+        } else {
+            printf("\n\nINVALID ADMIN PASSWORD. ");
+            tries--;
+            printf("\nYOU HAVE %d TRIES LEFT.\n", tries);
+            system("pause");
+            system("cls");
+        }
+    }
+
+    if (tries == 0){
+        printf("YOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
+        system("pause");
+    }
+}
+
+
 void borrowBook(char ID[7]){
 BOOK *pBook;
 BORROWER *pBorrower;
@@ -1069,8 +1102,8 @@ char ID[7];
     case 4:
         system("cls"); changePass(); break; //CHANGE PASS
     case 5:
-        exit(0); break;
-    case 6: return;
+        return;
+    case 6: exit(0); break;
     default:
         printf("\nSELECT 1-6 ONLY!\n"); system("pause"); break;
     }
@@ -1165,9 +1198,9 @@ int borrowerChoice;
          }
         break;
     case 4:
-        exit(0); break;
+         return;
     case 5:
-        return;
+         exit(0);
 
     default:
         printf("\nSELECT 1-5 ONLY!\n"); system("pause"); break;
@@ -1198,14 +1231,14 @@ int optionPortal, optionAdmin, optionStudent;
             switch(optionPortal){
                 case 1:
                     optionStudent=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
-                    while(optionStudent!=6){
+                    while(optionStudent!=5){
                         system("cls");
                         printf("\n[1] DISPLAY ALL BOOKS");
                         printf("\n[2] SEARCH");
                         printf("\n[3] BORROW");
                         printf("\n[4] CHANGE PASSWORD");
-                        printf("\n[5] EXIT");
-                        printf("\n[6] GO BACK");
+                        printf("\n[5] GO BACK");
+                        printf("\n[6] EXIT");
                         printf("\nSELECT OPTION [1-6]: ");
                         scanf("%d", &optionStudent);
                         studentPortal(optionStudent);
@@ -1213,15 +1246,16 @@ int optionPortal, optionAdmin, optionStudent;
                     break;
 
                 case 2:
+                    loginAdmin();
                     optionAdmin=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
-                    while(optionAdmin!=5){
+                    while(optionAdmin!=4){
                         system("cls");
                         printf("\n[1] MANAGE BOOK RECORDS");
                         printf("\n[2] MANAGE TRANSACTION RECORDS");
                         printf("\n[3] MANAGE BORROWER RECORDS");
-                        printf("\n[4] EXIT");
-                        printf("\n[5] GO BACK");
-                        printf("\nSELECT OPTION [1-5]: ");
+                        printf("\n[4] GO BACK");
+                        printf("\n[5] EXIT");
+                        printf("\nSELECT OPTION [1-4]: ");
                         scanf("%d", &optionAdmin);
                         adminPortal(optionAdmin);
 
