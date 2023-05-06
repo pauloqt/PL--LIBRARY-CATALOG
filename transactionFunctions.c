@@ -254,11 +254,15 @@ struct transaction *locateTransaction(char TUP_ID[], char refNum[]){
 TRANSACTION *p;
 
     p=headTransaction;
-    while(p!=NULL && strcmp(refNum, p->refNum)!=0 && strcmp(TUP_ID, p->TUP_ID)!=0 ){
-        p=p->nxt;
+    while(p!=NULL){
+        if(strcmp(TUP_ID, p->TUP_ID)==0 && strcmp(refNum, p->refNum)==0){
+            return p;
+        }
+    p=p->nxt;
     }
 
     return p;
+
 }
 
 void editStatus(){
@@ -266,7 +270,6 @@ BOOK *pBook;
 TRANSACTION *pTransac;
 char enteredID[7], enteredReference[14], returned[10]="RETURNED";
 
-    pTransac=headTransaction;
     printf("TUP ID (Ex. 123456): TUP-M ");
     scanf("%s", enteredID);
     printf("ENTER REFERENCE NUMBER: ");
@@ -277,7 +280,9 @@ char enteredID[7], enteredReference[14], returned[10]="RETURNED";
     }
 
     else{
+        fflush stdin;
         strcpy(pTransac->status, returned);
+        printf("%s", pTransac->status);
         pBook=locateBook(enteredReference);
         pBook->borrower-=1;
         printf("\nRECORD SUCCESSFULLY EDITED\n"); system("pause");

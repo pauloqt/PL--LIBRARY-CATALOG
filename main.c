@@ -132,7 +132,6 @@ int borrowerChoice;
 
                 default: printf("SELCT 1-6 ONLY!"); system("pause");
                     break;
-
             }
         }
         break;
