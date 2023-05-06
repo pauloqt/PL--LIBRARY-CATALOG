@@ -39,7 +39,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="transactionDetails.txt" />
-		<Unit filename="transactionFunction.h" />
+		<Unit filename="transactionFunctions.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
