@@ -748,29 +748,33 @@ void loginAdmin() {
 
 
 void borrowBook(char ID[7]){
-BOOK *pBook;
-BORROWER *pBorrower;
-TRANSACTION *pTransaction;
-char enteredBookRef[14];
-int ch;
+    BOOK *pBook;
+    BORROWER *pBorrower;
+    TRANSACTION *pTransaction;
+    char enteredBookRef[14];
+    int ch;
 
-    pBorrower=locateTUP_ID(ID);
-    pTransaction=headTransaction;
+    pBorrower = locateTUP_ID(ID);
+    pTransaction = headTransaction;
 
     system("cls");
     printf("\nWELCOME, %s\n", pBorrower->name);
     printf("\nENTER BOOK REFERENCE NO. : ");
     scanf("%s", enteredBookRef);
 
-    pBook= locateBook(enteredBookRef);
+    pBook = locateBook(enteredBookRef);
 
-    if(pBook==NULL){
-       printf("\nBOOK NOT FOUND!\n"); system("pause");
+    if(pBook == NULL){
+       printf("\nBOOK NOT FOUND!\n");
+       getchar();
     }
-
-    else{
+    else if (pBook->totalStock == 0) {
+       printf("\nBOOK NOT AVAILABLE!\n");
+       getchar();
+    }
+    else if (pBook->totalStock > 0) {
         system("cls");
-        displayBook(pBook,0,pBook->nxt);
+        displayBook(pBook, 0, pBook->nxt);
         system("cls");
         printf("\nBOOK REFERENCE NO.: %s", pBook->refNum);
         printf("\nBOOK TO BORROW: %s", pBook->title);
@@ -793,16 +797,16 @@ int ch;
         printf("SELECT OPTION (1-2): ");
         fflush stdin;
         scanf("%d", &ch);
-        if(ch==1){
+        if(ch == 1){
             addTransaction();
-            pBook->borrower+=1;
+            pBook->borrower += 1;
+            pBook->totalStock -= 1;
             saveTransaction();
             saveBook();
         }
         else{
             return;
         }
-
     }
 }
 
@@ -1210,7 +1214,7 @@ int borrowerChoice;
 
 int main(){
 HWND hWnd=GetConsoleWindowNT();
-MoveWindow(hWnd,900,900,1200,900,TRUE);
+MoveWindow(hWnd,2000,2000,2000,2000,TRUE);
 int optionPortal, optionAdmin, optionStudent;
 
     headBook=NULL;                   //initializing linked list.
