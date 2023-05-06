@@ -13,7 +13,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="./" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -23,7 +22,6 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add directory="./" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -33,14 +31,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="book.cpp" />
-		<Unit filename="book.h" />
 		<Unit filename="bookDetails.txt" />
+		<Unit filename="bookFunctions.h" />
 		<Unit filename="borrowerDetails.txt" />
+		<Unit filename="borrowerFunctions.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="transactionDetails.txt" />
+		<Unit filename="transactionFunctions.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
