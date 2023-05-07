@@ -63,8 +63,8 @@ int ch;
         scanf("%s", infoTransaction.dateBorrowed);
         printf("ENTER DATE TO RETURN [MM/DD/YY]: ");
         scanf("%s", infoTransaction.dateToReturn);
-        strcpy(infoTransaction.librarian, "MS. LAICA YGOT");
-        printf("LIBRARIAN IN CHARGE: MS. LAICA);
+        strcpy(infoTransaction.librarian, "MS.YGOT");
+        printf("LIBRARIAN IN CHARGE: MS.YGOT");
         strcpy(infoTransaction.status, "TO RETURN");
         printf("\nDO YOU WANT TO PROCEED WITH THE TRANSACTION?\n[1] YES [2] NO\n");
         printf("SELECT OPTION (1-2): ");
@@ -90,7 +90,7 @@ TRANSACTION *q, *p, *n;
     *n= infoTransaction;                           //copy info of the book to n.
 
     p=q=headTransaction;                           //point all pointers to head.
-    while(p!=NULL){
+    while(p!=NULL && (strcmp(n->status, p->status)<0 && strcmp(n->title)){
         q=p;
         p=p->nxt;
     }
