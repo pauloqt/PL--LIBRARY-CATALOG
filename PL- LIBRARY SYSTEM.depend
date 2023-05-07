@@ -1,7 +1,30 @@
 # depslib dependency file v1.0
-1683019936 source:c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\main.c
+1683390530 source:c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
 	<string.h>
+	"bookFunctions.c"
+	"borrowerFunctions.c"
+	"transactionFunctions.c"
+
+1683361547 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\bookfunctions.h
+
+1683374604 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\bookfunctions.c
+	"bookFunctions.h"
+
+1683390031 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\borrowerfunctions.c
+	"borrowerFunctions.h"
+
+1683389247 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\borrowerfunctions.h
+
+1683303137 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunction.c
+	"transactionFunction.h"
+
+1683303207 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunction.h
+
+1683392180 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunctions.c
+	"transactionFunctions.h"
+
+1683387452 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunctions.h
 
