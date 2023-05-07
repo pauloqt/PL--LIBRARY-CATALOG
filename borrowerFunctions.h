@@ -23,5 +23,7 @@ void searchBorrower();
 void updateBorrower();
 void displayAllBorrower(struct borrower *p, int start, int end);
 void loginAdmin();
+char* encrypt(char text[]);
+char* decrypt(char text[]);
 
 #endif // BORROWERFUNCTIONS_H_INCLUDED
