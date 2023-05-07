@@ -134,12 +134,12 @@ BOOK *p;
             fflush stdin;
             fscanf(fp, "\n%[^\n]\n", &infoBorrower.name);
             fflush stdin;
-            //fscanf(fp, "%s %s %s %s %s", decrypt(infoBorrower.TUP_ID), decrypt(infoBorrower.password), decrypt(infoBorrower.yearSection), decrypt(infoBorrower.contactNum), decrypt(infoBorrower.email));
+
             fscanf(fp, "%s %s %s %s %s", infoBorrower.TUP_ID, infoBorrower.password, infoBorrower.yearSection, infoBorrower.contactNum, infoBorrower.email);
             //decrypting the retrieved info.
-            //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
-            //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
-
+            
+            strcpy(infoBorrower.TUP_ID, decrypt(infoBorrower.TUP_ID)); strcpy(infoBorrower.password, decrypt(infoBorrower.password)); strcpy(infoBorrower.yearSection, decrypt(infoBorrower.yearSection));
+            strcpy(infoBorrower.contactNum, decrypt(infoBorrower.email)); strcpy(infoBorrower.name, decrypt(infoBorrower.name));
             if(!feof(fp)){
                 addBorrower();
                 fflush stdin;
