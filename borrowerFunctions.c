@@ -2,7 +2,7 @@
 
 
 //FOR BORROWER FUNCTIONS
-
+//locateTUP_ID() accepts the TUP_ID as parameter then locates the node with the TUP_ID in the borrower linked list, then returns the node.
 BORROWER *locateTUP_ID(char TUP_ID[]){
 BORROWER *p;
 
@@ -13,6 +13,7 @@ BORROWER *p;
     return p;
 }
 
+//passDisp() allows the user to enter password in encrypted display.
 void passDisp(){
 
     int index = 0;
@@ -38,6 +39,7 @@ void passDisp(){
     encryptedPass[index]='\0';
 }
 
+//The getInfoBorrower() function prompts the student to enter their information for registration including all details from the Struct borrower. It stores this information in the infoBorrower struct variable.
 void getInfoBorrower(){
     char rePass[14];
     system("cls");
@@ -79,6 +81,7 @@ void getInfoBorrower(){
     }
 }
 
+//The addBorrower()  adds a new node to the book linked list in alphabetical order, with the infoBorrwer struct as its data.
 int addBorrower(){
 BORROWER *q, *p, *n;
 
@@ -100,6 +103,7 @@ BORROWER *q, *p, *n;
     n->nxt=p;  //insert p at the end which contains next node or NULL.
 }
 
+//saveInfoBorrower() saves the encrypted borrower details in "borrowerDetails.txt"
 void saveInfoBorrower(){//"borrowerDetails.txt"
 
 FILE *fp= fopen("borrowerDetails.txt", "w+");
@@ -152,6 +156,7 @@ BOOK *p;
     fclose(fp);
 }
 
+//logInBorrower() allows student to log in their existing account by entering their TUP ID and password.
 BORROWER* loginBorrower(){
 BORROWER *p;
 char enteredID[7], enteredPass[7];
@@ -187,6 +192,7 @@ int tries=3, flag=0;
     }
 }
 
+//changePassBorrower() allows user to change their password by asking their TUP ID, current pass, and new pass.
 void changePassBorrower(){
 BORROWER *p;
 char currPass[14], newPass[14], rePass[14], TUP_ID[7];
@@ -244,6 +250,7 @@ int tries1=3, tries2=3, flag1=0, flag2=0;
 
 }
 
+//The searchBook() function prompts the user to enter a search a string, and then searches the linked list for any borrower whose info matches the search string. It displays information about any matching books.
 void searchBorrower(){
     BORROWER *p;
     char toSearch[51];
@@ -297,6 +304,7 @@ void searchBorrower(){
     system("pause");
 }
 
+//The updateBorrower() function prompts the student to enter their TUP ID., and then searches for the corresponding borrower node in the linked list. If found, it displays information about the borrower and prompts the user to choose which information to update. It then updates the chosen information if the user confirms the update.
 void updateBorrower(){
 BORROWER *p;
 int choice,info;
@@ -338,6 +346,7 @@ int updateInt;
     }
 }
 
+//displayAllBorrower() displays all the information of all nodes in borrower linkedlist.
 void displayAllBorrower(struct borrower *p, int start, int end){
 int i;
 
@@ -360,6 +369,7 @@ int i;
     gotoxy(5,6+i+3); system("pause");
 }
 
+//menuBorrower() displays all the operations the admin can do on borrower records.
 int menuBorrower(int choice){
     while(choice<1 || choice>5){
         system("cls");
@@ -380,6 +390,7 @@ int menuBorrower(int choice){
     return choice;
 }
 
+//logInAdmin() asks the admin of their password, and verifies before entering the admin portal.
 void loginAdmin(){
     char defaultPass[] = "1234";
     char enteredPass[12];

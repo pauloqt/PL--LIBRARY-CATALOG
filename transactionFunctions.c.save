@@ -1,6 +1,6 @@
 #include "transactionFunctions.h"
 
-
+//menuTransaction() displays the menu all the operations the admin can do on transaction records.
 int menuTransaction(int choice){
     while(choice<1 || choice>4){
         system("cls");
@@ -20,6 +20,7 @@ int menuTransaction(int choice){
     return choice;
 }
 
+//borrowBook() asks the borrower about all the necessary information on borrowing transaction (transaction attributes).
 void borrowBook(char ID[7]){
 BOOK *pBook;
 BORROWER *pBorrower;
@@ -75,6 +76,8 @@ int ch;
             pBook->borrower+=1;
             saveTransaction();
             saveBook();
+            printf("\n\nBORROWING TRANSACTION PROCESSED.\nPROCEED TO THE LIBRARIAN TO BORROW THE BOOK.\n");
+            system("pause");
         }
         else{
             return;
@@ -83,6 +86,7 @@ int ch;
     }
 }
 
+//The addTransaction() function adds a new node to the transaction linked list in alphabetical order, with the info struct as its data.
 int addTransaction(){
 TRANSACTION *q, *p, *n;
 
@@ -90,7 +94,7 @@ TRANSACTION *q, *p, *n;
     *n= infoTransaction;                           //copy info of the book to n.
 
     p=q=headTransaction;                           //point all pointers to head.
-    while(p!=NULL && (strcmp(n->status, p->status)<0 && strcmp(n->title)){
+    while(p!=NULL && strcmp(n->status, p->status)<=0){
         q=p;
         p=p->nxt;
     }
@@ -104,6 +108,7 @@ TRANSACTION *q, *p, *n;
     n->nxt=p;  //insert p at the end which contains next node or NULL.
 }
 
+////The searchTransaction() function prompts the user to enter a search a string, and then searches the linked list for any transaction whose title, author, or category matches the search term. It displays information about any matching books.
 void searchTransaction(){
     TRANSACTION *p;
     char toSearch[51];
@@ -168,6 +173,7 @@ void searchTransaction(){
     system("pause");
 }
 
+//displayAllTransaction() displays all information of all the node in the transaction linked list.
 void displayAllTransaction(struct transaction *p, int start, int end){
 int i;
 
@@ -195,6 +201,7 @@ int i;
     gotoxy(5,6+i+3); system("pause");
 }
 
+//saveInfoTransaction() saves the encrypted borrower details in "transactionDetails.txt"
 void saveTransaction(){
 FILE *fp= fopen("transactionDetails.txt", "w+");
 TRANSACTION *p;
@@ -214,6 +221,7 @@ TRANSACTION *p;
     }
 }
 
+//saveInfoTransaction() saves the encrypted borrower details in "transactionDetails.txt"
 void retrieveTransaction(){
 FILE *fp= fopen("transactionDetails.txt", "r+");
 TRANSACTION *p;
@@ -249,7 +257,7 @@ TRANSACTION *p;
     fclose(fp);
 }
 
-//The locate() function searches for the book node with a given ISBN, and returns a pointer to that node if it is found.
+//The locateTransaction() function searches for the transaction node with a given TUP ID and returns a pointer to that node if it is found.
 struct transaction *locateTransaction(char TUP_ID[], char refNum[]){
 TRANSACTION *p;
 
@@ -265,6 +273,7 @@ TRANSACTION *p;
 
 }
 
+//editStatus() asks the admin to enter the transaction's borrower TUPID, and book ref number. Then updates the i
 void editStatus(){
 BOOK *pBook;
 TRANSACTION *pTransac;

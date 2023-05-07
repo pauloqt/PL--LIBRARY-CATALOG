@@ -1,7 +1,7 @@
 #include "bookFunctions.h"
 
 //BOOK FUNCTIONS
-//The getInfo() function prompts the user to enter information about a book, including its title, author, year published, ISBN, category, total number of stock, and number of borrowers. It stores this information in the info struct variable.
+//The getInfo() function prompts the user to enter information about a book, including all details from the Struct book. It stores this information in the infoBook struct variable.
 
 void getInfoBook(){
     fflush stdin;
@@ -29,7 +29,7 @@ void getInfoBook(){
 }
 
 
-//The add() function adds a new node to the linked list in alphabetical order, with the info struct as its data.
+//The addBook() function adds a new node to the book linked list in alphabetical order, with the info struct as its data.
 int addBook(){
 BOOK *q, *p, *n;
 
@@ -52,7 +52,7 @@ BOOK *q, *p, *n;
     n->nxt=p;  //insert p at the end which contains next node or NULL.
 }
 
-//The locate() function searches for the book node with a given ISBN, and returns a pointer to that node if it is found.
+//The locateBook() function searches for the book node with a given book reference number and returns a pointer to that node if it is found.
 struct book *locateBook(char refNum[]){
 BOOK *p;
 
@@ -64,7 +64,7 @@ BOOK *p;
     return p;
 }
 
-//The update() function prompts the user to enter an ISBN, and then searches for the corresponding book node in the linked list. If found, it displays information about the book and prompts the user to choose which information to update. It then updates the chosen information if the user confirms the update.
+//The updateBook() function prompts the user to enter the ref no., and then searches for the corresponding book node in the linked list. If found, it displays information about the book and prompts the user to choose which information to update. It then updates the chosen information if the user confirms the update.
 void updateBook() {
 BOOK *p;
 int choice,info;
@@ -117,7 +117,7 @@ int updateInt;
     }
 }
 
-//The del() function prompts the user to enter an ISBN, and then searches for the corresponding book node in the linked list. If found, it removes the node from the linked list.
+//The delBook() function prompts the user to enter a ref no., and then searches for the corresponding book node in the linked list. If found, it removes the node from the linked list.
 void delBook(){
 BOOK *p, *q;
 int choice;
@@ -155,7 +155,7 @@ char refNum[14];
     }
 }
 
-//The search() function prompts the user to enter a search term, and then searches the linked list for any books whose title, author, or category matches the search term. It displays information about any matching books.
+//The searchBook() function prompts the user to enter a search a string, and then searches the linked list for any books whose title, author, or category matches the search term. It displays information about any matching books.
 void searchBook(){
 BOOK *p;
 char toSearch[51];
@@ -163,14 +163,20 @@ char text[51];
 int i, searchCategory;
 char* categoryPointer;
 
-    printf("\nSEARCH BY CATEGORY");
-    printf("\n[1] Book Title");
-    printf("\n[2] Author");
-    printf("\n[3] Year Published");
-    printf("\n[4] Material");
-    printf("\n[5] Topic Category");
-    printf("\nENTER SEARCH CATEGORY [1-5]: ");
-    scanf("%d", &searchCategory);
+    while(searchCategory<0 || searchCategory>5){
+        system("cls");
+        printf("\nSEARCH BY CATEGORY");
+        printf("\n[1] Book Title");
+        printf("\n[2] Author");
+        printf("\n[3] Year Published");
+        printf("\n[4] Material");
+        printf("\n[5] Topic Category");
+        printf("\nENTER SEARCH CATEGORY [1-5]: ");
+        scanf("%d", &searchCategory);
+        if(searchCategory<0 || searchCategory>5){
+            printf("\nSELECT ONLY FROM 1-5!\n"); system("pause");
+        }
+    }
 
     fflush stdin;
     printf("ENTER THE TEXT TO SEARCH: ");
@@ -213,7 +219,7 @@ char* categoryPointer;
     gotoxy(5,10+i+3); system("pause");
 }
 
-//The display() function displays information about all the books in the linked list.
+//The displayBook() function displays information about all the books in the linked list.
 void displayBook(struct book *p, int start, int end){
 int i;
 
@@ -242,7 +248,7 @@ int i;
     gotoxy(5,6+i+3); system("pause");
 }
 
-//The save() function prints the information of all the book node in a text file.
+//The save(Book) function prints the information of all the book node in a text file.
 void saveBook(){
 FILE *fp= fopen("bookDetails.txt", "w+");
 BOOK *p;
@@ -262,7 +268,7 @@ BOOK *p;
     }
 }
 
-//retrieve() function retrieves all info from the text file and save each book in the linked list.
+//retrieveBook() function retrieves all info from the text file and save each book in the linked list.
 void retrieveBook(){
 FILE *fp= fopen("bookDetails.txt", "r+");
 BOOK *p;
@@ -298,7 +304,7 @@ BOOK *p;
     fclose(fp);
 }
 
-//The menu() function displays the main menu of the library catalog program and prompts the user to enter a choice. It returns the user's choice.
+//The menuBook() function displays the main menu of the library catalog program and prompts the user to enter a choice. It returns the user's choice.
 int menuBook(int choice){
     while(choice<1 || choice>6){
         system("cls");
