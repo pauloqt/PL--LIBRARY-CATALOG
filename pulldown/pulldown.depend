@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1683442871 source:c:\users\nec versapro\desktop\kalej 2\comprog\machine problems\pulldown\main.c
+	<stdio.h>
+	<windows.h>
+	<conio.h>
+	<stdlib.h>
+
