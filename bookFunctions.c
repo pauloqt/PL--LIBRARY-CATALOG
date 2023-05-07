@@ -217,24 +217,28 @@ char* categoryPointer;
 void displayBook(struct book *p, int start, int end){
 int i;
 
-    gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("YEAR");
+    gotoxy(7,5);printf(" ____________________________ _____________________ ___________________ _____________________ _______________________ ________________ ____________ _______________ __________________ _________________");
+    gotoxy(7,6);printf("|         TITLE              |       AUTHOR        |   YEAR PUBLISHED  |   REFERENCE NUMBER  |       MATERIAL        |    CATEGORY    |  SHELF NO. |  TOTAL STOCK  |      BORROWER    |  CURRENT STOCK  |");
+    gotoxy(7,7);printf("|____________________________|_____________________|___________________|_____________________|_______________________|________________|____________|_______________|__________________|_________________|");
+
+    /*gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("YEAR");
     gotoxy(60,3); printf("REFERENCE NUMBER");  gotoxy(80,3); printf("MATERIAL"); gotoxy(95,3); printf("CATEGORY");
     gotoxy(110,3); printf("SHELF NO."); gotoxy(120,3); printf("TOTAL STOCK"); gotoxy(135,3); printf("BORROWER");
     gotoxy(145,3); printf("CURRENT STOCK");
     gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
-
+*/
     for(i=start; p!=end; i++){
-        gotoxy(5, 6+i); printf("%d.) ", i+1);
-        gotoxy(10,6+i); printf("%s", p->title);
-        gotoxy(30,6+i); printf("%s", p->author);
-        gotoxy(50,6+i); printf("%s", p->year);
-        gotoxy(60,6+i); printf("%s", p->refNum);
-        gotoxy(80,6+i); printf("%s", p->material);
-        gotoxy(95,6+i); printf("%s", p->category);
-        gotoxy(110,6+i); printf("%d", p->shelfNo);
-        gotoxy(120,6+i); printf("%d", p->totalStock);
-        gotoxy(135,6+i); printf("%d", p->borrower);
-        gotoxy(145,6+i); printf("%d", p->totalStock-p->borrower);
+        gotoxy(7, 8+i); printf("%d.) ", i+1);
+        gotoxy(13,8+i); printf("%s", p->title);
+        gotoxy(40,8+i); printf("%s", p->author);
+        gotoxy(65,8+i); printf("%s", p->year);
+        gotoxy(85,8+i); printf("%s", p->refNum);
+        gotoxy(107,8+i); printf("%s", p->material);
+        gotoxy(126,8+i); printf("%s", p->category);
+        gotoxy(145,8+i); printf("%d", p->shelfNo);
+        gotoxy(162,8+i); printf("%d", p->totalStock);
+        gotoxy(182,8+i); printf("%d", p->borrower);
+        gotoxy(198,8+i); printf("%d", p->totalStock-p->borrower);
         p=p->nxt;
     }
 

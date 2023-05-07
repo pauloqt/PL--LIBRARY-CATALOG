@@ -93,6 +93,7 @@ char ID[7];
     }
 }
 
+
 void adminPortal(int optionAdmin){
 BOOK *p;
 TRANSACTION *q;
@@ -197,11 +198,11 @@ int borrowerChoice;
 
 int main(){
 HWND hWnd=GetConsoleWindowNT();
-<<<<<<< HEAD
+
 MoveWindow(hWnd,900,900,2000,2000,TRUE);
-=======
+
 MoveWindow(hWnd,900, 900, 2000, 2000,TRUE);
->>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281
+
 int optionPortal, optionAdmin, optionStudent;
 
     headBook=NULL;                   //initializing linked list.

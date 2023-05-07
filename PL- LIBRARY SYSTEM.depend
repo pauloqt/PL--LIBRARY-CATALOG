@@ -23,8 +23,9 @@
 
 1683303207 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunction.h
 
-<<<<<<< HEAD
-1683427452 source:c:\users\nec versapro\desktop\pl\project\pl--library-system\main.c
+1683303207 D
+
+1683435889 source:c:\users\nec versapro\desktop\pl\project\pl--library-system\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
@@ -33,24 +34,29 @@
 	"borrowerFunctions.c"
 	"transactionFunctions.c"
 
-1683364912 c:\users\nec versapro\desktop\pl\project\pl--library-system\bookfunctions.c
+1683435310 c:\users\nec versapro\desktop\pl\project\pl--library-system\bookfunctions.c
 	"bookFunctions.h"
 
 1683364912 c:\users\nec versapro\desktop\pl\project\pl--library-system\bookfunctions.h
 
-1683369606 c:\users\nec versapro\desktop\pl\project\pl--library-system\borrowerfunctions.c
+1683435775 c:\users\nec versapro\desktop\pl\project\pl--library-system\borrowerfunctions.c
 	"borrowerFunctions.h"
 
-1683367490 c:\users\nec versapro\desktop\pl\project\pl--library-system\borrowerfunctions.h
+1683429550 c:\users\nec versapro\desktop\pl\project\pl--library-system\borrowerfunctions.h
 
-1683364912 c:\users\nec versapro\desktop\pl\project\pl--library-system\transactionfunctions.c
+1683429550 c:\users\nec versapro\desktop\pl\project\pl--library-system\transactionfunctions.c
 	"transactionFunctions.h"
 
-1683364912 c:\users\nec versapro\desktop\pl\project\pl--library-system\transactionfunctions.h
-=======
+1683429550 c:\users\nec versapro\desktop\pl\project\pl--library-system\transactionfunctions.h
+
 1683392180 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunctions.c
 	"transactionFunctions.h"
 
 1683387452 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunctions.h
->>>>>>> 7d4c5e01ccce0fefa225105ebbf0e060890d0906
+
+1683387452 c5e01ccce0fefa225105ebbf0e060890d0906
+
+1683437835 source:c:\users\nec versapro\downloads\pulldown\chatgptpulldown.c
+	<stdio.h>
+	<conio.h>
 
