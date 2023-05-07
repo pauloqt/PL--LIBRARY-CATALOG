@@ -112,6 +112,7 @@ BORROWER *p;
     else{
         p=headBorrower;
         while(p!=NULL){
+            //saving encrypted info.
             fprintf(fp, "%s\n%s %s %s %s %s\n\n", encrypt(p->name), encrypt(p->TUP_ID), encrypt(p->password), encrypt(p->yearSection), encrypt(p->contactNum), encrypt(p->email));
             p=p->nxt;
         }
@@ -134,11 +135,12 @@ BOOK *p;
             fflush stdin;
             fscanf(fp, "\n%[^\n]\n", &infoBorrower.name);
             fflush stdin;
-            //fscanf(fp, "%s %s %s %s %s", decrypt(infoBorrower.TUP_ID), decrypt(infoBorrower.password), decrypt(infoBorrower.yearSection), decrypt(infoBorrower.contactNum), decrypt(infoBorrower.email));
+
             fscanf(fp, "%s %s %s %s %s", infoBorrower.TUP_ID, infoBorrower.password, infoBorrower.yearSection, infoBorrower.contactNum, infoBorrower.email);
-            //decrypting the retrieved info.
-            //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
-            //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
+
+            //decrypting info..
+            strcpy(infoBorrower.TUP_ID, decrypt(infoBorrower.TUP_ID)); strcpy(infoBorrower.password, decrypt(infoBorrower.password)); strcpy(infoBorrower.yearSection, decrypt(infoBorrower.yearSection));
+            strcpy(infoBorrower.contactNum, decrypt(infoBorrower.email)); strcpy(infoBorrower.name, decrypt(infoBorrower.name));
 
             if(!feof(fp)){
                 addBorrower();

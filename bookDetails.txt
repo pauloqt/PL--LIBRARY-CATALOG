@@ -31,7 +31,7 @@ Book 1990 987654321 1 3 2
 The Earth
 Abby Miles
 Science
-Book 2002 123456 2 3 3
+Book 2002 123456 2 3 2
 
 They Galaxy
 Korps Hudjen
