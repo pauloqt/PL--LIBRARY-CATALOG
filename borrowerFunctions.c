@@ -472,30 +472,29 @@ void loginAdmin(){
 
     while (tries > 0 && flag == 0) {
         system("cls");
-        printf("\nLOG IN\n\n");
-        printf("ENTER ADMIN PASSWORD: ");
+        printf("LOG IN");
+        gotoxy(55,15); printf("ENTER ADMIN PASSWORD: ");
         passDisp();
         strcpy(enteredPass, encryptedPass);
 
         if (strcmp(enteredPass, defaultPass) == 0) {
-            printf("\nLOGIN SUCCESSFUL!\n");
+            gotoxy(55,17); printf("LOGIN SUCCESSFUL!");
             system("pause");
             flag = 1;
         } else {
-            printf("\n\nINVALID ADMIN PASSWORD. ");
+            gotoxy(55,17); printf("INVALID ADMIN PASSWORD. ");
             tries--;
-            printf("\nYOU HAVE %d TRIES LEFT.\n", tries);
-            system("pause");
+            gotoxy(55,19); printf("YOU HAVE %d TRIES LEFT.", tries);
+            gotoxy(55,20); system("pause");
             system("cls");
         }
     }
 
     if (tries == 0){
-        printf("YOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
-        system("pause");
+        gotoxy(55,21); printf("YOU HAVE EXCEEDED THE MAXIMUM NUMBER OF TRIES.\n");
+        gotoxy(55,22); system("pause");
     }
 }
-
 
 //encrypt() creates a copy of the original string, encrypts the copy, and returns the encrypted copy.
 char* encrypt(char text[]){                     //char* - return type for string

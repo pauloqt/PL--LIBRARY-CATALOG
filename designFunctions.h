@@ -12,16 +12,17 @@
     void dispManageRec();
     void dispManageBorrowers();
     void dispBorrowing();
-    void dispAddRec();
-    void dispUpdateRec();
+    void dispAdd();
+    void dispUpdate();
     void dispDeleteRec();
-    void dispSearchRec();
+    void dispSearch();
     void dispRecordRec();
     void dispeditStats();
     void searchTransac();
     void dispTransac();
-    void dispBorrowingRec();
-    void dispSearchBorrowing();
-    void dispUpdateBorrowing();
+    //void dispBorrowingRec();
+    //void dispSearchBorrowing();
+    //void dispUpdateBorrowing();
+    void dispDelete();
 
 #endif // DESIGNFUNCTIONS_H_INCLUDED
