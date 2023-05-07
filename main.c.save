@@ -5,6 +5,7 @@
 #include "bookFunctions.c"
 #include "borrowerFunctions.c"
 #include "transactionFunctions.c"
+#include "designFunctions.c"
 
 HWND WINAPI GetConsoleWindowNT(void);
 //PARA SA LAHAT
@@ -15,6 +16,35 @@ void gotoxy(int x,int y){   //A function that Sets the fixed place of displays
     coord.X=x;
     coord.Y=y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+}
+
+void SetColor(int ForgC){
+  WORD wColor;
+
+  HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+  CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+                       //We use csbi for the wAttributes word.
+ if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+ {
+                 //Mask out all but the background attribute, and add in the forgournd color
+      wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+      SetConsoleTextAttribute(hStdOut, wColor);
+ }
+ return;
+}
+
+void setFontStyle(int FontSize){
+    CONSOLE_FONT_INFOEX cfi;
+    cfi.cbSize = sizeof(cfi);
+    cfi.nFont = 0;
+    cfi.dwFontSize.X = 0;                   // Width of each character in the font
+    cfi.dwFontSize.Y = FontSize;                  // Height
+    cfi.FontFamily = FF_DONTCARE;
+
+    cfi.FontWeight = FW_NORMAL;
+    wcscpy(cfi.FaceName, L"Consolas"); // font style
+    SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 }
 
 //Sets a fixed window size
@@ -38,167 +68,203 @@ HWND WINAPI GetConsoleWindowNT(void)
     return GetConsoleWindow();
 }
 
-void studentPortal(int optionStudent){
+void studentPortalMenu(){
+
 BOOK *p;
-int logInOrRegister, borrowOrBack;
-char ID[7];
+setFontStyle(18);
+char Menu[][50] =  {"\n\n\n\n\n\t\t\t\t\t\t\tDISPLAY ALL BOOKS  ", "\n\n\n\n\n\t\t\t\t\t\t\tSEARCH BOOKS ", "\n\n\n\n\n\t\t\t\t\t\t\tBORROW BOOKS ", "\n\n\n\n\n\t\t\t\t\t\t\tCHANGE PASSWORD ", "\n\n\n\n\n\t\t\t\t\t\t\tGO BACK ","\n\n\n\n\n\t\t\t\t\t\t\tEXIT " };
+int pointer = 0;
+const char ENTER = 13;//ASCII code for ENTER Key
+char ch = ' ';
+HANDLE  hConsole;
+hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    switch(optionStudent){
-
-    case 1:
-        system("cls");  displayBook(p=headBook, 0, NULL); break;
-    case 2:
-        system("cls"); searchBook(); break;
-    case 3:
-        system("cls");
-        printf("BORROW BOOK");
-        printf("\n[1] LOGIN\n[2] REGISTER\n[3] GO BACK");
-        printf("\nSELECT OPTION (1-2): ");
-        scanf("%d",&logInOrRegister);
-        if (logInOrRegister ==1){
-            strcpy(ID, loginBorrower());
-            borrowBook(ID);
-        }
-
-        else if(logInOrRegister==2){
-            getInfoBorrower();
-            addBorrower();
-            saveInfoBorrower();
-            printf("\n[1] BORROW [2] GO BACK");
-            printf("\nSELECT OPTION(1-2): ");
-            scanf("%d", &borrowOrBack);
-            if(borrowOrBack==1){
-                strcpy(ID, loginBorrower());
-                borrowBook(ID);
-            }
-        }
-        else if(logInOrRegister==3){
-            return;
-        }
-        else{printf("\nSELECT 1-3 ONLY!\n"); system("pause");}
-        break;
-
-    case 4:
-        system("cls");
-        changePassBorrower();
-        break; //CHANGE PASS
-
-    case 5:
-        return;
-
-    case 6: exit(0);
-
-    default:
-        printf("\nSELECT 1-5 ONLY!\n"); system("pause"); break;
-    }
-}
-
-void adminPortal(int optionAdmin){
-BOOK *p;
-TRANSACTION *q;
-BORROWER *r;
-int bookFunctionChoice;
-int transactionChoice;
-int borrowerChoice;
-
-
-    switch(optionAdmin){
-    case 1: //MANAGE BOOK
-        while(1){
-            system("cls");
-            switch(menuBook(bookFunctionChoice)){
-                case 1: system("cls");
-                    printf("\nADD A RECORD\n");
-                    getInfoBook();
-                    addBook(); saveBook();
-                    break;
-                case 2: system("cls");
-                    printf("\nUPDATE RECORD\n");
-                    updateBook(); saveBook();
-                    break;
-                case 3: system("cls");
-                    printf("\nDELETE RECORD\n");
-                    delBook(); saveBook();
-                    break;
-                case 4: system("cls");
-                    printf("\nSEARCH RECORD\n");
-                    searchBook();
-                    break;
-                case 5: system("cls");
-                    printf("\n\t\t\t\t\t\tDISPLAYING ALL RECORDS...\n");
-                    displayBook(p=headBook, 0, NULL);
-                    break;
-                case 6: return;
-
-                default: printf("SELCT 1-6 ONLY!"); system("pause");
-                    break;
-            }
-        }
-        break;
-    case 2:
-        //MANAGE TRANSACTIONS
-        while(1){
-            system("cls");
-            switch(menuTransaction(transactionChoice)){
-                case 1: system("cls");
-                    printf("\nEDIT STATUS\n");
-                    editStatus();
-                    saveBook();
-                    saveTransaction();
-                    break;
-                case 2: system("cls");
-                    printf("\nSEARCH BORROWING RECORD\n");
-                    searchTransaction();
-                    break;
-                case 3: system("cls");
-                    displayAllTransaction(q=headTransaction, 0, NULL);
-                    break;
-                case 4:
-                    return;
-            }
-         }
-        break;
-
-    case 3: //MANAGE BORROWER RECORDS
     while(1){
         system("cls");
-        switch(menuBorrower(borrowerChoice)){
-            case 1: system("cls");
-                printf("\nDISPLAY ALL BORROWER RECORDS\n");
-                displayAllBorrower(r=headBorrower, 0, NULL);
-                break;
-            case 2: system("cls");
-                printf("\nSEARCH BORROWING RECORD\n");
-                searchBorrower();
-                break;
-            case 3: system("cls");
-                printf("\nUPDATE BORROWING RECORD\n");
-                updateBorrower(); saveInfoBorrower();
-                break;
-            case 4:
-                return;
-            case 5:
-                exit(0); break;
+        dispStudentPortal();
+        ShowConsoleCursor(0);//SET CURSOR OFF
+
+        for(int i=0; i<6; ++i){
+            //This will highlight the choice in the menu
+            if(i==pointer){
+                gotoxy(48,10+i);
+
+                SetConsoleTextAttribute(hConsole, 10);
+
+                printf("%s\n", Menu[i]);
+            }else{
+                gotoxy(48,10+i);
+                SetConsoleTextAttribute(hConsole, 15); // set color of the text to white
+                printf("%s\n",Menu[i]);
+            }
+             SetConsoleTextAttribute(hConsole, 15);
         }
-     }
-    break;
+        //This will check the key stroke that is being pressed in keyboard
+        while(1){
+            if(GetAsyncKeyState(VK_UP) != 0){
+                --pointer;
 
-    case 4:
-        return;
+                if(pointer == -1){
+                    pointer = 5;
+                    }
+                break;
+            }else if(GetAsyncKeyState(VK_DOWN) != 0){
+                ++pointer;
+                if(pointer == 6){
+                    pointer = 0;
+                }
 
-    case 5:
-        exit(0); break;
+                break;
+            }else if((ch = getch()) == ENTER){
+                switch(pointer){
+                    case 0:
+                    {
+                        ShowConsoleCursor(1);//SET CURSON ON
+                        system("cls");
+                        dispAllBooks();
+                        displayBook(p=headBook, 0, NULL);
+                        break;
+                    }
+                    case 1:
+                    {
+                        ShowConsoleCursor(1);
+                        system("cls");
+                        dispSearchBooks();
+                        searchBook();//AFTER MAGPROMPT NG ENTER PAKILAGYAN NG LOADING BEFORE MAG SYSTEM CLS
+                        break;
+                    }
 
-    default:
-        printf("\nSELECT 1-3 ONLY!\n"); system("pause"); break;
+                    case 2:
+                    {
+                        ShowConsoleCursor(1);
+                        system("cls");
+                        borrowMenu();
+                        break;
+                    }
+                    case 3:
+                    {
+                        ShowConsoleCursor(1);
+                        //dispChangePass();
+                        changePassBorrower();//ANG MGA PRINTF NI USER DAPAT NASA SPACE NEED IGOTOXY
+                        break;
+                    }
+                    case 4:
+                    {
+                        ShowConsoleCursor(1);
+                        return; //return
+                        break;
+                    }
+                    case 5:
+                    {
+                        ShowConsoleCursor(1);
+                        printf(" EXITING PROGRAM.... ");//NEED LOADING BAR
+                        system("pause");
+                        exit(0);
+                    }
 
-    }
+                  }
+                }
+                break;
+            }
+        }
+}
+
+
+void adminPortalMenu(){
+setFontStyle(18);
+char Menu[][50] =  {"\n\n\n\n\n\t\t\t\t\t\t\tMANAGE BOOK RECORD  ", "\n\n\n\n\n\t\t\t\t\t\t\tMANAGE BORROWING RECORD ", "\n\n\n\n\n\t\t\t\t\t\t\tMANAGE BORROWER RECORD ", "\n\n\n\n\n\t\t\t\t\t\t\tGO BACK ","\n\n\n\n\n\t\t\t\t\t\t\tEXIT " };
+int pointer = 0;
+const char ENTER = 13;//ASCII code for ENTER Key
+char ch = ' ';
+HANDLE  hConsole;
+hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    while(1){
+        system("cls");
+        //dispAdminPortal();
+        ShowConsoleCursor(0);//SET CURSOR OFF
+        for(int i=0; i<5; ++i){
+            //This will highlight the choice in the menu
+            if(i==pointer){
+                gotoxy(48,10+i);
+                SetConsoleTextAttribute(hConsole, 10);
+                printf("%s\n", Menu[i]);
+            }else{
+                gotoxy(48,10+i);
+                SetConsoleTextAttribute(hConsole, 15); // set color of the text to white
+                printf("%s\n",Menu[i]);
+            }
+             SetConsoleTextAttribute(hConsole, 15);
+        }
+        //This will check the key stroke that is being pressed in keyboard
+        while(1){
+            if(GetAsyncKeyState(VK_UP) != 0){
+                --pointer;
+                if(pointer == -1){
+                    pointer = 4;
+                    }
+                break;
+            }else if(GetAsyncKeyState(VK_DOWN) != 0){
+                ++pointer;
+                if(pointer == 5){
+                    pointer = 0;
+                }
+                break;
+            }else if((ch = getch()) == ENTER){
+                switch(pointer){
+                    case 0:
+                    {
+                        ShowConsoleCursor(1);//SET CURSON ON
+                        manageBookMenu();
+                        break;
+                    }
+                    case 1:
+                    {
+                        ShowConsoleCursor(1);
+                        manageBorrowingMenu();
+                        break;
+                    }
+
+                    case 2:
+                    {
+                        ShowConsoleCursor(1);
+                        manageBorrowerMenu();
+                        break;
+                    }
+
+                    case 3:
+                    {
+                        ShowConsoleCursor(1);
+                        return;
+                        break;
+                    }
+                    case 4:
+                    {
+                        ShowConsoleCursor(1);
+                        system("cls");
+                        printf(" EXITING PROGRAM.... ");//NEED LOADING BAR
+                        system("pause");
+                        exit(0);
+                    }
+                  }
+                }
+                break;
+            }
+        }
 }
 
 int main(){
 HWND hWnd=GetConsoleWindowNT();
-MoveWindow(hWnd,2000,2000,2000,,TRUE);
+MoveWindow(hWnd,900,900,2000,2000,TRUE);
 int optionPortal, optionAdmin, optionStudent;
+//for pull down
+setFontStyle(18);
+char Menu[][50] =  {"\n\n\n\n\n\t\t\t\t\t\t\tSTUDENT PORTAL\n  ", "\n\n\n\n\n\t\t\t\t\t\t\tADMIN PORTAL\n ", "\n\n\n\n\n\t\t\t\t\t\t\tEXIT\n " };
+int pointer = 0;
+const char ENTER = 13;//ASCII code for ENTER Key
+char ch = ' ';
+HANDLE  hConsole;
+hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
     headBook=NULL;                   //initializing linked list.
     headBorrower=NULL;
@@ -208,53 +274,69 @@ int optionPortal, optionAdmin, optionStudent;
     retrieveBorrower();
     retrieveTransaction();
 
-        while(optionPortal!=3){
-            system("cls");
-            printf("\tTUP LIBRARY\n\n");
-            printf("\n[1] STUDENT PORTAL");
-            printf("\n[2] ADMIN PORTAL");
-            printf("\n[3] EXIT PROGRAM");
-            printf("\nSELECT OPTION [1-3]: ");
-            scanf("%d", &optionPortal);
-            switch(optionPortal){
-                case 1:
-                    optionStudent=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
-                    while(optionStudent!=5){
-                        system("cls");
-                        printf("\t\tSTUDENT PORTAL\n\n");
-                        printf("\n[1] DISPLAY ALL BOOKS");
-                        printf("\n[2] SEARCH");
-                        printf("\n[3] BORROW");
-                        printf("\n[4] CHANGE PASSWORD");
-                        printf("\n[5] GO BACK");
-                        printf("\n[6] EXIT");
-                        printf("\nSELECT OPTION [1-5]: ");
-                        scanf("%d", &optionStudent);
-                        studentPortal(optionStudent);
+        while(1){
+        system("cls");
+        mainFront();
+        ShowConsoleCursor(0);//SET CURSOR OFF
+
+        for(int i=0; i<3; ++i){
+            //This will highlight the choice in the menu
+            if(i==pointer){
+                gotoxy(48,10+i);
+
+                SetConsoleTextAttribute(hConsole, 10);
+                printf("%s\n", Menu[i]);
+            }else{
+                gotoxy(48,10+i);
+                SetConsoleTextAttribute(hConsole, 15); // set color of the text to white
+                printf("%s\n",Menu[i]);
+            }
+             SetConsoleTextAttribute(hConsole, 15);
+        }
+        //This will check the key stroke that is being pressed in keyboard
+        while(1){
+            if(GetAsyncKeyState(VK_UP) != 0){
+                --pointer;
+
+                if(pointer == -1){
+                    pointer = 2;
                     }
-                    break;
 
-                case 2:
-                    loginAdmin();
-                    optionAdmin=0;         //para kapag babalik sa portal choices, 0 na ang optionStudent
-                    while(optionAdmin!=4){
-                        system("cls");
-                        printf("\t\tADMIN PORTAL\n\n");
-                        printf("\n[1] MANAGE BOOK RECORD");
-                        printf("\n[2] MANAGE BORROWING RECORD");
-                        printf("\n[3] MANAGE BORROWER RECORD");
-                        printf("\n[4] GO BACK");
-                        printf("\n[5] EXIT");
-                        printf("\nSELECT OPTION [1-4]: ");
-                        scanf("%d", &optionAdmin);
-                        adminPortal(optionAdmin);
+                break;
+            }else if(GetAsyncKeyState(VK_DOWN) != 0){
+                ++pointer;
+                if(pointer == 3){
+                    pointer = 0;
+                }
 
+                break;
+            }else if((ch = getch()) == ENTER){
+                switch(pointer){
+                    case 0:
+                    {
+                        ShowConsoleCursor(1);//SET CURSON ON
+                        studentPortalMenu();
+                        system("pause");
+                        break;
                     }
-                    break;
+                    case 1:
+                    {
+                        ShowConsoleCursor(1);
+                        adminPortalMenu();
+                        system("pause");
+                        break;
+                    }
 
-                case 3: exit(0); break;
-
-                default: printf("\nCHOOSE 1-3 ONLY!\n"); system("pause"); break;
+                    case 2:
+                    {
+                        ShowConsoleCursor(1);
+                        printf(" EXITING PROGRAM.... ");//PAKILAKIHAN ANG FONT AND MAGLAGAY NG LOADING SA BABA NETO
+                       // TINANGGAL KO NA ANG SYSTEM PAUSE KAPALIT NG LOADING
+                        exit(0);
+                    }
+                  }
+                }
+                break;
             }
         }
 }

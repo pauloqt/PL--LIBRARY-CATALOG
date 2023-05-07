@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1683450896 source:c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\main.c
+1683485891 source:c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
@@ -7,13 +7,14 @@
 	"bookFunctions.c"
 	"borrowerFunctions.c"
 	"transactionFunctions.c"
+	"designFunctions.c"
 
 1683361547 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\bookfunctions.h
 
-1683450185 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\bookfunctions.c
+1683483001 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\bookfunctions.c
 	"bookFunctions.h"
 
-1683444685 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\borrowerfunctions.c
+1683486760 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\borrowerfunctions.c
 	"borrowerFunctions.h"
 
 1683428346 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\borrowerfunctions.h
@@ -23,8 +24,13 @@
 
 1683303207 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunction.h
 
-1683444267 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunctions.c
+1683486510 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunctions.c
 	"transactionFunctions.h"
 
 1683387452 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunctions.h
+
+1683486844 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\designfunctions.c
+	"designFunctions.h"
+
+1683476386 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\designfunctions.h
 
