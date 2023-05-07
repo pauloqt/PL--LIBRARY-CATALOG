@@ -38,7 +38,11 @@ int ch;
     pBook= locateBook(enteredBookRef);
 
     if(pBook==NULL){
-       printf("\nBOOK NOT FOUND!\n"); system("pause");
+       printf("\nSELECTED BOOK IS NOT AVAILABLE\n"); system("pause");
+    }
+
+    else if(pBook->totalStock - pBook->borrower <=0){
+        printf("\nSELECTED BOOK IS OUT OF STOCK!\n"); system("pause");
     }
 
     else{
@@ -59,8 +63,8 @@ int ch;
         scanf("%s", infoTransaction.dateBorrowed);
         printf("ENTER DATE TO RETURN [MM/DD/YY]: ");
         scanf("%s", infoTransaction.dateToReturn);
-        printf("LIBRARIAN IN CHARGE: ");
-        scanf("%s", infoTransaction.librarian);
+        strcpy(infoTransaction.librarian, "MS. LAICA YGOT");
+        printf("LIBRARIAN IN CHARGE: MS. LAICA);
         strcpy(infoTransaction.status, "TO RETURN");
         printf("\nDO YOU WANT TO PROCEED WITH THE TRANSACTION?\n[1] YES [2] NO\n");
         printf("SELECT OPTION (1-2): ");
@@ -243,4 +247,44 @@ TRANSACTION *p;
         }
     }
     fclose(fp);
+}
+
+//The locate() function searches for the book node with a given ISBN, and returns a pointer to that node if it is found.
+struct transaction *locateTransaction(char TUP_ID[], char refNum[]){
+TRANSACTION *p;
+
+    p=headTransaction;
+    while(p!=NULL){
+        if(strcmp(TUP_ID, p->TUP_ID)==0 && strcmp(refNum, p->refNum)==0){
+            return p;
+        }
+    p=p->nxt;
+    }
+
+    return p;
+
+}
+
+void editStatus(){
+BOOK *pBook;
+TRANSACTION *pTransac;
+char enteredID[7], enteredReference[14], returned[10]="RETURNED";
+
+    printf("TUP ID (Ex. 123456): TUP-M ");
+    scanf("%s", enteredID);
+    printf("ENTER REFERENCE NUMBER: ");
+    scanf("%s", enteredReference);
+    pTransac=locateTransaction(enteredID, enteredReference);
+    if(pTransac==NULL){
+        printf("\nTRANSACTION RECORD NOT FOUND!\n"); system("pause");
+    }
+
+    else{
+        fflush stdin;
+        strcpy(pTransac->status, returned);
+        printf("%s", pTransac->status);
+        pBook=locateBook(enteredReference);
+        pBook->borrower-=1;
+        printf("\nRECORD SUCCESSFULLY EDITED\n"); system("pause");
+    }
 }

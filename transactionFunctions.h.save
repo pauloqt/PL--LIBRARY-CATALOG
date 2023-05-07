@@ -17,5 +17,7 @@ void searchTransaction();
 void displayAllTransaction(struct transaction *p, int start, int end);
 void saveTransaction();
 void retrieveTransaction();
+void editStatus();
+struct transaction *locateTransaction(char TUP_ID[], char refNum[]);
 
 #endif // TRANSACTIONFUNCTIONS_H_INCLUDED

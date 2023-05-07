@@ -70,17 +70,10 @@ void getInfoBorrower(){
                 printf("\nYOUR ACCOUNT IS SUCCESSFULLY REGISTERED!\n");
                 system("pause");
                 return;
-<<<<<<< HEAD
-                        }
-        else{
-            printf("\nPASSWORD DIDN'T MATCH\n");
-            system("cls");
-=======
         }
         else{
             printf("\nPASSWORD DIDN'T MATCH\n");
             system("pause"); system("cls");
->>>>>>> 7d4c5e01ccce0fefa225105ebbf0e060890d0906
             goto PASS;
         }
     }
