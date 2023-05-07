@@ -161,7 +161,7 @@ int transactionChoice;
 
 int main(){
 HWND hWnd=GetConsoleWindowNT();
-MoveWindow(hWnd,900,900,1200,900,TRUE);
+MoveWindow(hWnd,900,900,2000,2000,TRUE);
 int optionPortal, optionAdmin, optionStudent;
 
     headBook=NULL;                   //initializing linked list.
