@@ -1,53 +1,25 @@
 Criddles tomb
 Jane Comps
 Fiction
-<<<<<<< HEAD
-<<<<<<<< HEAD:bookDetails.txt
-Book 1994 1234567790 3 5 5
-========
-Book 1994 1234567790 3 5 0
->>>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281:bookDetails.txt.save
-=======
-Book 1994 1234567790 3 5 0
->>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281
+Book 1994 1234567790 8 1 5
 
 Harry Potter
 J. K. Rowling
 Fiction
-<<<<<<< HEAD
-<<<<<<<< HEAD:bookDetails.txt
 Book 1992 345678901 3 5 5
-========
-Book 1992 345678901 3 5 1
->>>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281:bookDetails.txt.save
-=======
-Book 1992 345678901 3 5 0
->>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281
 
 The Basket
 Paulo Alcantara
 Philosophy
-<<<<<<< HEAD
 Book 1990 987654321 1 3 3
-=======
-Book 1990 987654321 1 3 -17
->>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281
 
 The Earth
-Abby Miles
+Alexis
 Science
-<<<<<<< HEAD
 Book 2002 1234567890 2 3 2
-=======
-Book 2002 1234567890 2 3 -10
->>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281
 
 They Galaxy
 Korps Hudjen
 Science
-<<<<<<< HEAD
 Book 1990 45678229 4 3 3
-=======
-Book 1990 45678229 4 3 0
->>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281
 

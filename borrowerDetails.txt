@@ -1,16 +1,14 @@
-<<<<<<< HEAD
 ABBY
 112233 1234 BSCSNS2AB 123456 abby@tup.edu.ph
+
+H
+888888 1234 H H H
 
 LAICA
 210411 0000 BSCSNS2AB 1 1
 
 PAULO
 123456 1234 BSCSNS2AB 90 paulo@tup.edu.ph
-
-=======
-H
-888888 1234 H H H
 
 c
 333333 1234 c c c
@@ -35,4 +33,4 @@ g
 
 g
 555555 1234 g g g
->>>>>>> 4e729f0832afe58c532cd3f2dfaf03ef6d31c281
+

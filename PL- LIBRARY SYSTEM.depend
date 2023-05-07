@@ -28,3 +28,27 @@
 
 1683387452 c:\users\jpaul\desktop\2nd year - 2nd sem\pl\pl- library system\transactionfunctions.h
 
+1683450833 source:c:\users\laica\desktop\pl--library-system\main.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<string.h>
+	"bookFunctions.c"
+	"borrowerFunctions.c"
+	"transactionFunctions.c"
+
+1683461705 c:\users\laica\desktop\pl--library-system\bookfunctions.c
+	"bookFunctions.h"
+
+1683429794 c:\users\laica\desktop\pl--library-system\bookfunctions.h
+
+1683463999 c:\users\laica\desktop\pl--library-system\borrowerfunctions.c
+	"borrowerFunctions.h"
+
+1683429794 c:\users\laica\desktop\pl--library-system\borrowerfunctions.h
+
+1683455248 c:\users\laica\desktop\pl--library-system\transactionfunctions.c
+	"transactionFunctions.h"
+
+1683429794 c:\users\laica\desktop\pl--library-system\transactionfunctions.h
+

@@ -112,7 +112,8 @@ BORROWER *p;
     else{
         p=headBorrower;
         while(p!=NULL){
-            fprintf(fp, "%s\n%s %s %s %s %s\n\n", encrypt(p->name), encrypt(p->TUP_ID), encrypt(p->password), encrypt(p->yearSection), encrypt(p->contactNum), encrypt(p->email));
+            //saving encrypted info.
+            fprintf(fp, "%s\n%s %s %s %s %s\n\n", p->name, p->TUP_ID, p->password, p->yearSection, p->contactNum, p->email);
             p=p->nxt;
         }
         fclose(fp);
@@ -134,11 +135,12 @@ BOOK *p;
             fflush stdin;
             fscanf(fp, "\n%[^\n]\n", &infoBorrower.name);
             fflush stdin;
-            //fscanf(fp, "%s %s %s %s %s", decrypt(infoBorrower.TUP_ID), decrypt(infoBorrower.password), decrypt(infoBorrower.yearSection), decrypt(infoBorrower.contactNum), decrypt(infoBorrower.email));
+
             fscanf(fp, "%s %s %s %s %s", infoBorrower.TUP_ID, infoBorrower.password, infoBorrower.yearSection, infoBorrower.contactNum, infoBorrower.email);
-            //decrypting the retrieved info.
-            //strcpy(info.title, decrypt(info.title)); strcpy(info.author, decrypt(info.author)); strcpy(info.category, decrypt(info.category));
-            //strcpy(info.year, decrypt(info.year)); strcpy(info.ISBN, decrypt(info.ISBN));
+
+            //decrypting info..
+           // strcpy(infoBorrower.TUP_ID, decrypt(infoBorrower.TUP_ID)); strcpy(infoBorrower.password, decrypt(infoBorrower.password)); strcpy(infoBorrower.yearSection, decrypt(infoBorrower.yearSection));
+            //strcpy(infoBorrower.contactNum, decrypt(infoBorrower.email)); strcpy(infoBorrower.name, decrypt(infoBorrower.name));
 
             if(!feof(fp)){
                 addBorrower();
@@ -248,24 +250,38 @@ void searchBorrower(){
     int i, searchCategory;
     char* categoryPointer;
 
-    printf("\nSEARCH BY CATEGORY");
-    printf("\n[1] Name");
-    printf("\n[2] TUP ID");
-    printf("\n[3] Year and Section");
-    printf("\n[4] Contact Number");
-    printf("\n[5] Email");
-    printf("\nENTER SEARCH CATEGORY [1-5]: ");
-    scanf("%d", &searchCategory);
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)                                                                                                              |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
+    printf("\033[0m");
 
+    gotoxy(76,15);printf("SEARCH BY CATEGORY");
+    gotoxy(76,16);printf("[1] Name");
+    gotoxy(76,17);printf("[2] TUP ID");
+    gotoxy(76,18);printf("[3] Year and Section");
+    gotoxy(76,19);printf("[4] Contact Number");
+    gotoxy(76,20);printf("[5] Email");
+    gotoxy(38,7);printf("\033[31mENTER SEARCH CATEGORY [1-5]: ");
+    gotoxy(67,7);scanf("%d", &searchCategory);
 
     fflush stdin;
-    printf("ENTER THE TEXT TO SEARCH: ");
-    scanf("%[^\n]", toSearch);
-
     system("cls");
-    gotoxy(10,3); printf("NAME"); gotoxy(30,3); printf("TUP ID"); gotoxy(50,3); printf("YEAR AND SECTION");
-    gotoxy(70,3); printf("CONTACT NUMBER");gotoxy(100,3); printf("EMAIL");
-    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)  ENTER THE TEXT TO SEARCH:                                                                                   |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
+    printf("\033[0m");
+    gotoxy(65,7); scanf("%[^\n]", toSearch);
+
+
+    gotoxy(20,12);printf(" \033[31m_________________________ _____________________ ________________________ ____________________ _______________________________________");
+    gotoxy(20,13);printf("|         NAME            |       TUP ID        |    YEAR AND SECTION    |   CONTACT NUMBER   |                EMAIL                  |");
+    gotoxy(20,14);printf("|_________________________|_____________________|________________________|____________________|_______________________________________|");
+    printf("\033[0m");
 
 
     p=headBorrower;
@@ -279,20 +295,24 @@ void searchBorrower(){
         }
         if(strstr(categoryPointer, toSearch)!=NULL){  // if the pointed categoryBorrowerPointer contains the substring, print the transaction.
             i++;
-            gotoxy(5, 6+i); printf("%d.) ", i+1);
-            gotoxy(10,6+i); printf("%s", p->name);
-            gotoxy(30,6+i); printf("%s", p->TUP_ID);
-            gotoxy(50,6+i); printf("%s", p->yearSection);
-            gotoxy(70,6+i); printf("%s", p->contactNum);
-            gotoxy(100,6+i); printf("%s", p->email);
+            gotoxy(20, 15+i); printf("%d.) ", i+1);
+            gotoxy(25,15+i); printf("%s", p->name);
+            gotoxy(55,15+i); printf("%s", p->TUP_ID);
+            gotoxy(73,15+i); printf("%s", p->yearSection);
+            gotoxy(99,15+i); printf("%s", p->contactNum);
+            gotoxy(127,15+i); printf("%s", p->email);
         }
-		p=p->nxt;
+       p=p->nxt;
 	}
-	gotoxy(5,10+i+1); printf("_______________________________________________________________________________________________________________________________________\n");
-    gotoxy(5,10+i+3);
+    gotoxy(20,15+i+1); printf("\033[31m___________________________________________________________________________________________________________________________________\n");
+    gotoxy(20,15+i+3); system("pause");
+    printf("\033[0m");
 
-    if (i==-1) printf("\nNo transactions found.\n");
-    system("pause");
+    if (i==-1){
+    gotoxy(20, 15);printf("No transactions found.");
+    gotoxy(20,19); printf("\033[0m");
+
+}
 }
 
 void updateBorrower(){
@@ -302,8 +322,15 @@ char TUP_ID[14];
 char update[51];
 int updateInt;
 
-    printf("ENTER YOUR TUP ID: ");
-    scanf("%s", TUP_ID);
+
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)  ENTER YOUR TUP ID:                                                                                          |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
+    printf("\033[0m");
+
+    gotoxy(61,7);scanf("%s", TUP_ID);
     p = locateTUP_ID(TUP_ID);
 
     if(p==NULL){
@@ -312,19 +339,59 @@ int updateInt;
 
     else{
         displayAllBorrower(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
-        printf("\n[1] Name");
-        printf("\n[2] TUP ID");
-        printf("\n[3] Year and Section");
-        printf("\n[4] Contact Number");
-        printf("\n[5] Email");
-        printf("\nCHOOSE THE INFORMATION YOU WISH TO UPDATE (1-5): ");
+        gotoxy(49,25);printf("[1] Name");
+        gotoxy(49,26);printf("[2] TUP ID");
+        gotoxy(49,27);printf("[3] Year and Section");
+        gotoxy(99,25);printf("[4] Contact Number");
+        gotoxy(99,26);printf("[5] Email");
+        gotoxy(99,27);printf("[6] Go Back");
+        gotoxy(46,28); printf("________________________________________________________________________________________\n");
+        gotoxy(46,29); printf("CHOOSE THE INFORMATION YOU WISH TO UPDATE (1-7): ");
         scanf("%d", &info);
-        fflush stdin;
-        printf("\nENTER THE UPDATED INFORMATION: ");
-        scanf("%[^\n]", update);}
 
-        printf("\nARE YOU SURE TO UPDATE THE RECORD OF %s?\n[1]YES [2]NO : ", p->name);
-        scanf("%d", &choice);
+        fflush stdin;
+        gotoxy(55,32);system("pause");
+        system("cls");
+
+        if(info==1){
+            gotoxy(30,8); printf("\033[31mCURRENT NAME: ");
+            gotoxy(46,8); printf("\033[0m %s", p->name);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==2){
+            gotoxy(30,8); printf("\033[31mCURRENT TUP ID: ");
+            gotoxy(46,8); printf("\033[0m %s", p->TUP_ID);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==3){
+            gotoxy(30,8); printf("\033[31mCURRENT YEAR AND SECTION: ");
+            gotoxy(46,8); printf("\033[0m %s", p->yearSection);
+            gotoxy(46,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==4){
+            gotoxy(30,8); printf("\033[31mCURRENT CONTACT NUMBER: ");
+            gotoxy(46,8); printf("\033[0m %s", p->contactNum);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            scanf("%[^\n]", update);
+        }
+        else if (info==5){
+            gotoxy(30,8); printf("\033[31mCURRENT EMAIL: ");
+            gotoxy(46,8); printf("\033[0m %s", p->email);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==6){
+            return;
+            printf("\033[0m");
+        }
+
+       gotoxy(30,12); printf("_____________________________________________________________________________________________________________________\n");
+       gotoxy(30,14); printf("ARE YOU SURE TO UPDATE THE RECORD OF %s?", p->name);
+       gotoxy(30,16); printf("[1] YES [2] NO : ");
+       scanf("%d", &choice);
         if(choice==1){
             switch(info){
                 case 1: strcpy(p->name, update); break;
@@ -335,28 +402,31 @@ int updateInt;
         }
     }
 }
+}
 
 void displayAllBorrower(struct borrower *p, int start, int end){
 int i;
 
-    gotoxy(10,3); printf("NAME"); gotoxy(30,3); printf("TUP ID"); gotoxy(50,3); printf("YEAR AND SECTION");
-    gotoxy(70,3); printf("CONTACT NUMBER");gotoxy(100,3); printf("EMAIL");
-    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+    gotoxy(15,14);printf(" \033[31m_________________________ _____________________ ________________________ ____________________ _______________________________________");
+    gotoxy(15,15);printf("|         NAME            |       TUP ID        |    YEAR AND SECTION    |   CONTACT NUMBER   |                EMAIL                  |");
+    gotoxy(15,16);printf("|_________________________|_____________________|________________________|____________________|_______________________________________|");
+    printf("\033[0m");
 
     for(i=start; p!=end; i++){
-         gotoxy(5, 6+i); printf("%d.) ", i+1);
-            gotoxy(10,6+i); printf("%s", p->name);
-            gotoxy(30,6+i); printf("%s", p->TUP_ID);
-            gotoxy(50,6+i); printf("%s", p->yearSection);
-            gotoxy(70,6+i); printf("%s", p->contactNum);
-            gotoxy(100,6+i); printf("%s", p->email);
-
+         gotoxy(15, 17+i); printf("%d.) ", i+1);
+         gotoxy(20,17+i); printf("%s", p->name);
+         gotoxy(49,17+i); printf("%s", p->TUP_ID);
+         gotoxy(71,17+i); printf("%s", p->yearSection);
+         gotoxy(93,17+i); printf("%s", p->contactNum);
+         gotoxy(120,17+i); printf("%s", p->email);
         p=p->nxt;
     }
 
-    gotoxy(5,6+i+1); printf("_______________________________________________________________________________________________________________________________________________\n");
-    gotoxy(5,6+i+3); system("pause");
+    gotoxy(15,17+i+1); printf("\033[31m__________________________________________________________________________________________________________________________\n");
+    gotoxy(17,17+i+3); printf("\033[0m");
+    system("pause");
 }
+
 
 int menuBorrower(int choice){
     while(choice<1 || choice>5){

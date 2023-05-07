@@ -110,28 +110,43 @@ void searchTransaction(){
     int i, searchCategory;
     char* categoryPointer;
 
-    printf("\nSEARCH BY CATEGORY");
-    printf("\n[1] Book Title");
-    printf("\n[2] Author");
-    printf("\n[3] Reference Number");
-    printf("\n[4] Borrower");
-    printf("\n[5] TUP ID");
-    printf("\n[6] Date Borrowed");
-    printf("\n[7] Date Return");
-    printf("\n[8] Librarian In-Charged");
-    printf("\n[9] Status");
-    printf("\nENTER SEARCH CATEGORY [1-8]: ");
+
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)                                                                                                              |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
+    printf("\033[0m");
+
+    gotoxy(76,15);printf("SEARCH BY CATEGORY");
+    gotoxy(76,16);printf("[1] Book Title");
+    gotoxy(76,17);printf("[2] Author");
+    gotoxy(76,18);printf("[3] Reference Number");
+    gotoxy(76,19);printf("[4] Borrower");
+    gotoxy(76,20);printf("[5] TUP ID");
+    gotoxy(76,21);printf("[6] Date Borrowed");
+    gotoxy(76,22);printf("[7] Date Return");
+    gotoxy(76,23);printf("[8] Librarian In-Charged");
+    gotoxy(76,24);printf("[9] Status");
+    gotoxy(38,7);printf("\033[31mENTER SEARCH CATEGORY [1-9]: ");
     scanf("%d", &searchCategory);
 
     fflush stdin;
-    printf("ENTER THE TEXT TO SEARCH: ");
-    scanf("%[^\n]", toSearch);
-
     system("cls");
-    gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("REFERENCE NUMBER");
-    gotoxy(70,3); printf("BORROWER");gotoxy(90,3); printf("TUP ID");  gotoxy(100,3); printf("DATE BORROWED");
-    gotoxy(115,3); printf("DATE TO RETURN");gotoxy(130,3); printf("LIBRARIAN"); gotoxy(150,3); printf("STATUS");
-    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)  ENTER THE TEXT TO SEARCH:                                                                                   |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
+    printf("\033[0m");
+    gotoxy(65,7); scanf("%[^\n]", toSearch);
+
+    gotoxy(2,12);printf("\033[31m _________________________ _____________________ __________________ __________________ ____________ _______________ ________________ ______________ ____________");
+    gotoxy(2,13);printf("|         TITLE           |       AUTHOR        | REFERENCE NUMBER |     BORROWER     |   TUP ID   | DATE BORROWED | DATE TO RETURN |  LIBRARIAN   |   STATUS   |");
+    gotoxy(2,14);printf("|_________________________|_____________________|__________________|__________________|____________|_______________|________________|______________|____________|");
+    printf("\033[0m");
+
 
     p=headTransaction;
     for(i=-1; p!=NULL;){
@@ -148,51 +163,56 @@ void searchTransaction(){
         }
         if(strstr(categoryPointer, toSearch)!=NULL){  // if the pointed categoryBorrowerPointer contains the substring, print the transaction.
             i++;
-            gotoxy(5, 6+i); printf("%d.) ", i+1);
-            gotoxy(10,6+i); printf("%s", p->title);
-            gotoxy(30,6+i); printf("%s", p->author);
-            gotoxy(50,6+i); printf("%s", p->refNum);
-            gotoxy(70,6+i); printf("%s", p->borrower);
-            gotoxy(90,6+i); printf("%s", p->TUP_ID);
-            gotoxy(100,6+i); printf("%s", p->dateBorrowed);
-            gotoxy(115,6+i); printf("%s", p->dateToReturn);
-            gotoxy(130,6+i); printf("%s", p->librarian);
-            gotoxy(150,6+i); printf("%s", p->status);
+              gotoxy(3, 15+i); printf("%d.) ", i+1);
+              gotoxy(8,15+i); printf("%s", p->title);
+              gotoxy(32,15+i);; printf("%s", p->author);
+              gotoxy(54,15+i); printf("%s", p->refNum);
+              gotoxy(74,15+i); printf("%s", p->borrower);
+              gotoxy(93,15+i); printf("%s", p->TUP_ID);
+              gotoxy(107,15+i); printf("%s", p->dateBorrowed);
+              gotoxy(122,15+i); printf("%s", p->dateToReturn);
+              gotoxy(138,15+i); printf("%s", p->librarian);
+              gotoxy(152,15+i); printf("%s", p->status);
         }
-		p=p->nxt;
+        p=p->nxt;
 	}
-	gotoxy(5,10+i+1); printf("_______________________________________________________________________________________________________________________________________\n");
-    gotoxy(5,10+i+3);
+	   gotoxy(2,15+i+1); printf("\033[31m__________________________________________________________________________________________________________________________________________________________\n");
+    gotoxy(2,15+i+3); system("pause");
+    printf("\033[0m");
 
-    if (i==-1) printf("\nNo transactions found.\n");
+    if (i==-1){
+    gotoxy(2,12);printf("No transactions found.\n");
+    gotoxy(2,12);printf("\033[0m");
     system("pause");
+    }
 }
 
 void displayAllTransaction(struct transaction *p, int start, int end){
 int i;
 
-    gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("REFERENCE NUMBER");
-    gotoxy(70,3); printf("BORROWER");gotoxy(90,3); printf("TUP ID");  gotoxy(100,3); printf("DATE BORROWED");
-    gotoxy(115,3); printf("DATE TO RETURN");gotoxy(130,3); printf("LIBRARIAN"); gotoxy(150,3); printf("STATUS");
-    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+    gotoxy(2,5);printf("\033[31m _________________________ _____________________ __________________ __________________ ____________ _______________ ________________ ______________ ____________");
+    gotoxy(2,6);printf("|         TITLE           |       AUTHOR        | REFERENCE NUMBER |     BORROWER     |   TUP ID   | DATE BORROWED | DATE TO RETURN |  LIBRARIAN   |   STATUS   |");
+    gotoxy(2,7);printf("|_________________________|_____________________|__________________|__________________|____________|_______________|________________|______________|____________|");
+    printf("\033[0m");
 
     for(i=start; p!=end; i++){
-        gotoxy(5, 6+i); printf("%d.) ", i+1);
-        gotoxy(10,6+i); printf("%s", p->title);
-        gotoxy(30,6+i); printf("%s", p->author);
-        gotoxy(50,6+i); printf("%s", p->refNum);
-        gotoxy(70,6+i); printf("%s", p->borrower);
-        gotoxy(90,6+i); printf("%s", p->TUP_ID);
-        gotoxy(100,6+i); printf("%s", p->dateBorrowed);
-        gotoxy(115,6+i); printf("%s", p->dateToReturn);
-        gotoxy(130,6+i); printf("%s", p->librarian);
-        gotoxy(150,6+i); printf("%s", p->status);
+        gotoxy(3, 8+i); printf("%d.) ", i+1);
+        gotoxy(8,8+i); printf("%s", p->title);
+        gotoxy(32,8+i);; printf("%s", p->author);
+        gotoxy(54,8+i); printf("%s", p->refNum);
+        gotoxy(74,8+i); printf("%s", p->borrower);
+        gotoxy(93,8+i); printf("%s", p->TUP_ID);
+        gotoxy(107,8+i); printf("%s", p->dateBorrowed);
+        gotoxy(122,8+i); printf("%s", p->dateToReturn);
+        gotoxy(138,8+i); printf("%s", p->librarian);
+        gotoxy(152,8+i); printf("%s", p->status);
 
         p=p->nxt;
     }
+    gotoxy(3,8+i+1); printf("\033[31m____________________________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,8+i+3); system("pause");
+    printf("\033[0m");
 
-    gotoxy(5,6+i+1); printf("_______________________________________________________________________________________________________________________________________________\n");
-    gotoxy(5,6+i+3); system("pause");
 }
 
 void saveTransaction(){

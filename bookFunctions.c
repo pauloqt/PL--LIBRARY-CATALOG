@@ -72,34 +72,101 @@ char refNum[14];
 char update[51];
 int updateInt;
 
-    printf("ENTER REFERENCE NUMBER OF THE BOOK: ");
-    scanf("%s", refNum);
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)  ENTER REFERENCE NUMBER OF THE BOOK:                                                                         |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
+    printf("\033[0m");
+    gotoxy(74,7);  scanf("%s", refNum);
+
     p = locateBook(refNum);
-
     if(p==NULL){
-        printf("\nRECORD NOT FOUND!\n"); system("pause");
+        gotoxy(74,11); printf("RECORD NOT FOUND!"); system("pause");
     }
-
     else{
         displayBook(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
-        printf("\n[1] BOOK TITLE");
-        printf("\n[2] AUTHOR");
-        printf("\n[3] YEAR PUBLISHED");
-        printf("\n[4] BOOK REFERENCE NUMBER");
-        printf("\n[5] MATERIAL");
-        printf("\n[6] CATEGORY");
-        printf("\n[7] SHELF NO.");
-        printf("\n[8] TOTAL STOCK");
-        printf("\n[9] NO. OF BORROWER");
-        printf("\nCHOOSE THE INFORMATION YOU WISH TO UPDATE (1-7): ");
+        gotoxy(41,25); printf("[1] BOOK TITLE");
+        gotoxy(41,26); printf("[2] AUTHOR");
+        gotoxy(41,27); printf("[3] YEAR PUBLISHED");
+        gotoxy(82,25); printf("[4] BOOK REFERENCE NUMBER");
+        gotoxy(82,26); printf("[5] MATERIAL");
+        gotoxy(82,27); printf("[6] CATEGORY");
+        gotoxy(116,25); printf("[7] SHELF NO.");
+        gotoxy(116,26); printf("[8] TOTAL STOCK");
+        gotoxy(116,27); printf("[9] NO. OF BORROWER");
+        gotoxy(30,28); printf("_____________________________________________________________________________________________________________________\n");
+        gotoxy(30,29); printf("CHOOSE THE INFORMATION YOU WISH TO UPDATE (1-7): ");
         scanf("%d", &info);
         fflush stdin;
-        printf("\nENTER THE UPDATED INFORMATION: ");
 
+        gotoxy(55,32);system("pause");
+
+        system("cls");
+
+       if(info==1){
+            gotoxy(30,8); printf("\033[31mCURRENT TITLE: ");
+            gotoxy(46,8); printf("\033[0m %s", p->title);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==2){
+            gotoxy(30,8); printf("\033[31mCURRENT AUTHOR: ");
+            gotoxy(46,8); printf("\033[0m %s", p->author);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==3){
+            gotoxy(30,8); printf("\033[31mCURRENT YEAR PUBLISHED: ");
+            gotoxy(46,8); printf("\033[0m %s", p->year);
+            gotoxy(46,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==4){
+            gotoxy(76,8); printf("\033[31mCURRENT BOOK REFERENCE: ");
+            gotoxy(46,8); printf("\033[0m %s", p->refNum);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            scanf("%[^\n]", update);
+        }
+        else if (info==5){
+            gotoxy(30,8); printf("\033[31mCURRENT MATERIAL: ");
+            gotoxy(46,8); printf("\033[0m %s", p->material);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==6){
+            gotoxy(30,8); printf("\033[31mCURRENT CATEGORY: ");
+            gotoxy(46,8); printf("\033[0m %s", p->category);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%[^\n]", update);
+        }
+        else if (info==7){
+            gotoxy(30,8); printf("\033[31mCURRENT SHELF NO.:");
+            gotoxy(46,8); printf("\033[0m %d", p->shelfNo);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%d", &updateInt);
+        }
+        else if (info==8){
+            gotoxy(30,8); printf("\033[31mCURRENT STOCK: ");
+            gotoxy(46,8); printf("\033[0m %d", p->currentStock);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%d", &updateInt);
+        }
+        else if (info==9){
+            gotoxy(30,8); printf("\033[31mCURRENT NO. BORROWER: ");
+            gotoxy(46,8); printf("\033[0m %d", p->borrower);
+            gotoxy(30,10); printf("\033[31mENTER THE UPDATED INFORMATION: ");
+            printf("\033[0m");scanf("%d", &updateInt);
+        }
+
+        /*
         if(info==7 || info==8 || info==9)
             scanf("%d", &updateInt);
-        else{scanf("%[^\n]", update);}
-        printf("\nARE YOU SURE TO UPDATE THE RECORD OF %s?\n[1]YES [2]NO : ", p->title);
+        else{scanf("%[^\n]", update);}*/
+
+        gotoxy(30,12); printf("_____________________________________________________________________________________________________________________\n");
+        gotoxy(30,14); printf("ARE YOU SURE TO UPDATE THE RECORD OF %s?", p->title);
+        gotoxy(30,16); printf("[1] YES [2] NO : ");
         scanf("%d", &choice);
         if(choice==1){
             switch(info){
@@ -163,25 +230,38 @@ char text[51];
 int i, searchCategory;
 char* categoryPointer;
 
-    printf("\nSEARCH BY CATEGORY");
-    printf("\n[1] Book Title");
-    printf("\n[2] Author");
-    printf("\n[3] Year Published");
-    printf("\n[4] Material");
-    printf("\n[5] Topic Category");
-    printf("\nENTER SEARCH CATEGORY [1-5]: ");
-    scanf("%d", &searchCategory);
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)                                                                                                              |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
+    printf("\033[0m");
+
+    gotoxy(76,15);printf("SEARCH BY CATEGORY");
+    gotoxy(76,16);printf("[1] Book Title");
+    gotoxy(76,17);printf("[2] Author");
+    gotoxy(76,18);printf("[3] Year Published");
+    gotoxy(76,19);printf("[4] Material");
+    gotoxy(76,20);printf("[5] Topic Category");
+    gotoxy(38,7);printf("\033[31mENTER SEARCH CATEGORY [1-5]: ");
+    gotoxy(67,7);scanf("%d", &searchCategory);
 
     fflush stdin;
-    printf("ENTER THE TEXT TO SEARCH: ");
-    scanf("%[^\n]", toSearch);
-
     system("cls");
-    gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("YEAR");
-    gotoxy(60,3); printf("REFERENCE NUMBER");  gotoxy(80,3); printf("MATERIAL"); gotoxy(95,3); printf("CATEGORY");
-    gotoxy(110,3); printf("SHELF NO."); gotoxy(120,3); printf("TOTAL STOCK"); gotoxy(135,3); printf("BORROWER");
-    gotoxy(145,3); printf("CURRENT STOCK");
-    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)  ENTER THE TEXT TO SEARCH:                                                                                   |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
+    printf("\033[0m");
+    gotoxy(65,7); scanf("%[^\n]", toSearch);
+
+
+    gotoxy(3,12);printf("\033[31m _________________________ _____________________ ________ __________________ ______________ ________________ __________ _____________ __________ _______________");
+    gotoxy(3,13);printf("|         TITLE           |       AUTHOR        |  YEAR  | REFERENCE NUMBER |   MATERIAL   |    CATEGORY    | SHELF NO.| TOTAL STOCK | BORROWER | CURRENT STOCK |");
+    gotoxy(3,14);printf("|_________________________|_____________________|________|__________________|______________|________________|__________|_____________|__________|_______________|");
+    printf("\033[0m");
 
     p=headBook;
     for(i=-1; p!=NULL;){
@@ -195,51 +275,51 @@ char* categoryPointer;
 
         if(strstr(categoryPointer, toSearch)!=NULL){  //if ang pino-point ni categoryPointer ay may ganitong "substring", print, else next.
             i++;
-            gotoxy(5, 6+i); printf("%d.) ", i+1);
-            gotoxy(10,6+i); printf("%s", p->title);
-            gotoxy(30,6+i); printf("%s", p->author);
-            gotoxy(50,6+i); printf("%s", p->year);
-            gotoxy(60,6+i); printf("%s", p->refNum);
-            gotoxy(80,6+i); printf("%s", p->material);
-            gotoxy(95,6+i); printf("%s", p->category);
-            gotoxy(110,6+i); printf("%d", p->shelfNo);
-            gotoxy(125,6+i); printf("%d", p->totalStock);
-            gotoxy(135,6+i); printf("%d", p->borrower);
-            gotoxy(145,6+i); printf("%d", p->totalStock-p->borrower);
+              gotoxy(3,15+i); printf("%d.) ", i+1);
+              gotoxy(8,15+i); printf("%s", p->title);
+              gotoxy(32,15+i); printf("%s", p->author);
+              gotoxy(54,15+i); printf("%s", p->year);
+              gotoxy(63,15+i); printf("%s", p->refNum);
+              gotoxy(82,15+i); printf("%s", p->material);
+              gotoxy(97,15+i); printf("%s", p->category);
+              gotoxy(116,15+i); printf("%d", p->shelfNo);
+              gotoxy(130,15+i); printf("%d", p->totalStock);
+              gotoxy(141,15+i); printf("%d", p->borrower);
+              gotoxy(155,15+i); printf("%d", p->totalStock-p->borrower);
         }
         p=p->nxt;
     }
-    gotoxy(5,10+i+1); printf("_______________________________________________________________________________________________________________________________________\n");
-    gotoxy(5,10+i+3); system("pause");
+    gotoxy(3,15+i+1); printf("\033[31m_____________________________________________________________________________________________________________________________________________________\n");
+    printf("\033[0m");
+    gotoxy(25,15+i+3);system("pause");
 }
 
 //The display() function displays information about all the books in the linked list.
 void displayBook(struct book *p, int start, int end){
 int i;
-
-    gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("YEAR");
-    gotoxy(60,3); printf("REFERENCE NUMBER");  gotoxy(80,3); printf("MATERIAL"); gotoxy(95,3); printf("CATEGORY");
-    gotoxy(110,3); printf("SHELF NO."); gotoxy(120,3); printf("TOTAL STOCK"); gotoxy(135,3); printf("BORROWER");
-    gotoxy(145,3); printf("CURRENT STOCK");
-    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
+    gotoxy(3,14);printf("\033[31m _________________________ _____________________ ________ __________________ ______________ ________________ __________ _____________ __________ _______________");
+    gotoxy(3,15);printf("|         TITLE           |       AUTHOR        |  YEAR  | REFERENCE NUMBER |   MATERIAL   |    CATEGORY    | SHELF NO.| TOTAL STOCK | BORROWER | CURRENT STOCK |");
+    gotoxy(3,16);printf("|_________________________|_____________________|________|__________________|______________|________________|__________|_____________|__________|_______________|");
+    printf("\033[0m");
 
     for(i=start; p!=end; i++){
-        gotoxy(5, 6+i); printf("%d.) ", i+1);
-        gotoxy(10,6+i); printf("%s", p->title);
-        gotoxy(30,6+i); printf("%s", p->author);
-        gotoxy(50,6+i); printf("%s", p->year);
-        gotoxy(60,6+i); printf("%s", p->refNum);
-        gotoxy(80,6+i); printf("%s", p->material);
-        gotoxy(95,6+i); printf("%s", p->category);
-        gotoxy(110,6+i); printf("%d", p->shelfNo);
-        gotoxy(120,6+i); printf("%d", p->totalStock);
-        gotoxy(135,6+i); printf("%d", p->borrower);
-        gotoxy(145,6+i); printf("%d", p->totalStock-p->borrower);
+        gotoxy(3,17+i); printf("%d.) ", i+1);
+        gotoxy(8,17+i); printf("%s", p->title);
+        gotoxy(32,17+i); printf("%s", p->author);
+        gotoxy(54,17+i); printf("%s", p->year);
+        gotoxy(63,17+i); printf("%s", p->refNum);
+        gotoxy(82,17+i); printf("%s", p->material);
+        gotoxy(97,17+i); printf("%s", p->category);
+        gotoxy(116,17+i); printf("%d", p->shelfNo);
+        gotoxy(130,17+i); printf("%d", p->totalStock);
+        gotoxy(141,17+i); printf("%d", p->borrower);
+        gotoxy(155,17+i); printf("%d", p->totalStock-p->borrower);
         p=p->nxt;
     }
 
-    gotoxy(5,6+i+1); printf("_______________________________________________________________________________________________________________________________________________\n");
-    gotoxy(5,6+i+3); system("pause");
+    gotoxy(3,16+i+1); printf("\033[31m____________________________________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,16+i+3); printf("\033[0m");
+    system("pause");
 }
 
 //The save() function prints the information of all the book node in a text file.
