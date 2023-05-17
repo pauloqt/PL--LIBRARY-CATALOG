@@ -4,30 +4,28 @@
 //The getInfo() function prompts the user to enter information about a book, including all details from the Struct book. It stores this information in the infoBook struct variable.
 
 void getInfoBook(){
-    system("cls");
-    dispAdd();
     fflush stdin;
-    gotoxy(40,13);printf("ENTER BOOK TITLE: ");
-    gotoxy(60,13);scanf("%[^\n]", infoBook.title);
+    printf("ENTER BOOK TITLE: ");
+    scanf("%[^\n]", infoBook.title);
     fflush stdin;
-    gotoxy(40,14);printf("ENTER AUTHOR: ");
-    gotoxy(55,14);scanf("%[^\n]", infoBook.author);
+    printf("ENTER AUTHOR: ");
+    scanf("%[^\n]", infoBook.author);
     fflush stdin;
-    gotoxy(40,15);printf("ENTER YEAR PUBLISHED: ");
-    gotoxy(63,15);scanf("%s", infoBook.year);
-    gotoxy(40,16);printf("ENTER REFERENCE NUMBER: ");
-    gotoxy(67,16);scanf("%s", infoBook.refNum);
-    gotoxy(40,17);printf("ENTER MATERIAL: ");
-    gotoxy(60,17);scanf("%s", infoBook.material);
+    printf("ENTER YEAR PUBLISHED: ");
+    scanf("%s", infoBook.year);
+    printf("ENTER REFERENCE NUMBER: ");
+    scanf("%s", infoBook.refNum);
+    printf("ENTER MATERIAL: ");
+    scanf("%s", infoBook.material);
     fflush stdin;
-    gotoxy(40,18);printf("ENTER BOOK CATEGORY: ");
-    gotoxy(63,18);scanf("%[^\n]", infoBook.category);
-    gotoxy(40,19);printf("ENTER SHELF NO.: ");
-    gotoxy(60,19);scanf("%d", &infoBook.shelfNo);
-    gotoxy(40,20);printf("ENTER TOTAL NO. STOCK: ");
-    gotoxy(67,21);scanf("%d", &infoBook.totalStock);
-    gotoxy(40,22);printf("ENTER TOTAL NO. OF BORROWER: ");
-    gotoxy(75,13);("%d", &infoBook.borrower);
+    printf("ENTER BOOK CATEGORY: ");
+    scanf("%[^\n]", infoBook.category);
+    printf("ENTER SHELF NO.: ");
+    scanf("%d", &infoBook.shelfNo);
+    printf("ENTER TOTAL NO. STOCK: ");
+    scanf("%d", &infoBook.totalStock);
+    printf("ENTER TOTAL NO. OF BORROWER: ");
+    scanf("%d", &infoBook.borrower);
 }
 
 
@@ -75,15 +73,13 @@ char refNum[14];
 char update[51];
 int updateInt;
 
-    system("cls");
-    dispUpdate();
-    gotoxy(30,8);printf("\033[31m ___________________________________________________________________________________________________________________");
-    gotoxy(30,9);printf("|   _                                                                                                               |");
-    gotoxy(30,10);printf("|  (_)  ENTER REFERENCE NUMBER OF THE BOOK:                                                                         |");
-    gotoxy(30,11);printf("|    \\                                                                                                              |");
-    gotoxy(30,12);printf("|___________________________________________________________________________________________________________________|");
+    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
+    gotoxy(30,6);printf("|   _                                                                                                               |");
+    gotoxy(30,7);printf("|  (_)  ENTER REFERENCE NUMBER OF THE BOOK:                                                                         |");
+    gotoxy(30,8);printf("|    \\                                                                                                              |");
+    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
     printf("\033[0m");
-    gotoxy(74,10);  scanf("%s", refNum);
+    gotoxy(74,7);  scanf("%s", refNum);
 
     p = locateBook(refNum);
     if(p==NULL){
@@ -108,7 +104,6 @@ int updateInt;
         gotoxy(55,32);system("pause");
 
         system("cls");
-        dispUpdate();
 
        if(info==1){
             gotoxy(30,8); printf("\033[31mCURRENT TITLE: ");
@@ -196,9 +191,7 @@ BOOK *p, *q;
 int choice;
 char refNum[14];
 
-    system("cls");
-    dispDelete();
-    gotoxy(55,15); printf("ENTER THE REFERENCE NUMBER OF THE BOOK: ");
+    printf("ENTER THE REFERENCE NUMBER OF THE BOOK: ");
     scanf("%s", refNum);
     p=headBook;
     while(p!=NULL && strcmp(refNum, p->refNum)!=0){
@@ -207,15 +200,12 @@ char refNum[14];
     }
 
     if(p==NULL){
-        gotoxy(55,16); printf("RECORD NOT FOUND!"); gotoxy(55,17); system("pause");
+        printf("\nRECORD NOT FOUND!\n"); system("pause");
     }
 
     else{
-        system("cls");
-        dispDelete();
         displayBook(p, 0, p->nxt);  //display(exact position, start sa 1, end if != p->nxt)
-        gotoxy(55,21); printf("ARE YOU SURE TO DELETE THE RECORD OF %s: ", p->title);
-        gotoxy(55,22); printf("[1] YES [2] NO : ");
+        printf("\nARE YOU SURE TO DELETE THE RECORD OF %s?\n[1]YES [2]NO : ", p->title);
         fflush stdin;
         scanf("%d", &choice);
         if(choice==1){
@@ -226,8 +216,8 @@ char refNum[14];
             else{
                 q->nxt=p->nxt;
             }
-            gotoxy(55,25);  printf("_______________________________________________________");
-            gotoxy(55,26); printf("THE RECORD OF %s DELETED SUCCESSFULLY.", p->title); gotoxy(55,20); system("pause");
+            printf("\n_______________________________________________________");
+            printf("\nTHE RECORD OF %s DELETED SUCCESSFULLY.\n", p->title); system("pause");
             free(p);
         }
     }
@@ -241,8 +231,6 @@ char text[51];
 int i, searchCategory;
 char* categoryPointer;
 
-    system("cls");
-    dispSearch();
     gotoxy(30,10);printf("\033[31m ___________________________________________________________________________________________________________________");
     gotoxy(30,11);printf("|   _                                                                                                               |");
     gotoxy(30,12);printf("|  (_)                                                                                                              |");
@@ -261,7 +249,6 @@ char* categoryPointer;
 
     fflush stdin;
     system("cls");
-    dispSearch();
 
     gotoxy(30,10);printf("\033[31m ___________________________________________________________________________________________________________________");
     gotoxy(30,11);printf("|   _                                                                                                               |");
@@ -311,9 +298,6 @@ char* categoryPointer;
 //The displayBook() function displays information about all the books in the linked list.
 void displayBook(struct book *p, int start, int end){
 int i;
-
-    system("cls");
-    dispAllBooks();
     gotoxy(3,14);printf("\033[31m _________________________ _____________________ ________ __________________ ______________ ________________ __________ _____________ __________ _______________");
     gotoxy(3,15);printf("|         TITLE           |       AUTHOR        |  YEAR  | REFERENCE NUMBER |   MATERIAL   |    CATEGORY    | SHELF NO.| TOTAL STOCK | BORROWER | CURRENT STOCK |");
     gotoxy(3,16);printf("|_________________________|_____________________|________|__________________|______________|________________|__________|_____________|__________|_______________|");
@@ -470,6 +454,7 @@ hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                         ShowConsoleCursor(1);//SET CURSON ON
                         dispAddRec();
                         getInfoBook();addBook(); saveBook();
+                        system("pause");
                         break;
                     }
                     case 1:
@@ -477,6 +462,7 @@ hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                         ShowConsoleCursor(1);
                         //dispUpdateRec();
                         updateBook(); saveBook();
+                        system("pause");
                         break;
                     }
 
@@ -485,6 +471,7 @@ hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                        ShowConsoleCursor(1);
                         //dispDel
                         delBook(); saveBook();
+                        system("pause");
                         break;
                     }
                     case 3:
@@ -492,6 +479,7 @@ hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                        ShowConsoleCursor(1);
                         //dispSearch
                         searchBook();
+                        system("pause");
                         break;
                     }
                     case 4:
@@ -499,6 +487,7 @@ hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
                        ShowConsoleCursor(1);
                         //dispDisplayAll();
                         displayBook(p=headBook, 0, NULL);
+                        system("pause");
                         break;
                     }
 
