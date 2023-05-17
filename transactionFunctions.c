@@ -32,59 +32,55 @@ int ch;
     pTransaction=headTransaction;
 
     system("cls");
-    dispBorrowBooks();
-    gotoxy(40,12);printf("WELCOME %s\n", pBorrower->name);
-    gotoxy(40,13);printf("ENTER BOOK REFERENCE NO. : ");
-    gotoxy(68,13);scanf("%s", enteredBookRef);
+    printf("\nWELCOME, %s\n", pBorrower->name);
+    printf("\nENTER BOOK REFERENCE NO. : ");
+    scanf("%s", enteredBookRef);
 
     pBook= locateBook(enteredBookRef);
 
     if(pBook==NULL){
-       gotoxy(40,20);printf("SELECTED BOOK IS NOT AVAILABLE\n"); system("pause");
+       printf("\nSELECTED BOOK IS NOT AVAILABLE\n"); system("pause");
     }
 
     else if(pBook->totalStock - pBook->borrower <=0){
-        gotoxy(40,22);printf("SELECTED BOOK IS OUT OF STOCK!\n"); system("pause");
+        printf("\nSELECTED BOOK IS OUT OF STOCK!\n"); system("pause");
     }
 
     else{
+        system("cls");
         displayBook(pBook,0,pBook->nxt);
         system("cls");
-        dispBorrowBooks();
-        gotoxy(40,15);printf("BOOK REFERENCE NO.: %s", pBook->refNum);
-        gotoxy(40,16);printf("BOOK TO BORROW: %s", pBook->title);
+        printf("\nBOOK REFERENCE NO.: %s", pBook->refNum);
+        printf("\nBOOK TO BORROW: %s", pBook->title);
         strcpy(infoTransaction.title, pBook->title);
-        gotoxy(40,17);printf("BOOK AUTHOR: %s", pBook->author);
+        printf("\nBOOK AUTHOR: %s", pBook->author);
         strcpy(infoTransaction.author, pBook->author);
-        gotoxy(40,18);printf("BORROWER'S NAME: %s", pBorrower->name);
+        printf("\n\nBORROWER'S NAME: %s", pBorrower->name);
         strcpy(infoTransaction.borrower, pBorrower->name);
-        gotoxy(40,19);printf("TUP ID NO.: %s", pBorrower->TUP_ID);
+        printf("\nTUP ID NO.: %s", pBorrower->TUP_ID);
         strcpy(infoTransaction.TUP_ID, pBorrower->TUP_ID);
         strcpy(infoTransaction.refNum, pBook->refNum);
-        gotoxy(40,21);printf("ENTER DATE BORROWED [MM/DD/YY]: ");
-        gotoxy(75,21);scanf("%s", infoTransaction.dateBorrowed);
-        gotoxy(40,22);printf("ENTER DATE TO RETURN [MM/DD/YY]: ");
-        gotoxy(75,22);scanf("%s", infoTransaction.dateToReturn);
+        printf("\nENTER DATE BORROWED [MM/DD/YY]: ");
+        scanf("%s", infoTransaction.dateBorrowed);
+        printf("ENTER DATE TO RETURN [MM/DD/YY]: ");
+        scanf("%s", infoTransaction.dateToReturn);
         strcpy(infoTransaction.librarian, "MS.YGOT");
-        gotoxy(40,23);printf("LIBRARIAN IN CHARGE: MS.YGOT");
+        printf("LIBRARIAN IN CHARGE: MS.YGOT");
         strcpy(infoTransaction.status, "TO RETURN");
-        gotoxy(40,26);printf("DO YOU WANT TO PROCEED WITH THE TRANSACTION? : ");
-        gotoxy(40,27);printf("[1] YES [2] NO");
-        gotoxy(40,28);printf("SELECT OPTION (1-2): ");
+        printf("\nDO YOU WANT TO PROCEED WITH THE TRANSACTION?\n[1] YES [2] NO\n");
+        printf("SELECT OPTION (1-2): ");
         fflush stdin;
-        gotoxy(60,28);scanf("%d", &ch);
+        scanf("%d", &ch);
         if(ch==1){
             addTransaction();
             pBook->borrower+=1;
             saveTransaction();
             saveBook();
-            gotoxy(40,30);printf("BORROWING TRANSACTION PROCESSED.");
-            gotoxy(40,31);printf("PROCEED TO THE LIBRARIAN TO BORROW THE BOOK.\n");
-            gotoxy(40,35);system("pause");
-            studentPortalMenu();
+            printf("\n\nBORROWING TRANSACTION PROCESSED.\nPROCEED TO THE LIBRARIAN TO BORROW THE BOOK.\n");
+            system("pause");
         }
         else{
-            studentPortalMenu();
+            return;
         }
 
     }
@@ -119,43 +115,28 @@ void searchTransaction(){
     int i, searchCategory;
     char* categoryPointer;
 
-
-    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
-    gotoxy(30,6);printf("|   _                                                                                                               |");
-    gotoxy(30,7);printf("|  (_)                                                                                                              |");
-    gotoxy(30,8);printf("|    \\                                                                                                              |");
-    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
-    printf("\033[0m");
-
-    gotoxy(76,15);printf("SEARCH BY CATEGORY");
-    gotoxy(76,16);printf("[1] Book Title");
-    gotoxy(76,17);printf("[2] Author");
-    gotoxy(76,18);printf("[3] Reference Number");
-    gotoxy(76,19);printf("[4] Borrower");
-    gotoxy(76,20);printf("[5] TUP ID");
-    gotoxy(76,21);printf("[6] Date Borrowed");
-    gotoxy(76,22);printf("[7] Date Return");
-    gotoxy(76,23);printf("[8] Librarian In-Charged");
-    gotoxy(76,24);printf("[9] Status");
-    gotoxy(38,7);printf("\033[31mENTER SEARCH CATEGORY [1-9]: ");
+    printf("\nSEARCH BY CATEGORY");
+    printf("\n[1] Book Title");
+    printf("\n[2] Author");
+    printf("\n[3] Reference Number");
+    printf("\n[4] Borrower");
+    printf("\n[5] TUP ID");
+    printf("\n[6] Date Borrowed");
+    printf("\n[7] Date Return");
+    printf("\n[8] Librarian In-Charged");
+    printf("\n[9] Status");
+    printf("\nENTER SEARCH CATEGORY [1-8]: ");
     scanf("%d", &searchCategory);
 
     fflush stdin;
+    printf("ENTER THE TEXT TO SEARCH: ");
+    scanf("%[^\n]", toSearch);
+
     system("cls");
-
-    gotoxy(30,5);printf("\033[31m ___________________________________________________________________________________________________________________");
-    gotoxy(30,6);printf("|   _                                                                                                               |");
-    gotoxy(30,7);printf("|  (_)  ENTER THE TEXT TO SEARCH:                                                                                   |");
-    gotoxy(30,8);printf("|    \\                                                                                                              |");
-    gotoxy(30,9);printf("|___________________________________________________________________________________________________________________|");
-    printf("\033[0m");
-    gotoxy(65,7); scanf("%[^\n]", toSearch);
-
-    gotoxy(2,12);printf("\033[31m _________________________ _____________________ __________________ __________________ ____________ _______________ ________________ ______________ ____________");
-    gotoxy(2,13);printf("|         TITLE           |       AUTHOR        | REFERENCE NUMBER |     BORROWER     |   TUP ID   | DATE BORROWED | DATE TO RETURN |  LIBRARIAN   |   STATUS   |");
-    gotoxy(2,14);printf("|_________________________|_____________________|__________________|__________________|____________|_______________|________________|______________|____________|");
-    printf("\033[0m");
-
+    gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("REFERENCE NUMBER");
+    gotoxy(70,3); printf("BORROWER");gotoxy(90,3); printf("TUP ID");  gotoxy(100,3); printf("DATE BORROWED");
+    gotoxy(115,3); printf("DATE TO RETURN");gotoxy(130,3); printf("LIBRARIAN"); gotoxy(150,3); printf("STATUS");
+    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
 
     p=headTransaction;
     for(i=-1; p!=NULL;){
@@ -172,59 +153,55 @@ void searchTransaction(){
         }
         if(strstr(categoryPointer, toSearch)!=NULL){  // if the pointed categoryBorrowerPointer contains the substring, print the transaction.
             i++;
-              gotoxy(3, 15+i); printf("%d.) ", i+1);
-              gotoxy(8,15+i); printf("%s", p->title);
-              gotoxy(32,15+i);; printf("%s", p->author);
-              gotoxy(54,15+i); printf("%s", p->refNum);
-              gotoxy(74,15+i); printf("%s", p->borrower);
-              gotoxy(93,15+i); printf("%s", p->TUP_ID);
-              gotoxy(107,15+i); printf("%s", p->dateBorrowed);
-              gotoxy(122,15+i); printf("%s", p->dateToReturn);
-              gotoxy(138,15+i); printf("%s", p->librarian);
-              gotoxy(152,15+i); printf("%s", p->status);
+            gotoxy(5, 6+i); printf("%d.) ", i+1);
+            gotoxy(10,6+i); printf("%s", p->title);
+            gotoxy(30,6+i); printf("%s", p->author);
+            gotoxy(50,6+i); printf("%s", p->refNum);
+            gotoxy(70,6+i); printf("%s", p->borrower);
+            gotoxy(90,6+i); printf("%s", p->TUP_ID);
+            gotoxy(100,6+i); printf("%s", p->dateBorrowed);
+            gotoxy(115,6+i); printf("%s", p->dateToReturn);
+            gotoxy(130,6+i); printf("%s", p->librarian);
+            gotoxy(150,6+i); printf("%s", p->status);
         }
-        p=p->nxt;
+		p=p->nxt;
 	}
-	   gotoxy(2,15+i+1); printf("\033[31m__________________________________________________________________________________________________________________________________________________________\n");
-    gotoxy(2,15+i+3); system("pause");
-    printf("\033[0m");
+	gotoxy(5,10+i+1); printf("_______________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,10+i+3);
 
-    if (i==-1){
-    gotoxy(2,12);printf("No transactions found.\n");
-    gotoxy(2,12);printf("\033[0m");
+    if (i==-1) printf("\nNo transactions found.\n");
     system("pause");
-    }
 }
 
 //displayAllTransaction() displays all information of all the node in the transaction linked list.
 void displayAllTransaction(struct transaction *p, int start, int end){
 int i;
 
-    gotoxy(2,5);printf("\033[31m _________________________ _____________________ __________________ __________________ ____________ _______________ ________________ ______________ ____________");
-    gotoxy(2,6);printf("|         TITLE           |       AUTHOR        | REFERENCE NUMBER |     BORROWER     |   TUP ID   | DATE BORROWED | DATE TO RETURN |  LIBRARIAN   |   STATUS   |");
-    gotoxy(2,7);printf("|_________________________|_____________________|__________________|__________________|____________|_______________|________________|______________|____________|");
-    printf("\033[0m");
+    gotoxy(10,3); printf("TITLE"); gotoxy(30,3); printf("AUTHOR"); gotoxy(50,3); printf("REFERENCE NUMBER");
+    gotoxy(70,3); printf("BORROWER");gotoxy(90,3); printf("TUP ID");  gotoxy(100,3); printf("DATE BORROWED");
+    gotoxy(115,3); printf("DATE TO RETURN");gotoxy(130,3); printf("LIBRARIAN"); gotoxy(150,3); printf("STATUS");
+    gotoxy(5,5); printf("_______________________________________________________________________________________________________________________________________________\n");
 
     for(i=start; p!=end; i++){
-        gotoxy(3, 8+i); printf("%d.) ", i+1);
-        gotoxy(8,8+i); printf("%s", p->title);
-        gotoxy(32,8+i);; printf("%s", p->author);
-        gotoxy(54,8+i); printf("%s", p->refNum);
-        gotoxy(74,8+i); printf("%s", p->borrower);
-        gotoxy(93,8+i); printf("%s", p->TUP_ID);
-        gotoxy(107,8+i); printf("%s", p->dateBorrowed);
-        gotoxy(122,8+i); printf("%s", p->dateToReturn);
-        gotoxy(138,8+i); printf("%s", p->librarian);
-        gotoxy(152,8+i); printf("%s", p->status);
+        gotoxy(5, 6+i); printf("%d.) ", i+1);
+        gotoxy(10,6+i); printf("%s", p->title);
+        gotoxy(30,6+i); printf("%s", p->author);
+        gotoxy(50,6+i); printf("%s", p->refNum);
+        gotoxy(70,6+i); printf("%s", p->borrower);
+        gotoxy(90,6+i); printf("%s", p->TUP_ID);
+        gotoxy(100,6+i); printf("%s", p->dateBorrowed);
+        gotoxy(115,6+i); printf("%s", p->dateToReturn);
+        gotoxy(130,6+i); printf("%s", p->librarian);
+        gotoxy(150,6+i); printf("%s", p->status);
 
         p=p->nxt;
     }
-    gotoxy(3,8+i+1); printf("\033[31m____________________________________________________________________________________________________________________________________________________\n");
-    gotoxy(5,8+i+3); system("pause");
-    printf("\033[0m");
 
+    gotoxy(5,6+i+1); printf("_______________________________________________________________________________________________________________________________________________\n");
+    gotoxy(5,6+i+3); system("pause");
 }
 
+//saveInfoTransaction() saves the encrypted borrower details in "transactionDetails.txt"
 void saveTransaction(){
 FILE *fp= fopen("transactionDetails.txt", "w+");
 TRANSACTION *p;
@@ -302,110 +279,21 @@ BOOK *pBook;
 TRANSACTION *pTransac;
 char enteredID[7], enteredReference[14], returned[10]="RETURNED";
 
-    //dispeditStats();
-    gotoxy(55,15); printf("TUP ID (Ex. 123456): TUP-M "); scanf("%s", enteredID);
-    gotoxy(55,17); printf("ENTER REFERENCE NUMBER: "); scanf("%s", enteredReference);
+    printf("TUP ID (Ex. 123456): TUP-M ");
+    scanf("%s", enteredID);
+    printf("ENTER REFERENCE NUMBER: ");
+    scanf("%s", enteredReference);
     pTransac=locateTransaction(enteredID, enteredReference);
     if(pTransac==NULL){
-        gotoxy(55,20); printf("TRANSACTION RECORD NOT FOUND!\n"); system("pause");
+        printf("\nTRANSACTION RECORD NOT FOUND!\n"); system("pause");
     }
 
     else{
         fflush stdin;
         strcpy(pTransac->status, returned);
-        gotoxy(55,20); printf("STATUS: %s", pTransac->status);
+        printf("%s", pTransac->status);
         pBook=locateBook(enteredReference);
         pBook->borrower-=1;
-        gotoxy(55,25); printf("RECORD SUCCESSFULLY EDITED\n"); gotoxy(45,26); system("pause");
+        printf("\nRECORD SUCCESSFULLY EDITED\n"); system("pause");
     }
 }
-
-void manageBorrowingMenu(){
-TRANSACTION *q;
-
-
-    setFontStyle(18);
-    char Menu[][50] =  {"\n\n\n\n\n\t\t\t\t\t\t\tEDIT STATUS  ", "\n\n\n\n\n\t\t\t\t\t\t\tSEARCH BORROWING RECORD ", "\n\n\n\n\n\t\t\t\t\t\t\tDISPLAY ALL RECORDS ", "\n\n\n\n\n\t\t\t\t\t\t\tGO BACK " };
-    int pointer = 0;
-    const char ENTER = 13;//ASCII code for ENTER Key
-    char ch = ' ';
-    HANDLE  hConsole;
-    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    while(1){
-        system("cls");
-        dispBorrowing();
-        ShowConsoleCursor(0);//SET CURSOR OFF
-
-        for(int i=0; i<4; ++i){
-            //This will highlight the choice in the menu
-            if(i==pointer){
-                gotoxy(48,10+i);
-
-                SetConsoleTextAttribute(hConsole, 10);
-
-                printf("%s\n", Menu[i]);
-            }else{
-                gotoxy(48,10+i);
-                SetConsoleTextAttribute(hConsole, 15); // set color of the text to white
-                printf("%s\n",Menu[i]);
-            }
-             SetConsoleTextAttribute(hConsole, 15);
-        }
-        //This will check the key stroke that is being pressed in keyboard
-        while(1){
-            if(GetAsyncKeyState(VK_UP) != 0){
-                --pointer;
-
-                if(pointer == -1){
-                    pointer = 3;
-                    }
-
-                break;
-            }else if(GetAsyncKeyState(VK_DOWN) != 0){
-                ++pointer;
-                if(pointer == 4){
-                    pointer = 0;
-                }
-
-                break;
-            }else if((ch = getch()) == ENTER){
-                switch(pointer){
-                    case 0:
-                    {
-                        ShowConsoleCursor(1);//SET CURSON ON
-                        //dispeditStats();
-                        editStatus();
-                        saveBook();
-                        saveTransaction();
-                        break;
-                    }
-                    case 1:
-                    {
-                        ShowConsoleCursor(1);
-                       // searchTransac();
-                        searchTransaction();
-                        break;
-                    }
-
-                    case 2:
-                    {
-                       ShowConsoleCursor(1);
-                      // dispTransac();
-                       displayAllTransaction(q=headTransaction, 0, NULL);
-                        break;
-                    }
-
-                    case 3:
-                    {
-                        ShowConsoleCursor(1);
-                        adminPortalMenu();
-                        break;
-                    }
-
-                  }
-                }
-                break;
-            }
-        }
-}
-

@@ -35,13 +35,6 @@
 		<Unit filename="bookFunctions.h" />
 		<Unit filename="borrowerDetails.txt" />
 		<Unit filename="borrowerFunctions.h" />
-		<Unit filename="designFunctions.c">
-			<Option compilerVar="CC" />
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="designFunctions.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
